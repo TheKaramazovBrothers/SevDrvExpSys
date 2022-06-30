@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>749</width>
+    <height>405</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="treeWidget">
+     <column>
+      <property name="text">
+       <string>name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>number</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>ServoAxis1</string>
+      </property>
+      <property name="text">
+       <string>100</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Set</string>
+       </property>
+       <property name="text">
+        <string>100</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Motor</string>
+        </property>
+        <property name="text">
+         <string>101</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Feedback</string>
+        </property>
+        <property name="text">
+         <string>102</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Power</string>
+        </property>
+        <property name="text">
+         <string>103</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>CurrControl</string>
+        </property>
+        <property name="text">
+         <string>104</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>VelControl</string>
+        </property>
+        <property name="text">
+         <string>105</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>PosControl</string>
+        </property>
+        <property name="text">
+         <string>106</string>
+        </property>
+       </item>
+      </item>
+      <item>
+       <property name="text">
+        <string>Monitor</string>
+       </property>
+       <property name="text">
+        <string>110</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>State</string>
+        </property>
+        <property name="text">
+         <string>111</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>RamAccess</string>
+        </property>
+        <property name="text">
+         <string>112</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>FlashAccess</string>
+        </property>
+        <property name="text">
+         <string>113</string>
+        </property>
+       </item>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Oscillogram</string>
+      </property>
+      <property name="text">
+       <string>001</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
