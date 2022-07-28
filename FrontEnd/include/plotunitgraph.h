@@ -57,8 +57,9 @@ private:
     void    createSignalSlotsConnect();
 private slots:
     void    realTimeDataPlot();
-private:
+public:
     threadTask              *m_task;
+private:
     QTimer                  data_timer;                                                     // use for wave plot
 // parameter define
     int                     wave_data_storage_num;                                          // the total number for wave storage

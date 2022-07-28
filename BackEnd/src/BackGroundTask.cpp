@@ -8,9 +8,12 @@
 // date			:	2022/06/29
 // copyright(C)	:	liu.g	(2022-2030)
 //=========================================================================================================
-#include "BackGroundTask.h"
 #include <cmath>
 
+#include    "BackGroundTask.h"
+
+PmsmDrvMechModel    gMechModel;
+SERVO_DRV           gSevDrv;
 
 WaveBuf::WaveBuf(QObject *parent)
 {
@@ -19,10 +22,10 @@ WaveBuf::WaveBuf(QObject *parent)
     this->samp_div_tims             =   1;
     this->graph_num                 =   8;
     this->data_space_ulim           =   96000;
-    this->clu_cyc_ts                =   0.0000625;
+    this->clu_cyc_ts                =   0.00003125;
 // variable initialization
     QVector<qreal>		*vtmp       =   new QVector<qreal>;
-//---------------------------------------------------------------------------------------------------------
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     this->data_list.clear();
     this->key_vec.clear();
 
@@ -34,7 +37,7 @@ WaveBuf::WaveBuf(QObject *parent)
     this->key_vec.append(0.0);
 
     this->curr_key                  =   0.0;
-//---------------------------------------------------------------------------------------------------------
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 
@@ -51,12 +54,28 @@ int16 WaveBuf::FillWaveToBuffer()
     if (this->key_vec.count() <= this->data_space_ulim)
     {
         this->curr_key = this->curr_key + this->clu_cyc_ts;
-
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
         for (int16 i = 0; i < this->graph_num; i++)
         {
             double   dtmp				=	this->curr_key * sin(this->curr_key*2*g_PI + i*(g_PI/4));
             this->data_list[i].append(dtmp);           
         }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+        this->data_list[0].append(gSevDrv.obj.cur.ud_ref);
+        this->data_list[1].append(gSevDrv.obj.cur.uq_ref);
+        this->data_list[2].append(gSevDrv.obj.cur.ia);
+        this->data_list[3].append(gSevDrv.obj.cur.ib);
+        this->data_list[4].append(gSevDrv.obj.cur.ic);
+
+        this->data_list[5].append(0);
+        this->data_list[6].append(gSevDrv.obj.cur.phim);
+        this->data_list[7].append(gSevDrv.obj.cur.phie);
+
+//        this->data_list[6].append(0);
+//        this->data_list[7].append(0);
+
         this->key_vec.append(this->curr_key);
     }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -90,11 +109,19 @@ bool WaveBuf::GetWaveData(QVector<qreal> * pkey, QList<QVector<qreal>> * pvalue)
             }
         }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+/*
         for (int i = 0; i < this->graph_num; i++)
         {
             this->data_list[i].clear();
         }
         this->key_vec.clear();
+*/
+
+        for (int i = 0; i < this->graph_num; i++)
+        {
+            this->data_list[i].remove(0, buf_num);
+        }
+        key_vec.remove(0, buf_num);
 
         return  true;
     }
@@ -106,18 +133,147 @@ bool WaveBuf::GetWaveData(QVector<qreal> * pkey, QList<QVector<qreal>> * pvalue)
 }
 
 
+
+//*********************************************************************************************************
+//*                                    BACK GROUND MODULE INITIALIZATION
+//*
+//* Description: This function is used to initialize background task module in servo system
+//*
+//*
+//* Arguments  : m_bkgd		is a pointer to servo system background task object
+//*
+//* Returns    : -1/initialize Failure, else/success
+//*********************************************************************************************************
+bkgdTask::bkgdTask(QObject *parent)
+{
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    this->prm.model_task_scan_tim                           =   1;
+    this->prm.ccld_task_scan_tim                            =   5;
+    this->prm.pvcld_task_scan_tim                           =   10;
+    this->prm.prochd_task_scan_tim                          =   160;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    KpiInitServoDriverSys(&gSevDrv);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+
+bkgdTask::~bkgdTask(void)
+{
+}
+
+
+
+int16	bkgdTask::BackGroundCnt(void)
+{
+    this->mtk_cnt++;
+    this->ctk_cnt++;
+    this->ptk_cnt++;
+    this->stk_cnt++;
+//---------------------------------------------------------------------------------------------------------
+    if (this->mtk_cnt >= this->prm.model_task_scan_tim)
+    {
+        this->flag.bit.MTF                  =	TRUE;
+        this->mtk_cnt						=	0;
+    }
+
+    if (this->ctk_cnt >= this->prm.ccld_task_scan_tim)
+    {
+        this->flag.bit.CTF                  =	TRUE;
+        this->ctk_cnt						=	0;
+    }
+
+    if (this->ptk_cnt >= this->prm.pvcld_task_scan_tim)
+    {
+        this->flag.bit.PTF  				=	TRUE;
+        this->ptk_cnt						=	0;
+    }
+
+    if (this->stk_cnt >= this->prm.prochd_task_scan_tim)
+    {
+        this->flag.bit.STF  				=	TRUE;
+        this->stk_cnt						=	0;
+    }
+//---------------------------------------------------------------------------------------------------------
+    return	TRUE;
+}
+
+int16	bkgdTask::BackGroundTaskSched(void)
+{
+//---------------------------------------------------------------------------------------------------------
+    if (this->flag.bit.MTF == TRUE)
+    {
+        this->BackGroundTaskModel();
+        this->flag.bit.MTF                  =	FALSE;
+    }
+//---------------------------------------------------------------------------------------------------------
+    if (this->flag.bit.CTF == TRUE)
+    {
+        this->BackGroundTaskCcld();
+        this->flag.bit.CTF  				=	FALSE;
+    }
+//---------------------------------------------------------------------------------------------------------
+    if (this->flag.bit.PTF == TRUE)
+    {
+        this->BackGroundTaskPvcld();
+        this->flag.bit.PTF                  =	FALSE;
+    }
+//---------------------------------------------------------------------------------------------------------
+    if (this->flag.bit.STF == TRUE)
+    {
+        this->BackGroundTaskProchd();
+        this->flag.bit.STF                  =	FALSE;
+    }
+
+//---------------------------------------------------------------------------------------------------------
+        return TRUE;
+}
+
+int16	bkgdTask::BackGroundTaskModel(void)
+{
+    gMechModel.PmsMotorModeling();
+
+    return  TRUE;
+}
+
+
+int16   bkgdTask::BackGroundTaskCcld(void)
+{
+    KpiServoSensorSignalPro(&gSevDrv);
+    KpiServoTaskCallOne(&gSevDrv);
+
+    return  TRUE;
+}
+
+
+int16   bkgdTask::BackGroundTaskPvcld(void)
+{
+    KpiServoTaskCallTwo(&gSevDrv);
+
+
+    return  TRUE;
+}
+
+
+int16   bkgdTask::BackGroundTaskProchd(void)
+{
+    KpiServoBackGroundTask(&gSevDrv);
+    return  TRUE;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 threadTask::threadTask(QObject *parent)
     :QThread(parent)
 {
     m_buf       =   new WaveBuf(parent);
+    m_bktask    =   new bkgdTask(parent);
+
     stopped     =   false;
 }
 
 
 threadTask::~threadTask()
 {
-
+    delete      m_buf;
+    delete      m_bktask;
 }
 
 
@@ -126,7 +282,14 @@ void threadTask::run()
     while(1)
     {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        m_buf->FillWaveToBuffer();
+        m_bktask->BackGroundCnt();
+
+        if (m_bktask->flag.bit.CTF == TRUE)
+        {
+            m_buf->FillWaveToBuffer();
+        }
+
+        m_bktask->BackGroundTaskSched();
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         {
             QMutexLocker locker(&mutex);
@@ -145,5 +308,11 @@ void threadTask::stop()
 {
     stopped     =   true;
 }
+
+
+
+
+
+
 
 //////////////////////////////////////////////// no more //////////////////////////////////////////////////

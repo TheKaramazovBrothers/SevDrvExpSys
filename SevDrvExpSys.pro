@@ -5,6 +5,7 @@
 #-------------------------------------------------
 INCLUDEPATH+=$${PWD}/FrontEnd/include/
 INCLUDEPATH+=$${PWD}/BackEnd/include/
+INCLUDEPATH+=$${PWD}/SimKernel/include/
 
 QT       += widgets printsupport
 QT       += core gui designer
@@ -23,7 +24,15 @@ SOURCES += main.cpp\
     FrontEnd/src/qcpitemmeasure.cpp \
     FrontEnd/src/qcustomplot.cpp \
     FrontEnd/src/plotunitgraph.cpp \
-    BackEnd/src/BackGroundTask.cpp
+    BackEnd/src/BackGroundTask.cpp \
+    SimKernel/src/MechModel.cpp \
+    SimKernel/src/SevCtlPrmTblDef.cpp \
+    SimKernel/src/CurrCtlLoop.cpp \
+    SimKernel/src/Cia402AppEmu.cpp \
+    SimKernel/src/SevDrvTask.cpp \
+    SimKernel/src/SevDrvObj.cpp \
+    SimKernel/src/SevDrvMeas.cpp \
+    SimKernel/src/SevHardRes.cpp
 
 HEADERS  += mainwindow.h \
         FrontEnd/include/qttreemanager.h \
@@ -33,7 +42,15 @@ HEADERS  += mainwindow.h \
     FrontEnd/include/qcustomplot.h \
     FrontEnd/include/plotunitgraph.h \
     BackEnd/include/BackGroundTask.h \
-    BackEnd/include/DspCpu.h
+    BackEnd/include/DspCpu.h \
+    SimKernel/include/MechModel.h \
+    SimKernel/include/SevCtlPrmTblDef.h \
+    SimKernel/include/CurrCtlLoop.h \
+    SimKernel/include/Cia402AppEmu.h \
+    SimKernel/include/SevDrvTask.h \
+    SimKernel/include/SevDrvObj.h \
+    SimKernel/include/SevDrvMeas.h \
+    SimKernel/include/SevHardRes.h
 
 FORMS    += mainwindow.ui \
     FrontEnd/ui/plotunitgraph.ui

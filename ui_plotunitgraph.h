@@ -82,7 +82,7 @@ public:
     {
         if (PlotUnitGraph->objectName().isEmpty())
             PlotUnitGraph->setObjectName(QStringLiteral("PlotUnitGraph"));
-        PlotUnitGraph->resize(942, 489);
+        PlotUnitGraph->resize(942, 463);
         verticalLayout_4 = new QVBoxLayout(PlotUnitGraph);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         verticalLayout_4->setContentsMargins(0, 0, 0, 0);

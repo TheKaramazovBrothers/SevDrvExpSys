@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 //	summary				:	thread task for servo control                               //
-//	file				:	threadtask.h                                                //
+//	file				:	BackGroundTask.h                                            //
 //	Description			:	use for thread task work                              		//
 //	lib					:	none														//
 //																						//
@@ -19,7 +19,11 @@
 #include <QMutex>
 #include <QWidget>
 #include <QTimer>
+
 #include "DspCpu.h"
+#include "MechModel.h"
+#include "SevDrvTask.h"
+
 
 const   Uint16  g_MAX_WAVE_PLOT_NUM     =   20;
 const   double  g_PI                    =   3.14159265358979;
@@ -53,6 +57,67 @@ public:
 };
 
 
+//##############################################################################################################################
+// back ground task define
+//-------------------------------------------------------------------------------------
+//								BACKGROUND TASK STRUCT
+//-------------------------------------------------------------------------------------
+typedef		struct	bkgd_task_prm
+{
+// back ground task module parameter define
+    int16			model_task_scan_tim;														// scan time of modeling task | unit[scan]
+    int16			ccld_task_scan_tim;                                                         // scan time of current control task | unit[scan]
+    int16			pvcld_task_scan_tim;														// scan time of pos&vel control task | unit[scan]
+    int16           prochd_task_scan_tim;                                                       // scan time of protect&schedule | unit[scan]
+}BKGD_TASK_PRM;
+
+//-------------------------------------------------------------------------------------
+//					   				TASK FINISH FLAG
+//-------------------------------------------------------------------------------------
+typedef struct	bkgd_task_flag_bits
+{
+    Uint16		MTF		: 1;																// finish flag of modeling task
+    Uint16		CTF		: 1;																// finish flag of current control task
+    Uint16		PTF		: 1;																// finish flag of pos&vel control task
+    Uint16      STF     : 1;                                                                // finish flag of protect&schedule task
+
+    Uint16		rsvd	: 12;																// rsvd
+}BKGD_TASK_FLAG_BITS;
+
+
+typedef	union
+{
+    Uint16						all;
+    BKGD_TASK_FLAG_BITS			bit;
+}tBkgdTaskFlag;
+
+
+//-------------------------------------------------------------------------------------
+//					   define the type of background task structure
+//-------------------------------------------------------------------------------------
+class	bkgdTask
+{
+public:
+    bkgdTask(QObject *parent);
+    ~bkgdTask(void);
+public:
+    int16	BackGroundCnt(void);
+    int16	BackGroundTaskSched(void);
+
+    int16	BackGroundTaskModel(void);
+    int16	BackGroundTaskCcld(void);
+    int16	BackGroundTaskPvcld(void);
+    int16	BackGroundTaskProchd(void);
+private:
+// back ground task module parameter define
+    BKGD_TASK_PRM		prm;
+public:
+    tBkgdTaskFlag		flag;
+    int16				mtk_cnt;
+    int16				ctk_cnt;
+    int16				ptk_cnt;
+    int16				stk_cnt;
+};
 
 
 //##############################################################################################################################
@@ -66,16 +131,17 @@ protected:
     void run();
 
 public:
-    WaveBuf *   m_buf;
+    WaveBuf             *m_buf;
+    bkgdTask            *m_bktask;
 private:
-    volatile bool stopped;
-    QMutex      mutex;
+    volatile bool       stopped;
+    QMutex              mutex;
 };
 
 
-
-
-
+// servo model design
+extern  PmsmDrvMechModel    gMechModel;
+extern  SERVO_DRV           gSevDrv;
 
 #endif
 
