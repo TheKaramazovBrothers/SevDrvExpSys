@@ -8,9 +8,7 @@
 // date			:	2022/07/14
 // copyright(C)	:	googoltech	(2022-2032)
 //=========================================================================================================
-
-
-
+#include    "SeqCtlFunc.h"
 #include    "SevDrvObj.h"
 
 
@@ -20,6 +18,7 @@ int16   TpiInitServoObjModule(SERVO_OBJ * m_obj)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     KpiInitCurrCtlModule(&m_obj->cur);
     KpiInitSensMeasModule(&m_obj->sens);
+    KpiInitSeqCtlModule(&m_obj->seq);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     return  TRUE;
 }

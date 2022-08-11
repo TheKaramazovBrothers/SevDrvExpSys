@@ -17,6 +17,8 @@
 #include "DspCpu.h"
 #include "CurrCtlLoop.h"
 #include "SevDrvMeas.h"
+#include "SeqCtlFunc.h"
+
 
 typedef		struct	servo_obj
 {
@@ -24,6 +26,7 @@ typedef		struct	servo_obj
 // servo object variable define
     CURR_CTL        cur;                                                        // current layer control object
     SENS_MEAS       sens;                                                       //
+    SEQ_CTL         seq;                                                        // sequence control
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }SERVO_OBJ;
 

@@ -32,7 +32,10 @@ SOURCES += main.cpp\
     SimKernel/src/SevDrvTask.cpp \
     SimKernel/src/SevDrvObj.cpp \
     SimKernel/src/SevDrvMeas.cpp \
-    SimKernel/src/SevHardRes.cpp
+    SimKernel/src/SevHardRes.cpp \
+    SimKernel/src/SeqCtlFunc.cpp \
+    FrontEnd/src/tabmodectl.cpp \
+    BackEnd/src/TuningCmd.cpp
 
 HEADERS  += mainwindow.h \
         FrontEnd/include/qttreemanager.h \
@@ -50,10 +53,14 @@ HEADERS  += mainwindow.h \
     SimKernel/include/SevDrvTask.h \
     SimKernel/include/SevDrvObj.h \
     SimKernel/include/SevDrvMeas.h \
-    SimKernel/include/SevHardRes.h
+    SimKernel/include/SevHardRes.h \
+    SimKernel/include/SeqCtlFunc.h \
+    FrontEnd/include/tabmodectl.h \
+    BackEnd/include/TuningCmd.h
 
 FORMS    += mainwindow.ui \
-    FrontEnd/ui/plotunitgraph.ui
+    FrontEnd/ui/plotunitgraph.ui \
+    FrontEnd/ui/tabmodectl.ui
 
 RESOURCES += \
     servodrv.qrc

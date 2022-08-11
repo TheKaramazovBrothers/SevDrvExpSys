@@ -78,7 +78,7 @@
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
+            <verstretch>1</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
@@ -425,38 +425,16 @@
           <property name="styleSheet">
            <string notr="true"/>
           </property>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <property name="spacing">
-            <number>0</number>
+          <widget class="TabModeCtl" name="widget" native="true">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>686</width>
+             <height>79</height>
+            </rect>
            </property>
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QStackedWidget" name="stackedWidget_tabCtlPanel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="currentIndex">
-              <number>1</number>
-             </property>
-             <widget class="QWidget" name="page_7"/>
-             <widget class="QWidget" name="page_8"/>
-            </widget>
-           </item>
-          </layout>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -714,6 +692,12 @@
    <class>GtPlot</class>
    <extends>QWidget</extends>
    <header>gtplot.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TabModeCtl</class>
+   <extends>QWidget</extends>
+   <header>tabmodectl.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

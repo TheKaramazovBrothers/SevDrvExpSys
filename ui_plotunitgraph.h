@@ -19,12 +19,12 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
-#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "gtplot.h"
+#include "tabmodectl.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -61,10 +61,7 @@ public:
     QLabel *label_plot_dy;
     QSpacerItem *horizontalSpacer_2;
     QWidget *widget_plot_down;
-    QHBoxLayout *horizontalLayout;
-    QStackedWidget *stackedWidget_tabCtlPanel;
-    QWidget *page_7;
-    QWidget *page_8;
+    TabModeCtl *widget;
     QWidget *widget_plotGraph_right;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_6;
@@ -111,7 +108,7 @@ public:
         widget_plot_up->setObjectName(QStringLiteral("widget_plot_up"));
         QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setVerticalStretch(1);
         sizePolicy1.setHeightForWidth(widget_plot_up->sizePolicy().hasHeightForWidth());
         widget_plot_up->setSizePolicy(sizePolicy1);
         widget_plot_up->setMinimumSize(QSize(0, 200));
@@ -259,28 +256,17 @@ public:
         splitter_plot_tab->addWidget(widget_plot_up);
         widget_plot_down = new QWidget(splitter_plot_tab);
         widget_plot_down->setObjectName(QStringLiteral("widget_plot_down"));
-        sizePolicy1.setHeightForWidth(widget_plot_down->sizePolicy().hasHeightForWidth());
-        widget_plot_down->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(widget_plot_down->sizePolicy().hasHeightForWidth());
+        widget_plot_down->setSizePolicy(sizePolicy3);
         widget_plot_down->setMinimumSize(QSize(0, 0));
         widget_plot_down->setMaximumSize(QSize(16777215, 16777215));
         widget_plot_down->setStyleSheet(QStringLiteral(""));
-        horizontalLayout = new QHBoxLayout(widget_plot_down);
-        horizontalLayout->setSpacing(0);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        stackedWidget_tabCtlPanel = new QStackedWidget(widget_plot_down);
-        stackedWidget_tabCtlPanel->setObjectName(QStringLiteral("stackedWidget_tabCtlPanel"));
-        sizePolicy1.setHeightForWidth(stackedWidget_tabCtlPanel->sizePolicy().hasHeightForWidth());
-        stackedWidget_tabCtlPanel->setSizePolicy(sizePolicy1);
-        page_7 = new QWidget();
-        page_7->setObjectName(QStringLiteral("page_7"));
-        stackedWidget_tabCtlPanel->addWidget(page_7);
-        page_8 = new QWidget();
-        page_8->setObjectName(QStringLiteral("page_8"));
-        stackedWidget_tabCtlPanel->addWidget(page_8);
-
-        horizontalLayout->addWidget(stackedWidget_tabCtlPanel);
-
+        widget = new TabModeCtl(widget_plot_down);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(0, 0, 686, 79));
         splitter_plot_tab->addWidget(widget_plot_down);
 
         verticalLayout->addWidget(splitter_plot_tab);
@@ -305,11 +291,11 @@ public:
 
         comboBox_plot_sampling = new QComboBox(widget_plotGraph_right);
         comboBox_plot_sampling->setObjectName(QStringLiteral("comboBox_plot_sampling"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(comboBox_plot_sampling->sizePolicy().hasHeightForWidth());
-        comboBox_plot_sampling->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(comboBox_plot_sampling->sizePolicy().hasHeightForWidth());
+        comboBox_plot_sampling->setSizePolicy(sizePolicy4);
         comboBox_plot_sampling->setMaxVisibleItems(16);
 
         horizontalLayout_6->addWidget(comboBox_plot_sampling);
@@ -332,11 +318,11 @@ public:
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         tbtn_plot_curveAll = new QToolButton(widget_plotGraph_right);
         tbtn_plot_curveAll->setObjectName(QStringLiteral("tbtn_plot_curveAll"));
-        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(tbtn_plot_curveAll->sizePolicy().hasHeightForWidth());
-        tbtn_plot_curveAll->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(tbtn_plot_curveAll->sizePolicy().hasHeightForWidth());
+        tbtn_plot_curveAll->setSizePolicy(sizePolicy5);
         tbtn_plot_curveAll->setMinimumSize(QSize(30, 30));
         tbtn_plot_curveAll->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
@@ -344,8 +330,8 @@ public:
 
         tbtn_plot_curveAdd = new QToolButton(widget_plotGraph_right);
         tbtn_plot_curveAdd->setObjectName(QStringLiteral("tbtn_plot_curveAdd"));
-        sizePolicy4.setHeightForWidth(tbtn_plot_curveAdd->sizePolicy().hasHeightForWidth());
-        tbtn_plot_curveAdd->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(tbtn_plot_curveAdd->sizePolicy().hasHeightForWidth());
+        tbtn_plot_curveAdd->setSizePolicy(sizePolicy5);
         tbtn_plot_curveAdd->setMinimumSize(QSize(30, 30));
         tbtn_plot_curveAdd->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
@@ -353,8 +339,8 @@ public:
 
         tbtn_plot_curveRemove = new QToolButton(widget_plotGraph_right);
         tbtn_plot_curveRemove->setObjectName(QStringLiteral("tbtn_plot_curveRemove"));
-        sizePolicy4.setHeightForWidth(tbtn_plot_curveRemove->sizePolicy().hasHeightForWidth());
-        tbtn_plot_curveRemove->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(tbtn_plot_curveRemove->sizePolicy().hasHeightForWidth());
+        tbtn_plot_curveRemove->setSizePolicy(sizePolicy5);
         tbtn_plot_curveRemove->setMinimumSize(QSize(30, 30));
         tbtn_plot_curveRemove->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
@@ -362,8 +348,8 @@ public:
 
         tbtn_plot_curveClear = new QToolButton(widget_plotGraph_right);
         tbtn_plot_curveClear->setObjectName(QStringLiteral("tbtn_plot_curveClear"));
-        sizePolicy4.setHeightForWidth(tbtn_plot_curveClear->sizePolicy().hasHeightForWidth());
-        tbtn_plot_curveClear->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(tbtn_plot_curveClear->sizePolicy().hasHeightForWidth());
+        tbtn_plot_curveClear->setSizePolicy(sizePolicy5);
         tbtn_plot_curveClear->setMinimumSize(QSize(30, 30));
         tbtn_plot_curveClear->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
@@ -378,9 +364,6 @@ public:
 
 
         retranslateUi(PlotUnitGraph);
-
-        stackedWidget_tabCtlPanel->setCurrentIndex(1);
-
 
         QMetaObject::connectSlotsByName(PlotUnitGraph);
     } // setupUi

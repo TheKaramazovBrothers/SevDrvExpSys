@@ -112,6 +112,8 @@ int16	KpiServoAlarmPowerManage(SERVO_DRV * m_drv)
 int16	KpiServoBackGroundTask(SERVO_DRV * m_drv)
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    KpiSeqBackGroundRout(&m_drv->obj.seq, m_drv);
+
     TpiServoModeSwitch(m_drv);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     return  TRUE;
@@ -190,7 +192,7 @@ int16 TpiServoModeSwitch(SERVO_DRV * m_drv)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     m_drv->task.serv_ready          =	m_drv->task.sof_st_on && m_drv->task.sec_on && m_drv->task.act_on;
 
-    m_drv->task.serv_ready          =   TRUE;
+    m_drv->task.serv_ready          =   m_drv->task.act_on;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     switch	(m_drv->task.curr_state)
 	{
@@ -362,8 +364,9 @@ void	TpiCurrOpenLoopDrv(SERVO_DRV * m_drv)                                      
 {
     double  udr_tmp, uqr_tmp;
     double  ua_tmp, ub_tmp, uc_tmp;
-    udr_tmp     =   0;
-    uqr_tmp     =   15.0;
+
+    udr_tmp     =   m_drv->obj.seq.udr_out;
+    uqr_tmp     =   m_drv->obj.seq.uqr_out;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     KpiGetCurrLoopFb(&m_drv->obj.cur, &m_drv->obj.sens.ia, &m_drv->obj.sens.ib, &m_drv->obj.sens.ic, &m_drv->obj.sens.phim);
 
@@ -395,7 +398,21 @@ void	TpiInitCurrOpenLoopDrv(SERVO_DRV * m_drv)                                  
 //********************************************************************************************************
 void	TpiCurrCloseLoopDrv(SERVO_DRV * m_drv)                                              // CCLD task routine
 {
+    double  idr_tmp, iqr_tmp;
+    double  ua_tmp, ub_tmp, uc_tmp;
 
+    idr_tmp     =   m_drv->obj.seq.idr_out;
+    iqr_tmp     =   m_drv->obj.seq.iqr_out;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    KpiGetCurrLoopFb(&m_drv->obj.cur, &m_drv->obj.sens.ia, &m_drv->obj.sens.ib, &m_drv->obj.sens.ic, &m_drv->obj.sens.phim);
+
+    KpiGetCurrLootRef(&m_drv->obj.cur, &idr_tmp, &iqr_tmp);
+
+    KpiCurrCtlLoopUpdate(&m_drv->obj.cur);
+
+    KpiSetCurrLoopOut(&m_drv->obj.cur, &ua_tmp, &ub_tmp, &uc_tmp);
+
+    KpiThreeVoltageOutput(&ua_tmp, &ub_tmp, &uc_tmp);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
