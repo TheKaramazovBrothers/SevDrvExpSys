@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     SimKernel/src/SevHardRes.cpp \
     SimKernel/src/SeqCtlFunc.cpp \
     FrontEnd/src/tabmodectl.cpp \
-    BackEnd/src/TuningCmd.cpp
+    BackEnd/src/TuningCmd.cpp \
+    FrontEnd/src/dialogselectcurve.cpp
 
 HEADERS  += mainwindow.h \
         FrontEnd/include/qttreemanager.h \
@@ -56,11 +57,13 @@ HEADERS  += mainwindow.h \
     SimKernel/include/SevHardRes.h \
     SimKernel/include/SeqCtlFunc.h \
     FrontEnd/include/tabmodectl.h \
-    BackEnd/include/TuningCmd.h
+    BackEnd/include/TuningCmd.h \
+    FrontEnd/include/dialogselectcurve.h
 
 FORMS    += mainwindow.ui \
     FrontEnd/ui/plotunitgraph.ui \
-    FrontEnd/ui/tabmodectl.ui
+    FrontEnd/ui/tabmodectl.ui \
+    FrontEnd/ui/dialogselectcurve.ui
 
 RESOURCES += \
     servodrv.qrc

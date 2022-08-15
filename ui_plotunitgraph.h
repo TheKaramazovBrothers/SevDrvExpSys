@@ -68,7 +68,6 @@ public:
     QLabel *label_11;
     QComboBox *comboBox_plot_sampling;
     QTableWidget *tableWidget_plot_curve;
-    QLabel *label_plot_detailName;
     QHBoxLayout *horizontalLayout_5;
     QToolButton *tbtn_plot_curveAll;
     QToolButton *tbtn_plot_curveAdd;
@@ -309,11 +308,6 @@ public:
 
         verticalLayout_3->addWidget(tableWidget_plot_curve);
 
-        label_plot_detailName = new QLabel(widget_plotGraph_right);
-        label_plot_detailName->setObjectName(QStringLiteral("label_plot_detailName"));
-
-        verticalLayout_3->addWidget(label_plot_detailName);
-
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         tbtn_plot_curveAll = new QToolButton(widget_plotGraph_right);
@@ -407,7 +401,6 @@ public:
          << QApplication::translate("PlotUnitGraph", "15", 0)
          << QApplication::translate("PlotUnitGraph", "16", 0)
         );
-        label_plot_detailName->setText(QApplication::translate("PlotUnitGraph", "TextLabel", 0));
         tbtn_plot_curveAll->setText(QApplication::translate("PlotUnitGraph", "All", 0));
         tbtn_plot_curveAdd->setText(QApplication::translate("PlotUnitGraph", "add", 0));
         tbtn_plot_curveRemove->setText(QApplication::translate("PlotUnitGraph", "rev", 0));
