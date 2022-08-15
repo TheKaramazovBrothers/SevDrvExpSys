@@ -9,11 +9,12 @@
 // copyright(C)	:	liu.g	(2022-2030)
 //=========================================================================================================
 
-
+#include "dialogselectcurve.h"
+#include "Cia402AppEmu.h"
 #include "plotunitgraph.h"
 
 const   int    g_WAVE_PLOT_UPDATE_TIM           =   100;                                                // unit[ms]
-const   int     g_WAVE_PLOT_RES_NUMBER          =   1000;                                               // wave disp resolution | unit[line number]
+const   int    g_WAVE_PLOT_RES_NUMBER           =   1000;                                               // wave disp resolution | unit[line number]
 
 Qt::GlobalColor tbl_col[20] =     \
                 {Qt::red, Qt::green, Qt::blue, Qt::black, Qt::magenta,\
@@ -32,7 +33,7 @@ PlotUnitGraph::PlotUnitGraph(QWidget *parent)
 
     wave_samp_ts            =   m_task->m_buf->clu_cyc_ts * m_task->m_buf->samp_div_tims;
     wave_disp_range         =   10.0;
-    wave_storage_range      =   20;
+    wave_storage_range      =   40.0;
 
     wave_data_storage_num   =   wave_storage_range/m_task->m_buf->clu_cyc_ts;
 
@@ -43,6 +44,10 @@ PlotUnitGraph::PlotUnitGraph(QWidget *parent)
     wave_plot_en            =   false;
     key                     =   0.0;
     wave_disp_cnt           =   0;
+    tab_wave_cnt            =   0;
+
+    m_showColor             =   QColor(Qt::white);
+    m_hideColor             =   QColor(Qt::gray);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     QVector<qreal>		*vtmp = new QVector<qreal>;
 
@@ -89,6 +94,7 @@ PlotUnitGraph::PlotUnitGraph(QWidget *parent)
     setPlotUintGraphIcons();
     InitPlotWave();
     createSignalSlotsConnect();
+    InitTableWidgetPloCurve();
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -97,6 +103,12 @@ PlotUnitGraph::~PlotUnitGraph()
 {
     value_list.clear();
     key_vec.clear();
+
+    wave_plot_en                    =   FALSE;
+    m_task->m_buf->enp              =   false;
+    m_task->stop();
+
+    tableWidget_plot_curve->clear();
 }
 
 void PlotUnitGraph::setPlotUintGraphIcons()
@@ -154,7 +166,7 @@ void PlotUnitGraph::setPlotUintGraphIcons()
 void PlotUnitGraph::InitPlotWave()
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-//    setupSimpleDemo();
+    this->plot->clearGraphs();
     // wave plot module initialization
     for (int i = 0; i < m_task->m_buf->graph_num; i++)
     {
@@ -173,6 +185,31 @@ void PlotUnitGraph::InitPlotWave()
     this->plot->setBackground(QBrush(QColor(240,240,240)));
     this->plot->setOpenGl(false);
 
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+
+void    PlotUnitGraph::InitTableWidgetPloCurve()
+{
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    QStringList headers;
+    headers << "Index" << "Name";
+
+    tableWidget_plot_curve->setColumnCount(2);
+
+    tableWidget_plot_curve->setHorizontalHeaderLabels(headers);
+    tableWidget_plot_curve->setStyleSheet("background-color:rgb(255,255,255)");
+
+    tableWidget_plot_curve->horizontalHeader()->setVisible(false);
+    tableWidget_plot_curve->horizontalHeader()->setStretchLastSection(true);
+
+    tableWidget_plot_curve->resizeColumnsToContents();
+    tableWidget_plot_curve->setColumnWidth(0, 80);
+    tableWidget_plot_curve->show();
+
+    for (int i = 0; i < g_MAX_TAB_WAVE_NUM; i++)
+    {
+        wave_vis_tab[i]             =   true;
+    }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -243,6 +280,9 @@ void PlotUnitGraph::createSignalSlotsConnect()
     connect(this->tbtn_plot_curveAll,SIGNAL(clicked(bool)),this,SLOT(onBtnCurveShowAllClicked()));
     connect(this->tbtn_plot_curveClear,SIGNAL(clicked(bool)),this,SLOT(onBtnCurveClearClicked()));
     connect(this->tbtn_plot_curveRemove,SIGNAL(clicked(bool)),this,SLOT(onBtnCurveRemoveClicked()));
+    connect(tableWidget_plot_curve, &QTableWidget::itemClicked, \
+            this, &PlotUnitGraph::onCurveTableItemClicked);
+
 
     connect(this,SIGNAL(selectionRectFinish()),this,SLOT(onPlotSelectionRectFinish()));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -258,8 +298,34 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
 {
     QVector<qreal>		*vtmp = new QVector<qreal>;
 
+    if (tab_wave_cnt < 1)
+    {
+        return;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     if (checked)
     {
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        m_task->m_buf->graph_num                =   tab_wave_cnt;
+
+        this->plot->clearGraphs();
+
+        QColor     color_tmp;
+        // wave plot module initialization
+        for (int i = 0; i < m_task->m_buf->graph_num; i++)
+        {
+            this->plot->addGraph();
+            color_tmp                           =   tableWidget_plot_curve->item(i,0)->textColor();
+            this->plot->graph(i)->setPen(QPen(color_tmp));
+
+            Uint16 inx_tmp = 0;
+            bool    en_ok   =   true;
+            inx_tmp         =   tableWidget_plot_curve->item(i, 0)->text().toInt(&en_ok,16) - 0x3000;
+
+            m_task->m_buf->obj_inx[i]           =   inx_tmp;
+        }
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         value_list.clear();
         key_vec.clear();
 
@@ -271,20 +337,31 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
             value_list.append(*vtmp);
             this->plot->graph(i)->data().data()->clear();
         }
+
         this->plot->rescaleAxes(true);
-        wave_plot_en        =   TRUE;
+        vtmp->clear();
+
+        m_task->m_buf->ClearWaveVecBuf();
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        wave_plot_en                            =   TRUE;
+        m_task->m_buf->enp                      =   true;
+
         m_task->start();
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     }
     else
     {
-        wave_plot_en        =   FALSE;
+        wave_plot_en                            =   FALSE;
+        m_task->m_buf->enp                      =   false;
+
         m_task->stop();
         for (int i = 0; i < m_task->m_buf->graph_num; i++)
         {
             this->plot->graph(i)->setData(key_vec, value_list.at(i), true);
         }
-
-        this->plot->xAxis->setRange(key, wave_storage_range, Qt::AlignRight);
+        key                 =   key_vec.last();
+        double wave_size    =   key >= wave_storage_range ? wave_storage_range:key;
+        this->plot->xAxis->setRange(key, wave_size, Qt::AlignRight);
 
  ///////////////////////////////////////////////////////////////////////////////////////////////
         this->plot->replot();
@@ -365,26 +442,101 @@ void    PlotUnitGraph::onPlotMeaHposChanged(qreal v1, qreal v2, qreal dv)
     label_plot_dx->setText(QString("dX=%1 ms ,Freq=%2 HZ").arg(QString::number(dv*1000,'f',2)).arg(QString::number(1/dv,'f',2)));
 }
 
+
+
 void    PlotUnitGraph::onBtnCurveAddClicked()
 {
+    DialogSelectCurve   * pCurveSelect  =   new DialogSelectCurve(this);
 
+    pCurveSelect->exec();
 }
 
 void    PlotUnitGraph::onBtnCurveRemoveClicked()
 {
+    int row     =   tableWidget_plot_curve->currentRow();
 
+    if(row >= 0)
+    {
+        tableWidget_plot_curve->removeRow(row);
+        tab_wave_cnt--;
+    }
 }
 
 void    PlotUnitGraph::onBtnCurveClearClicked()
 {
-
+    if (tab_wave_cnt > 0)
+    {
+        tableWidget_plot_curve->setRowCount(0);
+        tableWidget_plot_curve->clearContents();
+        tab_wave_cnt    =   0;
+    }
 }
 
 void    PlotUnitGraph::onBtnCurveShowAllClicked()
 {
-
+    for (int i = 0; i < tab_wave_cnt; i++)
+    {
+        tableWidget_plot_curve->item(i,0)->setBackgroundColor(m_showColor);
+        plot->graph(i)->setVisible(true);
+        plot->replot();
+        wave_vis_tab[i]         =   true;
+    }
 }
 
+
+void    PlotUnitGraph::OnWaveTableItemDoubleClicked(int row, int column)
+{
+    QString     str, str2;
+    int16       inx;
+//----------------------------------------------------------------------------------------------------------------
+    inx         =       row;
+    if ((inx >= 0) && (inx < VAR_SERVO_OBJW_INX_MAX_NUM) && (tab_wave_cnt < g_MAX_TAB_WAVE_NUM))
+    {
+       tableWidget_plot_curve->setRowCount(tab_wave_cnt+1);
+
+       tableWidget_plot_curve->setItem(tab_wave_cnt, 0, new QTableWidgetItem());
+       tableWidget_plot_curve->setItem(tab_wave_cnt, 1, new QTableWidgetItem());
+
+       tableWidget_plot_curve->item(tab_wave_cnt,0)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+       tableWidget_plot_curve->item(tab_wave_cnt,1)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+
+       str      =       QString::number(DefCiA402VarObjDic[inx].Index, 16);
+       str2     =       (char *)(DefCiA402VarObjDic[inx].pName);
+
+       tableWidget_plot_curve->item(tab_wave_cnt, 0)->setText(str);
+       tableWidget_plot_curve->item(tab_wave_cnt, 1)->setText(str2);
+
+       tableWidget_plot_curve->item(tab_wave_cnt, 0)->setFlags(Qt::ItemIsEnabled);
+       tableWidget_plot_curve->item(tab_wave_cnt, 1)->setFlags(Qt::ItemIsEnabled);
+
+       tab_wave_cnt++;
+    }
+}
+
+
+void    PlotUnitGraph::onCurveTableItemClicked(QTableWidgetItem *item)
+{
+    if(item->column() == 0)
+    {
+      int row = item->row();
+
+      if (wave_vis_tab[row] == false)
+      {
+          item->setBackgroundColor(m_showColor);
+          plot->graph(row)->setVisible(true);
+          plot->replot();
+          wave_vis_tab[row]         =   true;
+      }
+      else
+      {
+          item->setBackgroundColor(m_hideColor);
+          plot->graph(row)->setVisible(false);
+          plot->replot();
+
+          wave_vis_tab[row]         =   false;
+      }
+    }
+}
 
 void    PlotUnitGraph::realTimeDataPlot()
 {
@@ -398,60 +550,63 @@ void    PlotUnitGraph::realTimeDataPlot()
         m_task->m_buf->GetWaveData(tkey, tvalue);
 
 // return when not get only data
-        if (tkey->isEmpty())	{ return; }
+        if (!tkey->isEmpty())
+        {
 //---------------------------------------------------------------------------------------------
-        key = tkey->last();
+            key = tkey->last();
 //---------------------------------------------------------------------------------------------
-        for (int j = 0; j < tkey->count(); j++)
-        {
-            for (int i = 0; i < m_task->m_buf->graph_num; i++)
-            {
-                value_list[i].append(tvalue->at(i).at(j) );
-            }
-
-            key_vec.append(tkey->at(j));
-        }
-
-        m = key_vec.count();
-
-        if (m > wave_data_storage_num)
-        {
-            delta_cnt = m - wave_data_storage_num;
-
-            for (int i = 0; i < m_task->m_buf->graph_num; i++)
-            {
-                value_list[i].remove(0, delta_cnt);
-            }
-            key_vec.remove(0, delta_cnt);
-        }
-//--------------------------------------------------------------------------------------------
-        for (int j = 0; j < tkey->count(); j++)
-        {
-            if (wave_disp_cnt == 0)
+            for (int j = 0; j < tkey->count(); j++)
             {
                 for (int i = 0; i < m_task->m_buf->graph_num; i++)
                 {
-                    this->plot->graph(i)->addData(tkey->at(j), tvalue->at(i).at(j));
+                    value_list[i].append(tvalue->at(i).at(j) );
                 }
+
+                key_vec.append(tkey->at(j));
             }
-            wave_disp_cnt++;
-            wave_disp_cnt = (wave_disp_cnt >= wave_disp_interval) ? 0 : wave_disp_cnt;
+            m = key_vec.count();
 
-        }
+            if (m > wave_data_storage_num)
+            {
+                delta_cnt = m - wave_data_storage_num;
+
+                for (int i = 0; i < m_task->m_buf->graph_num; i++)
+                {
+                    value_list[i].remove(0, delta_cnt);
+                }
+                key_vec.remove(0, delta_cnt);
+            }
 //--------------------------------------------------------------------------------------------
-        this->plot->xAxis->setRange(key, wave_disp_range, Qt::AlignRight);
-        this->plot->setPlottingHint(QCP::phFastPolylines);
+            for (int j = 0; j < tkey->count(); j++)
+            {
+                if (wave_disp_cnt == 0)
+                {
+                    for (int i = 0; i < m_task->m_buf->graph_num; i++)
+                    {
+                        this->plot->graph(i)->addData(tkey->at(j), tvalue->at(i).at(j));
+                    }
+                }
+                wave_disp_cnt++;
+                wave_disp_cnt = (wave_disp_cnt >= wave_disp_interval) ? 0 : wave_disp_cnt;
 
-        for (int i = 0; i < m_task->m_buf->graph_num; i++)
-        {
-            this->plot->graph(i)->rescaleValueAxis(true, true);
+            }
+//--------------------------------------------------------------------------------------------
+            double wave_size    =   key >= wave_disp_range ? wave_disp_range:key;
+            this->plot->xAxis->setRange(key, wave_size, Qt::AlignRight);
+            this->plot->setPlottingHint(QCP::phFastPolylines);
+
+            for (int i = 0; i < m_task->m_buf->graph_num; i++)
+            {
+                this->plot->graph(i)->rescaleValueAxis(true, true);
+            }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+            this->plot->replot();
         }
 
-        tkey->clear();
-        tvalue->clear();
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-        this->plot->replot();
     }
+
+    tkey->clear();
+    tvalue->clear();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

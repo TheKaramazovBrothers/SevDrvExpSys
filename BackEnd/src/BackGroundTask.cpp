@@ -9,8 +9,8 @@
 // copyright(C)	:	liu.g	(2022-2030)
 //=========================================================================================================
 #include <cmath>
-
-#include    "BackGroundTask.h"
+#include "Cia402AppEmu.h"
+#include "BackGroundTask.h"
 
 PmsmDrvMechModel    gMechModel;
 SERVO_DRV           gSevDrv;
@@ -33,17 +33,32 @@ WaveBuf::WaveBuf(QObject *parent)
     for (int16 i = 0; i < g_MAX_WAVE_PLOT_NUM; i++)
     {
         this->data_list.append(*vtmp);
+        this->obj_inx[i]            =   i;
     }
     this->key_vec.append(0.0);
 
     this->curr_key                  =   0.0;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
+void    WaveBuf::ClearWaveVecBuf(void)
+{
+    for (int16 i = 0; i < g_MAX_WAVE_PLOT_NUM; i++)
+    {
+        this->data_list[i].clear();
 
+    }
+    this->key_vec.clear();
+}
 
 WaveBuf::~WaveBuf()
 {
+    for (int16 i = 0; i < g_MAX_WAVE_PLOT_NUM; i++)
+    {
+        this->data_list[i].clear();
 
+    }
+    this->data_list.clear();
+    this->key_vec.clear();
 }
 
 
@@ -51,30 +66,17 @@ int16 WaveBuf::FillWaveToBuffer()
 {
     QMutexLocker locker(&mutex);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    if (this->key_vec.count() <= this->data_space_ulim)
+    if ((this->key_vec.count() <= this->data_space_ulim) && (this->enp == true))
     {
         this->curr_key = this->curr_key + this->clu_cyc_ts;
-/*
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        for (int16 i = 0; i < this->graph_num; i++)
+
+        double  dtmp    =   0;
+
+        for (int i = 0; i < this->graph_num; i++)
         {
-            double   dtmp				=	this->curr_key * sin(this->curr_key*2*g_PI + i*(g_PI/4));
-            this->data_list[i].append(dtmp);           
+            CpiReadRamVarByDicInx(this->obj_inx[i], &dtmp);
+            this->data_list[i].append(dtmp);
         }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
-        this->data_list[0].append(gSevDrv.obj.cur.ud_ref);
-        this->data_list[1].append(gSevDrv.obj.cur.uq_ref);
-        this->data_list[2].append(gSevDrv.obj.cur.ia);
-        this->data_list[3].append(gSevDrv.obj.cur.ib);
-        this->data_list[4].append(gSevDrv.obj.cur.ic);
-
-        this->data_list[5].append(0);
-        this->data_list[6].append(gSevDrv.obj.cur.phim);
-        this->data_list[7].append(gSevDrv.obj.cur.phie);
-
-//        this->data_list[6].append(0);
-//        this->data_list[7].append(0);
 
         this->key_vec.append(this->curr_key);
     }
@@ -107,21 +109,15 @@ bool WaveBuf::GetWaveData(QVector<qreal> * pkey, QList<QVector<qreal>> * pvalue)
             {
                 (*pvalue)[i].append(this->data_list[i].at(j));
             }
-        }
+        }       
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-/*
-        for (int i = 0; i < this->graph_num; i++)
-        {
-            this->data_list[i].clear();
-        }
-        this->key_vec.clear();
-*/
-
         for (int i = 0; i < this->graph_num; i++)
         {
             this->data_list[i].remove(0, buf_num);
         }
         key_vec.remove(0, buf_num);
+
+        vtmp->clear();
 
         return  true;
     }
@@ -272,6 +268,7 @@ threadTask::threadTask(QObject *parent)
 
 threadTask::~threadTask()
 {
+    stopped     =   true;
     delete      m_buf;
     delete      m_bktask;
 }

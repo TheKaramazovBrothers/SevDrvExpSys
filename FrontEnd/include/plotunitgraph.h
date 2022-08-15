@@ -16,11 +16,12 @@
 #define __PLOTUNITGRAPH_H__
 
 #include <QWidget>
+#include <QColor>
 #include "ui_plotunitgraph.h"
 #include "BackGroundTask.h"
 
 
-
+const   int  g_MAX_TAB_WAVE_NUM     =   20;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 class PlotUnitGraph : public QWidget, public Ui::PlotUnitGraph
 {
@@ -49,10 +50,16 @@ private slots:
     void    onBtnCurveRemoveClicked();
     void    onBtnCurveClearClicked();
     void    onBtnCurveShowAllClicked();
+
+    void    onCurveTableItemClicked(QTableWidgetItem *item);
+//*******************************************************************************************************
+public slots:
+    void    OnWaveTableItemDoubleClicked(int row, int column);
 //*******************************************************************************************************
 private:
     void    setPlotUintGraphIcons();
     void    InitPlotWave();
+    void    InitTableWidgetPloCurve();
     void    setupSimpleDemo();
     void    createSignalSlotsConnect();
 private slots:
@@ -68,7 +75,7 @@ private:
     double                  wave_disp_range;                                                // wave display range | unit[s]
     double                  wave_storage_range;                                             // wave storage range | unit[s]
     double                  wave_samp_ts;                                                   // sample time for wave display | unit[s]
-//  variable define
+//  variable define for wave plot
     bool                    wave_plot_en;                                                   // wave plot enable flag
     int                     wave_disp_cnt;                                                  // count variable for wave display
 
@@ -76,6 +83,13 @@ private:
     double                  key;                                                            // current key value in wave plot
     QList<QVector<qreal>>   value_list;                                                     // wave value list
     QVector<qreal>			key_vec;                                                        // wave key list
+//*******************************************************************************************************
+// variable define for wave table
+    int                     tab_wave_cnt;                                                   // current wave count value
+    QColor                  m_showColor;
+    QColor                  m_hideColor;
+    bool                    wave_vis_tab[g_MAX_TAB_WAVE_NUM];
+//*******************************************************************************************************
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -27,7 +27,7 @@ typedef	enum
     CCLD_SEQ_WORK			=	5,													// current closed loop control work mode in sequence control | CCLD_TASK_ID
     VCLD_SEQ_WORK			=	6,													// velocity closed loop control work mode in sequence control | VCLD_TASK_ID
     PROF_VELC_SEQ_WORK		=	7,													// open velocity control work mode in sequence control | POSCLD_TASK_ID
-    PROF_POSC_SEQ_WORK       =	8,                                                  // close velocity control work mode in sequence control	| POSCLD_TASK_ID
+    PROF_POSC_SEQ_WORK      =	8,                                                  // close velocity control work mode in sequence control	| POSCLD_TASK_ID
     PROF_CURC_SEQ_WORK		=	9,			   										// fixed position control work mode in sequence control | POSCLD_TASK_ID
     CS_VELC_SEQ_WORK		=	10,													// track position control work mode in sequence control | POSCLD_TASK_ID
     CS_POSC_SEQ_WORK		=	11,													// stop velocity control work mode in sequence control | POSCLD_TASK_ID

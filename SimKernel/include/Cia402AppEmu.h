@@ -162,7 +162,7 @@ typedef enum
     SRAT_MOT_PRM_ID16_OBJW_2000H                =   0,                                      // over speed detection level |  unit[%]
     PPN_MOT_PRM_ID16_OBJW_2001H                 =   1,                                      // motor pole pair numbers
     JRAT_MOT_PRM_ID16_OBJW_2002H                =   2,                                      // Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | unit[%]
-    MOT_PRM_ID16_OBJW_2003H                     =   3,                                      // maximum voltage of driver system Vmax [0.1V]
+    VMAX_MOT_PRM_ID16_OBJW_2003H                =   3,                                      // maximum voltage of driver system Vmax [0.1V]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     FND_CCLD_PRM_ID16_OBJW_2004H                =   4,                                      // d axis frequent band width | unit[Hz]
     FNQ_CCLD_PRM_ID16_OBJW_2005H                =   5,      								// q axis frequent band width | unit[Hz]
@@ -186,8 +186,42 @@ typedef enum
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
 
+//#############################################################################################################################
+typedef enum
+{
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    ID_CCTL_VAR_OBJW_3000H                      =   0,                                      // d axis current feedback
+    IQ_CCTL_VAR_OBJW_3001H                      =   1,                                      // q axis current feedback
+    ID_REF_CCTL_VAR_OBJW_3002H                  =   2,                                      // d axis current reference
+    IQ_REF_CCTL_VAR_OBJW_3003H                  =   3,                                      // q axis current reference
 
+    ID_ERR_CCTL_VAR_OBJW_3004H                  =   4,                                      // d axis current control error
+    IQ_ERR_CCTL_VAR_OBJW_3005H                  =   5,                                      // q axis current control error
+    UD_CCTL_VAR_OBJW_3006H                      =   6,                                      // d axis voltage output
+    UQ_CCTL_VAR_OBJW_3007H                      =   7,                                      // q axis voltage output
 
+    ID_S_CCTL_VAR_OBJW_3008H                    =   8,                                      // sum of d axis control output
+    IQ_S_CCTL_VAR_OBJW_3009H                    =   9,                                      // sum of q axis control output
+    IDI_S_CCTL_VAR_OBJW_300AH                   =   10,                                     // sum of d axis error integral
+    IQI_S_CCTL_VAR_OBJW_300BH                   =   11,                                     // sum of q axis error integral
+
+    PHIM_CCTL_VAR_OBJW_300CH                    =   12,                                     // mechancal angel rad
+    PHIE_CCTL_VAR_OBJW_300DH                    =   13,                                     // electrical angel rad
+    IA_CCTL_VAR_OBJW_300EH                      =   14,                                     // a phase current input
+    IB_CCTL_VAR_OBJW_300FH                      =   15,                                     // b phase current input
+    IC_CCTL_VAR_OBJW_3010H                      =   16,                                     // c phase current input
+
+    UA_CCTL_VAR_OBJW_3011H                      =   17,                                     // a phase voltage output
+    UB_CCTL_VAR_OBJW_3012H                      =   18,                                     // b phase voltage output
+    UC_CCTL_VAR_OBJW_3013H                      =   19,                                     // c phase voltage output
+    UD_REF_CCTL_VAR_OBJW_3014H                  =   20,                                     // d axis voltage reference
+    UQ_REF_CCTL_VAR_OBJW_3015H                  =   21,                                     // q axis voltage reference
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    VAR_SERVO_OBJW_INX_MAX_NUM
+}TOBJ_WORD_VAR_INDEX;
+
+//#############################################################################################################################
+// parameter entry discription
 //#############################################################################################################################
 const   TSDOINFOENTRYDESC sEntryDesc0x2000 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 /** \brief Object 0x2000 Over speed detection level */
@@ -195,7 +229,7 @@ const   Uint8   aName0x2000[] = "Over speed detection level";
 
 //----------------------------------------------------------------------------------------------------------------------------
 const   TSDOINFOENTRYDESC sEntryDesc0x2001 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
-/** \brief Object 0x2000 Motor pole pair numbers */
+/** \brief Object 0x2001 Motor pole pair numbers */
 const   Uint8   aName0x2001[] = "Motor pole pair numbers";
 
 //----------------------------------------------------------------------------------------------------------------------------
@@ -298,10 +332,126 @@ const   TSDOINFOENTRYDESC sEntryDesc0x2012 = {DEFTYPE_INTEGER32, 0x20, ACCESS_RE
 
 
 //#############################################################################################################################
+// variable entry discription
+//#############################################################################################################################
+const   TSDOINFOENTRYDESC sEntryDesc0x3000 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3000 d axis current feedback */
+const   Uint8   aName0x3000[] = "d axis current feedback";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   TSDOINFOENTRYDESC sEntryDesc0x3001 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3001 q axis current feedback */
+const   Uint8   aName0x3001[] = "q axis current feedback";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   TSDOINFOENTRYDESC sEntryDesc0x3002 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3002 d axis current reference */
+const   Uint8   aName0x3002[] = "d axis current reference";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   TSDOINFOENTRYDESC sEntryDesc0x3003 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3003 q axis current reference */
+const   Uint8   aName0x3003[] = "q axis current reference";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   TSDOINFOENTRYDESC sEntryDesc0x3004 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3004 d axis current control error */
+const   Uint8   aName0x3004[] = "d axis current control error";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   TSDOINFOENTRYDESC sEntryDesc0x3005 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3005 q axis current control error */
+const   Uint8   aName0x3005[] = "q axis current control error";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   TSDOINFOENTRYDESC sEntryDesc0x3006 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+/** \brief Object 0x3006 d axis voltage output */
+const   Uint8   aName0x3006[] = "d axis voltage output";
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x3007 q axis voltage output*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3007 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x3007[] = "q axis voltage output";
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x3008  sum of d axis control output*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3008 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x3008[] = "sum of d axis control output";
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x3009 sum of q axis control output*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3009 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x3009[] = "sum of q axis control output";
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x300A[] = "sum of d axis error integral";
+/** \brief Object 0x300A sum of d axis error integral*/
+const   TSDOINFOENTRYDESC sEntryDesc0x300A = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x300B[] = "sum of q axis error integral";
+/** \brief Object 0x300B sum of q axis error integral*/
+const   TSDOINFOENTRYDESC sEntryDesc0x300B = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x300C[] = "mechancal angel rad";
+/** \brief Object 0x300C mechancal angel rad*/
+const   TSDOINFOENTRYDESC sEntryDesc0x300C = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x300D[] = "electrical angel rad";
+/** \brief Object 0x300D  electrical angel rad*/
+const   TSDOINFOENTRYDESC sEntryDesc0x300D = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x300E[] = "a phase current input";
+/** \brief Object 0x300E  Motor a phase current input*/
+const   TSDOINFOENTRYDESC sEntryDesc0x300E = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x300F[] = "b phase current input";
+/** \brief Object 0x300F  b phase current input*/
+const   TSDOINFOENTRYDESC sEntryDesc0x300F = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3010[] = "c phase current input";
+/** \brief Object 0x3010  c phase current input*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3010 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3011[] = "a phase voltage output";
+/** \brief Object 0x3011  a phase voltage output*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3011 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3012[] = "b phase voltage output";
+/** \brief Object 0x3012  b phase voltage output*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3012 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3013[] = "c phase voltage output";
+/** \brief Object 0x3013  c phase voltage output*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3013 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3014[] = "d axis voltage reference";
+/** \brief Object 0x3014  d axis voltage reference*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3014 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3015[] = "q axis voltage reference";
+/** \brief Object 0x3015 q axis voltage reference*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3015 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+//#############################################################################################################################
+// function interface define
+void    CpiInitCiA402PrmObjPtr(void);
+void    CpiInitCiA402VarObjPtr(void);
+
+int16   CpiReadRamPrmByDicInx(Uint16 inx, double * m_data);
+int16   CpiReadRamVarByDicInx(Uint16 inx, double * m_data);
+//#############################################################################################################################
 extern TOBJ_ENTRY  DefCiA402PrmObjDic[PRM_SERVO_OBJW_INX_MAX_NUM];
-
-
-
+extern TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM];
 
 //#############################################################################################################################
 

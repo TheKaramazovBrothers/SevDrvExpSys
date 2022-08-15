@@ -38,8 +38,10 @@ public:
 // parameter define
     bool                    enp;																	// wave plot enable bit | 1/enable,0/disable
     Uint16                  samp_div_tims;                                                          // sample times
-    Uint16                  graph_num;																	// wave graph numbers
+    Uint16                  graph_num;																// wave graph numbers
     int32                   data_space_ulim;                                                        // upper limit indicate buffer is full
+
+    Uint16                  obj_inx[g_MAX_WAVE_PLOT_NUM];                                           // object dictionary index
 
     double                  clu_cyc_ts;                                                             // closed loop update cycle times | unit[s]
  // variable define
@@ -49,7 +51,8 @@ public:
     QVector<qreal>			key_vec;                                                                // wave key value vector
 
     QMutex                  mutex;                                                                  // mutex variable define
-
+public:
+    void    ClearWaveVecBuf(void);
 public:
     int16	FillWaveToBuffer(void);                                                                 // function to fill data to data buffer
     bool	GetWaveData(QVector<qreal> * pkey, QList<QVector<qreal>> * pvalue);                     // get wave data function
