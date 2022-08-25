@@ -1,0 +1,21 @@
+{
+    " Motor d axis reactive inductance | unit[0.001mH]": 3670,
+    "Continued phase current rated value | unit[0.001A]": 2599,
+    "Continued speed rated value |  unit[RPM]": 3001,
+    "D axis frequent band width | unit[Hz]": 1001,
+    "D axis integral time constant | unit[us]": 1001,
+    "Digital control sample periods | unit[1ns]": 31250,
+    "EMF constant | unit[0.1mV/r/min]": 198,
+    "Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | unit[%]": 541,
+    "Instantaneous maximum current of driver system | unit[0.001A]": 15001,
+    "Motor pole pair numbers": 4,
+    "Motor q axis reactive inductance | unit[0.001mH]": 3670,
+    "Motor rated torque | unit[0.001 N.m]": 1401,
+    "Motor rotate winding resistance | unit[1 m ohm]": 1001,
+    "Over speed detection level": 251,
+    "Over speed unit(max speed) | unit[RPM]": 6001,
+    "Q axis frequent band width | unit[Hz]": 1001,
+    "Q axis integral time constant | unit[us]": 1001,
+    "Rotary inertia of motor | unit[10^-6 kg.m^2]": 44,
+    "maximum voltage of driver system Vmax | unit[0.1V]": 1551
+}

@@ -9,6 +9,7 @@
 // copyright(C)	:	googoltech	(2022-2032)
 //=========================================================================================================
 #include    "Cia402AppEmu.h"
+#include    "SevHardRes.h"
 #include	"SevDrvTask.h"
 
 //*********************************************************************************************************
@@ -217,6 +218,7 @@ int16 TpiServoModeSwitch(SERVO_DRV * m_drv)
 
                 m_drv->task.curr_id		=	m_drv->task.cmd_id;
                 m_drv->task.curr_state	=	ON;
+                HalEnableThreePwmOutput();
 			}
 			else
 			{
@@ -238,6 +240,7 @@ int16 TpiServoModeSwitch(SERVO_DRV * m_drv)
 				}
                                                                                             // current ID variable reset when stop
                 m_drv->task.curr_state	=	OFF;
+                HalDisableThreePwmOutput();
 			}
 			break;
 		}

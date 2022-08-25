@@ -22,6 +22,8 @@ int16		HalGetAbsPosValue(double * m_posm, double * m_posl);                     
 
 int16       HalSetThreePhaVoltage(double * m_ua, double * m_ub, double * m_uc);
 
+int16       HalEnableThreePwmOutput();
+int16       HalDisableThreePwmOutput();
 
 
 /////////////////////////////////////////////////// no more /////////////////////////////////////////////////

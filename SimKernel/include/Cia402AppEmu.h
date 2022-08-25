@@ -240,7 +240,7 @@ const   Uint8   aName0x2002[] = "Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | un
 //----------------------------------------------------------------------------------------------------------------------------
 const   TSDOINFOENTRYDESC sEntryDesc0x2003 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 /** \brief Object 0x2003 maximum voltage of driver system */
-const   Uint8   aName0x2003[] = "maximum voltage of driver system Vmax [0.1V]";
+const   Uint8   aName0x2003[] = "maximum voltage of driver system Vmax | unit[0.1V]";
 
 //----------------------------------------------------------------------------------------------------------------------------
 const   TSDOINFOENTRYDESC sEntryDesc0x2004 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
@@ -290,19 +290,19 @@ const   TSDOINFOENTRYDESC sEntryDesc0x200B = {DEFTYPE_INTEGER32, 0x20, ACCESS_RE
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200C */
-const   Uint8   aName0x200C[] = " Motor d axis reactive inductance [0.001mH]";
+const   Uint8   aName0x200C[] = " Motor d axis reactive inductance | unit[0.001mH]";
 /** \brief Object 0x200C Motor d axis reactive resistance entry description*/
 const   TSDOINFOENTRYDESC sEntryDesc0x200C = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200D */
-const   Uint8   aName0x200D[] = "Motor q axis reactive inductance [0.001mH]";
+const   Uint8   aName0x200D[] = "Motor q axis reactive inductance | unit[0.001mH]";
 /** \brief Object 0x200D  Motor q axis reactive resistance entry description*/
 const   TSDOINFOENTRYDESC sEntryDesc0x200D = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200E */
-const   Uint8   aName0x200E[] = "Motor rotate winding resistance [1 m ohm]";
+const   Uint8   aName0x200E[] = "Motor rotate winding resistance | unit[1 m ohm]";
 /** \brief Object 0x200E  Motor rotate winding resistance entry description*/
 const   TSDOINFOENTRYDESC sEntryDesc0x200E = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
 
@@ -314,7 +314,7 @@ const   TSDOINFOENTRYDESC sEntryDesc0x200F = {DEFTYPE_INTEGER32, 0x20, ACCESS_RE
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x2010 */
-const   Uint8   aName0x2010[] = "Digital control sample periods / unit[1ns]";
+const   Uint8   aName0x2010[] = "Digital control sample periods | unit[1ns]";
 /** \brief Object 0x2010  Digital control sample periods entry description*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2010 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
 

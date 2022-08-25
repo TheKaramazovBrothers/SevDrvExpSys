@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 //	summary				:	Servo control paramter table define                         //
-//	file				:	MechModel.h													//
+//	file				:	SevCtlPrmTblDef.h											//
 //	Description			:	use for SERVO system parameter define   					//
 //	lib					:	none														//
 //																						//
@@ -17,18 +17,27 @@
 #include "DspCpu.h"
 
 
+#define     VIR_FLASH_WORD_SIZE             65536
+
+#define     ID16_START_ADR_FALSH            0
+#define     ID32_START_ADR_FLASH            2048
+
+#define     ID16_MAX_ADR_LENGTH             2048
+#define     ID32_MAX_ADR_LENGTH             2048
+
+#define		SEV_PRM_FROM_EX_MEM_EN			ENABLE
 //#############################################################################################################################
 // parameter table enum define
 typedef enum
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    SRAT_MOT_PRM_ID16_ADR                =	 0,															// over speed detection level |  unit[%]
-    PPN_MOT_PRM_ID16_ADR                 =   1,                  										// motor pole pair numbers
-    JRAT_MOT_PRM_ID16_ADR                =   2,                                                         // Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | unit[%]
-    VMAX_MOT_PRM_ID16_ADR                =   3,                                                         // maximum voltage of driver system Vmax [0.1V]
+    SRAT_MOT_PRM_ID16_ADR                =  0,                                                          // over speed detection level |  unit[%]
+    PPN_MOT_PRM_ID16_ADR                 =  1,                                                          // motor pole pair numbers
+    JRAT_MOT_PRM_ID16_ADR                =  2,                                                          // Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | unit[%]
+    VMAX_MOT_PRM_ID16_ADR                =  3,                                                          // maximum voltage of driver system Vmax [0.1V]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    FND_CCLD_PRM_ID16_ADR                =   4,                                                         // d axis frequent band width | unit[Hz]
-    FNQ_CCLD_PRM_ID16_ADR                =   5,      													// q axis frequent band width | unit[Hz]
+    FND_CCLD_PRM_ID16_ADR                =  4,                                                          // d axis frequent band width | unit[Hz]
+    FNQ_CCLD_PRM_ID16_ADR                =  5,      													// q axis frequent band width | unit[Hz]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
@@ -38,7 +47,7 @@ typedef enum
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     IRATE_MOT_PRM_ID32_ADR				 =  0,                                                          // continued phase current rated value | unit[0.001A]
-    IMAX_MOT_PRM_ID32_ADR				 =	1,															// instantaneous maximum current of driver system | unit[0.001A]
+    IMAX_MOT_PRM_ID32_ADR				 =	1,                                                          // instantaneous maximum current of driver system | unit[0.001A]
     SCT_MOT_PRM_ID32_ADR                 =	2,															// continued speed rated value |  unit[RPM]
     NOS_MOT_PRM_ID32_ADR                 =  3,                                                          // over speed unit(max speed) | unit[RPM]
     TQR_MOT_PRM_ID32_ADR                 =  4,    														// motor rated torque | unit[0.001 N.m]
@@ -63,6 +72,13 @@ Uint32  SclReadFramPrmByID32(Uint16 m_id, Uint32 *m_data);
 
 int16   SclWriteFramPrmByID16(Uint16 *m_data, Uint16 m_id);
 int16   SclWriteFramPrmByID32(Uint32 *m_data, Uint16 m_id);
+
+
+
+//#############################################################################################################################
+extern  Uint16	gVirFlashStorage[VIR_FLASH_WORD_SIZE];
+
+
 
 
 #endif

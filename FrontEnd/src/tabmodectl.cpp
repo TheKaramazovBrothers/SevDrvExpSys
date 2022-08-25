@@ -299,6 +299,10 @@ void TabModeCtl::onModeCtlPanelModeChanged(int mode)
         {
             break;
         }
+        default:
+        {
+            break;
+        }
     }
   }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -308,6 +312,86 @@ void TabModeCtl::onModeCtlPanelModeChanged(int mode)
 
 void TabModeCtl::onBtnServoOnClicked(bool checked)
 {
+    int mode;
+
+    mode            =   stackedWidget_plot_mode->currentIndex();
+    VpiSetServoWorkMode((tSeqWorkMode)(mode));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    switch(mode)
+    {
+        case    IDLE_TABSM_WORK:
+        {
+            break;
+        }
+        case    AOA_TABSM_WORK:
+        {
+            break;
+        }
+        case    MIPA_TABSM_WORK:
+        {
+            break;
+        }
+        case    MPSA_TABSM_WORK:
+        {
+            break;
+        }
+        case    COLD_TABSM_WORK:
+        {
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            VpiSetUdRef(ud_ref);
+            VpiSetUqRef(uq_ref);
+            VpiSetUaRef(ua_ref);
+            VpiSetUbRef(ub_ref);
+            VpiSetUcRef(uc_ref);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            break;
+        }
+        case    CCLD_TABSM_WORK:
+        {
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            VpiSetIdRef(id_ref);
+            VpiSetIqRef(iq_ref);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        }
+        case    VCLD_TABSM_WORK:
+        {
+            VpiSetSpdRef(spd_ref);
+            break;
+        }
+        case    PROF_VELC_TABSM_WORK:
+        {
+            VpiSetSpdRef(spd_ref);
+            break;
+        }
+        case    PROF_POSC_TABSM_WORK:
+        {
+            break;
+        }
+        case    PROF_CURC_TABSM_WORK:
+        {
+            break;
+        }
+        case    CS_VELC_TABSM_WORK:
+        {
+            break;
+        }
+        case    CS_POSC_TABSM_WORK:
+        {
+            break;
+        }
+        case    CS_CURC_TABSM_WORK:
+        {
+            break;
+        }
+        case    HOME_TABSM_WORK:
+        {
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     if (checked)
     {

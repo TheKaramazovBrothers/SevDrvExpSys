@@ -15,38 +15,43 @@
 
 int16   KpiInitCurrCtlModule(CURR_CTL * m_ctl)
 {
+//*****************************************************************************************************************************
+    if (SEV_PRM_FROM_EX_MEM_EN == DISABLE)
+    {
 // OBJECT WORD parameter initialization
 //*****************************************************************************************************************************
-    m_ctl->prm.mot_Irat             =   3500;                                       // continued phase current rated value | unit[0.001A]
-    m_ctl->prm.mot_Imax             =   15000;                                      // instantaneous maximum current of driver system | unit[0.001A]
+        m_ctl->prm.mot_Irat             =   3500;                                       // continued phase current rated value | unit[0.001A]
+        m_ctl->prm.mot_Imax             =   15000;                                      // instantaneous maximum current of driver system | unit[0.001A]
 
-    m_ctl->prm.mot_Sct              =   3000;                                       // continued speed rated value |  unit[RPM]
-    m_ctl->prm.mot_Nos              =   6000;                                       // over speed unit(max speed) | unit[RPM]
-    m_ctl->prm.mot_Srat             =   250;                                        // over speed detection level |  unit[%]
+        m_ctl->prm.mot_Sct              =   3000;                                       // continued speed rated value |  unit[RPM]
+        m_ctl->prm.mot_Nos              =   6000;                                       // over speed unit(max speed) | unit[RPM]
+        m_ctl->prm.mot_Srat             =   250;                                        // over speed detection level |  unit[%]
 
-    m_ctl->prm.mot_Tqr              =   1400;                                       // motor rated torque | unit[0.001 N.m]
-    m_ctl->prm.mot_PPN              =   4;                                          // motor pole pair numbers
+        m_ctl->prm.mot_Tqr              =   1400;                                       // motor rated torque | unit[0.001 N.m]
+        m_ctl->prm.mot_PPN              =   4;                                          // motor pole pair numbers
 // pmsm motor driver system unit parameter
-    m_ctl->prm.mot_PHIm             =   197;                                        // EMF constant | unit[0.1mV/r/min]
+        m_ctl->prm.mot_PHIm             =   197;                                        // EMF constant | unit[0.1mV/r/min]
 // motor winding parameter
-    m_ctl->prm.mot_Ldm              =   3670;                                       // motor d axis reactive resistance [0.001mH]
-    m_ctl->prm.mot_Lqm              =   3670;                                       // motor q axis reactive resistance [0.001mH]
-    m_ctl->prm.mot_Rm               =   1000;                                       // motor rotate winding resistance [1 m ohm]
+        m_ctl->prm.mot_Ldm              =   3670;                                       // motor d axis reactive resistance [0.001mH]
+        m_ctl->prm.mot_Lqm              =   3670;                                       // motor q axis reactive resistance [0.001mH]
+        m_ctl->prm.mot_Rm               =   1000;                                       // motor rotate winding resistance [1 m ohm]
 
-    m_ctl->prm.mot_Jm               =   44;                                         // rotary inertia of motor | unit[10^-6 kg.m^2]
-    m_ctl->prm.mot_Jrat             =   540;                                        // Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | unit[%]
-    m_ctl->prm.mot_Vmax             =   1550;                                       // maximum voltage of driver system Vmax [0.1V]
+        m_ctl->prm.mot_Jm               =   44;                                         // rotary inertia of motor | unit[10^-6 kg.m^2]
+        m_ctl->prm.mot_Jrat             =   540;                                        // Inertia ratio 100 * ((Jtotal - Jmot)/Jmot) | unit[%]
+        m_ctl->prm.mot_Vmax             =   1550;                                       // maximum voltage of driver system Vmax [0.1V]
 //*****************************************************************************************************************************
 // current parameter define
-    m_ctl->prm.curr_TS              =   31250;                                      // digital control sample periods / unit[1ns]
+        m_ctl->prm.curr_TS              =   31250;                                      // digital control sample periods / unit[1ns]
 //*****************************************************************************************************************************
 // current control parameter define
-    m_ctl->prm.curr_ctl_Tid         =   1000;                                       // d axis integral time constant | unit[us]
-    m_ctl->prm.curr_ctl_Tiq         =   1000;                                       // q axis integral time constant | unit [us]
-    m_ctl->prm.curr_ctl_fnd         =   1000;                                       // d axis frequent band width | unit[Hz]
-    m_ctl->prm.curr_ctl_fnq         =   1000;                                       // q axis frequent band width | unit[Hz]
+        m_ctl->prm.curr_ctl_Tid         =   1000;                                       // d axis integral time constant | unit[us]
+        m_ctl->prm.curr_ctl_Tiq         =   1000;                                       // q axis integral time constant | unit [us]
+        m_ctl->prm.curr_ctl_fnd         =   1000;                                       // d axis frequent band width | unit[Hz]
+        m_ctl->prm.curr_ctl_fnq         =   1000;                                       // q axis frequent band width | unit[Hz]
 // parameter initialization
 //**************************************************************************************************************************
+    }
+
     m_ctl->kpq                      =   (2*3.1415926) * m_ctl->prm.curr_ctl_fnq * (m_ctl->prm.mot_Lqm/1000000.0);
     m_ctl->kpd                      =   (2*3.1415926) * m_ctl->prm.curr_ctl_fnd * (m_ctl->prm.mot_Ldm/1000000.0);
 
