@@ -76,7 +76,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>4</number>
          </property>
          <widget class="QWidget" name="page_idle">
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -156,7 +156,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
-              <string>ua_ref (%)</string>
+              <string>ua_ref (V)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -179,7 +179,7 @@
            <item row="0" column="2">
             <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>ub_ref (%)</string>
+              <string>ub_ref (V)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -202,7 +202,7 @@
            <item row="0" column="4">
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>uc_ref (%)</string>
+              <string>uc_ref (V)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -225,7 +225,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
-              <string>ud_ref (%)</string>
+              <string>ud_ref (V)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -248,7 +248,7 @@
            <item row="1" column="2">
             <widget class="QLabel" name="label_16">
              <property name="text">
-              <string>uq_ref (%)</string>
+              <string>uq_ref (V)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -275,7 +275,7 @@
            <item>
             <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>id_ref (%)</string>
+              <string>id_ref (A)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -298,7 +298,7 @@
            <item>
             <widget class="QLabel" name="label_18">
              <property name="text">
-              <string>iq_ref(%)</string>
+              <string>iq_ref(A)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -332,7 +332,7 @@
            <item>
             <widget class="QLabel" name="label_20">
              <property name="text">
-              <string>close velocity (%)</string>
+              <string>close velocity (rad/s)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

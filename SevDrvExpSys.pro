@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     BackEnd/src/TuningCmd.cpp \
     FrontEnd/src/dialogselectcurve.cpp \
     FrontEnd/src/prmvartable.cpp \
-    BackEnd/src/PrmConfigService.cpp
+    BackEnd/src/PrmConfigService.cpp \
+    SimKernel/src/VelCtlLoop.cpp
 
 HEADERS  += mainwindow.h \
         FrontEnd/include/qttreemanager.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     BackEnd/include/TuningCmd.h \
     FrontEnd/include/dialogselectcurve.h \
     FrontEnd/include/prmvartable.h \
-    BackEnd/include/PrmConfigService.h
+    BackEnd/include/PrmConfigService.h \
+    SimKernel/include/VelCtlLoop.h
 
 FORMS    += mainwindow.ui \
     FrontEnd/ui/plotunitgraph.ui \

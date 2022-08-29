@@ -52,7 +52,29 @@ TOBJ_ENTRY  DefCiA402PrmObjDic[PRM_SERVO_OBJW_INX_MAX_NUM] =
    /* Object 0x2011 */
    {0x2011, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2011, aName0x2011, NULL, NULL, NULL, TID_CCTL_PRM_ID32_ADR},
     /* Object 0x2012 */
-   {0x2012, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2012, aName0x2012, NULL, NULL, NULL, TIQ_CCTL_PRM_ID32_ADR}
+   {0x2012, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2012, aName0x2012, NULL, NULL, NULL, TIQ_CCTL_PRM_ID32_ADR},
+    /* Object 0x2013 */
+   {0x2013, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2013, aName0x2013, NULL, NULL, NULL, LINE_NUM_ENC_PRM_ID32_ADR},
+    /* Object 0x2014 */
+   {0x2014, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2014, aName0x2014, NULL, NULL, NULL, FNV_FST_VCTL_PRM_ID32_ADR},
+    /* Object 0x2015 */
+   {0x2015, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2015, aName0x2015, NULL, NULL, NULL, TIV_FST_VCTL_PRM_ID32_ADR},
+    /* Object 0x2016 */
+   {0x2016, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2016, aName0x2016, NULL, NULL, NULL, FNV_SEC_VCTL_PRM_ID32_ADR},
+    /* Object 0x2017 */
+   {0x2017, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2017, aName0x2017, NULL, NULL, NULL, TIV_SEC_VCTL_PRM_ID32_ADR},
+    /* Object 0x2018 */
+   {0x2018, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2018, aName0x2018, NULL, NULL, NULL, TS_VCTL_PRM_ID32_ADR},
+    /* Object 0x2019 */
+   {0x2019, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2019, aName0x2019, NULL, NULL, NULL, TF_RMP_VCTL_PRM_ID32_ADR},
+    /* Object 0x201a */
+   {0x201a, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x201a, aName0x201a, NULL, NULL, NULL, CFG_OPT_ALL_PRM_ID32_ADR},
+    /* Object 0x201b */
+   {0x201b, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x201b, aName0x201b, NULL, NULL, NULL, ABS_RAT_TQR_LIM_VCTL_PRM_ID16_ADR},
+    /* Object 0x201c */
+   {0x201c, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x201c, aName0x201c, NULL, NULL, NULL, POS_RAT_TQR_LIM_VCTL_PRM_ID16_ADR},
+    /* Object 0x201d */
+   {0x201d, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x201d, aName0x201d, NULL, NULL, NULL, NEG_RAT_TQR_LIM_VCTL_PRM_ID16_ADR},
 };
 /*ECATCHANGE_END(V5.11) COE1*/
 //#############################################################################################################################
@@ -100,8 +122,30 @@ TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM]  =
     /* Object 0x3014 */
     {0x3014, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3014, aName0x3014, NULL, NULL, NULL, NULL},
     /* Object 0x3015 */
-    {0x3015, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3015, aName0x3015, NULL, NULL, NULL, NULL}
+    {0x3015, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3015, aName0x3015, NULL, NULL, NULL, NULL},
+    /* Object 0x3016 */
+    {0x3016, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3016, aName0x3016, NULL, NULL, NULL, NULL},
+    /* Object 0x3017 */
+    {0x3017, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3017, aName0x3017, NULL, NULL, NULL, NULL},
+    /* Object 0x3018 */
+    {0x3018, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3018, aName0x3018, NULL, NULL, NULL, NULL},
+    /* Object 0x3019 */
+    {0x3019, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3019, aName0x3019, NULL, NULL, NULL, NULL},
+    /* Object 0x301a */
+    {0x301a, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x301a, aName0x301a, NULL, NULL, NULL, NULL},
+    /* Object 0x301b */
+    {0x301b, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x301b, aName0x301b, NULL, NULL, NULL, NULL},
+    /* Object 0x301c */
+    {0x301c, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x301c, aName0x301c, NULL, NULL, NULL, NULL},
+    /* Object 0x301d */
+    {0x301d, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x301d, aName0x301d, NULL, NULL, NULL, NULL},
+    /* Object 0x301e */
+    {0x301e, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x301e, aName0x301e, NULL, NULL, NULL, NULL},
+    /* Object 0x301f */
+    {0x301f, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x301f, aName0x301f, NULL, NULL, NULL, NULL},
 };
+
+
 
 
 void    CpiInitCiA402PrmObjPtr(void)
@@ -129,37 +173,65 @@ void    CpiInitCiA402PrmObjPtr(void)
     DefCiA402PrmObjDic[TID_CCTL_PRM_ID32_OBJW_2011H].pVarPtr                =   ((void *)(&gSevDrv.obj.cur.prm.curr_ctl_Tid));
     DefCiA402PrmObjDic[TIQ_CCTL_PRM_ID32_OBJW_2012H].pVarPtr                =   ((void *)(&gSevDrv.obj.cur.prm.curr_ctl_Tiq));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[LINE_NUM_ENC_PRM_ID32_OBJW_2013H].pVarPtr            =   ((void *)(&gSevDrv.obj.sens.prm.enc_line_num));                                 // line number of encoder in one circle | unit[pulse]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[FNV_FST_VCTL_PRM_ID32_OBJW_2014H].pVarPtr            =   ((void *)(&gSevDrv.obj.vel.prm.fnv_fst));                                       // velocity loop gain band width | unit[0.1Hz]
+    DefCiA402PrmObjDic[TIV_FST_VCTL_PRM_ID32_OBJW_2015H].pVarPtr            =   ((void *)(&gSevDrv.obj.vel.prm.tiv_fst));                                       // velocity loop integral time constant | unit[0.01ms]
+    DefCiA402PrmObjDic[FNV_SEC_VCTL_PRM_ID32_OBJW_2016H].pVarPtr            =   ((void *)(&gSevDrv.obj.vel.prm.fnv_sec));                                       // the second velocity loop gain bandwidth | unit[0.1Hz]
+    DefCiA402PrmObjDic[TIV_SEC_VCTL_PRM_ID32_OBJW_2017H].pVarPtr            =   ((void *)(&gSevDrv.obj.vel.prm.tiv_sec));                                 // the second velocity loop integral time constant | unit[0.01ms]
+    DefCiA402PrmObjDic[TS_VCTL_PRM_ID32_OBJW_2018H].pVarPtr                 =   ((void *)(&gSevDrv.obj.vel.prm.ts));                                            // velocity loop sample times | unit[ns]
+
+    DefCiA402PrmObjDic[TF_RMP_VCTL_PRM_ID32_OBJW_2019H].pVarPtr             =   ((void *)(&gSevDrv.obj.vel.prm.tf_rmp));                                        // ramp time constant of velocity command | unit[ms]
+    DefCiA402PrmObjDic[CFG_OPT_ALL_PRM_ID32_OBJW_201AH].pVarPtr             =   ((void *)(&gSevDrv.obj.vel.prm.cfg_opt.all));                                   // velocity control config option
+
+    DefCiA402PrmObjDic[ABS_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201BH].pVarPtr    =   ((void *)(&gSevDrv.obj.vel.prm.abs_rat));                                       // max torque limit rate | unit[Q12]
+    DefCiA402PrmObjDic[POS_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201CH].pVarPtr    =   ((void *)(&gSevDrv.obj.vel.prm.pos_rat));                                       // positive tqrque limit rate | unit[Q12]
+    DefCiA402PrmObjDic[NEG_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201DH].pVarPtr    =   ((void *)(&gSevDrv.obj.vel.prm.neg_rat));                                       // negative tqrque limit rate | unit[Q12]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void    CpiInitCiA402VarObjPtr(void)
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    DefCiA402VarObjDic[ID_CCTL_VAR_OBJW_3000H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.id));        // d axis current feedback
-    DefCiA402VarObjDic[IQ_CCTL_VAR_OBJW_3001H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.iq));                                      // q axis current feedback
-    DefCiA402VarObjDic[ID_REF_CCTL_VAR_OBJW_3002H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.id_ref));                                      // d axis current reference
-    DefCiA402VarObjDic[IQ_REF_CCTL_VAR_OBJW_3003H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.iq_ref));                                      // q axis current reference
+    DefCiA402VarObjDic[ID_CCTL_VAR_OBJW_3000H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.id));                                                // d axis current feedback
+    DefCiA402VarObjDic[IQ_CCTL_VAR_OBJW_3001H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.iq));                                                // q axis current feedback
+    DefCiA402VarObjDic[ID_REF_CCTL_VAR_OBJW_3002H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.id_ref));                                            // d axis current reference
+    DefCiA402VarObjDic[IQ_REF_CCTL_VAR_OBJW_3003H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.iq_ref));                                            // q axis current reference
 
-    DefCiA402VarObjDic[ID_ERR_CCTL_VAR_OBJW_3004H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.id_err));                                      // d axis current control error
-    DefCiA402VarObjDic[IQ_ERR_CCTL_VAR_OBJW_3005H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.iq_err));                                      // q axis current control error
-    DefCiA402VarObjDic[UD_CCTL_VAR_OBJW_3006H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ud));                                      // d axis voltage output
-    DefCiA402VarObjDic[UQ_CCTL_VAR_OBJW_3007H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.uq));                                      // q axis voltage output
+    DefCiA402VarObjDic[ID_ERR_CCTL_VAR_OBJW_3004H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.id_err));                                            // d axis current control error
+    DefCiA402VarObjDic[IQ_ERR_CCTL_VAR_OBJW_3005H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.iq_err));                                            // q axis current control error
+    DefCiA402VarObjDic[UD_CCTL_VAR_OBJW_3006H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ud));                                                // d axis voltage output
+    DefCiA402VarObjDic[UQ_CCTL_VAR_OBJW_3007H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.uq));                                                // q axis voltage output
 
-    DefCiA402VarObjDic[ID_S_CCTL_VAR_OBJW_3008H].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.id_s));                                      // sum of d axis control output
-    DefCiA402VarObjDic[IQ_S_CCTL_VAR_OBJW_3009H].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.iq_s));                                      // sum of q axis control output
-    DefCiA402VarObjDic[IDI_S_CCTL_VAR_OBJW_300AH].pVarPtr                   =   ((void *)(&gSevDrv.obj.cur.idi_s));                                     // sum of d axis error integral
-    DefCiA402VarObjDic[IQI_S_CCTL_VAR_OBJW_300BH].pVarPtr                   =   ((void *)(&gSevDrv.obj.cur.iqi_s));                                     // sum of q axis error integral
+    DefCiA402VarObjDic[ID_S_CCTL_VAR_OBJW_3008H].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.id_s));                                              // sum of d axis control output
+    DefCiA402VarObjDic[IQ_S_CCTL_VAR_OBJW_3009H].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.iq_s));                                              // sum of q axis control output
+    DefCiA402VarObjDic[IDI_S_CCTL_VAR_OBJW_300AH].pVarPtr                   =   ((void *)(&gSevDrv.obj.cur.idi_s));                                             // sum of d axis error integral
+    DefCiA402VarObjDic[IQI_S_CCTL_VAR_OBJW_300BH].pVarPtr                   =   ((void *)(&gSevDrv.obj.cur.iqi_s));                                             // sum of q axis error integral
 
-    DefCiA402VarObjDic[PHIM_CCTL_VAR_OBJW_300CH].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.phim));                                     // mechancal angel rad
-    DefCiA402VarObjDic[PHIE_CCTL_VAR_OBJW_300DH].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.phie));                                     // electrical angel rad
-    DefCiA402VarObjDic[IA_CCTL_VAR_OBJW_300EH].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ia));                                     // a phase current input
-    DefCiA402VarObjDic[IB_CCTL_VAR_OBJW_300FH].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ib));                                     // b phase current input
-    DefCiA402VarObjDic[IC_CCTL_VAR_OBJW_3010H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ic));                                     // c phase current input
+    DefCiA402VarObjDic[PHIM_CCTL_VAR_OBJW_300CH].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.phim));                                              // mechancal angel rad
+    DefCiA402VarObjDic[PHIE_CCTL_VAR_OBJW_300DH].pVarPtr                    =   ((void *)(&gSevDrv.obj.cur.phie));                                              // electrical angel rad
+    DefCiA402VarObjDic[IA_CCTL_VAR_OBJW_300EH].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ia));                                                // a phase current input
+    DefCiA402VarObjDic[IB_CCTL_VAR_OBJW_300FH].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ib));                                                // b phase current input
+    DefCiA402VarObjDic[IC_CCTL_VAR_OBJW_3010H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ic));                                                // c phase current input
 
-    DefCiA402VarObjDic[UA_CCTL_VAR_OBJW_3011H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ua));                                     // a phase voltage output
-    DefCiA402VarObjDic[UB_CCTL_VAR_OBJW_3012H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ub));                                     // b phase voltage output
-    DefCiA402VarObjDic[UC_CCTL_VAR_OBJW_3013H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.uc));                                     // c phase voltage output
-    DefCiA402VarObjDic[UD_REF_CCTL_VAR_OBJW_3014H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.ud_ref));                                     // d axis voltage reference
-    DefCiA402VarObjDic[UQ_REF_CCTL_VAR_OBJW_3015H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.uq_ref));                                     // q axis voltage reference
+    DefCiA402VarObjDic[UA_CCTL_VAR_OBJW_3011H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ua));                                                // a phase voltage output
+    DefCiA402VarObjDic[UB_CCTL_VAR_OBJW_3012H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.ub));                                                // b phase voltage output
+    DefCiA402VarObjDic[UC_CCTL_VAR_OBJW_3013H].pVarPtr                      =   ((void *)(&gSevDrv.obj.cur.uc));                                                // c phase voltage output
+    DefCiA402VarObjDic[UD_REF_CCTL_VAR_OBJW_3014H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.ud_ref));                                            // d axis voltage reference
+    DefCiA402VarObjDic[UQ_REF_CCTL_VAR_OBJW_3015H].pVarPtr                  =   ((void *)(&gSevDrv.obj.cur.uq_ref));                                            // q axis voltage reference
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402VarObjDic[MOT_SPD_SENS_VAR_OBJW_3016H].pVarPtr                 =   ((void *)(&gSevDrv.obj.sens.mot_spd));
+    DefCiA402VarObjDic[POS_IN_SENS_VAR_OBJW_3017H].pVarPtr                  =   ((void *)(&gSevDrv.obj.sens.pos_in));
+
+    DefCiA402VarObjDic[SPD_FB_VCTL_VAR_OBJW_3018H].pVarPtr                  =   ((void *)(&gSevDrv.obj.vel.spd_fb));
+    DefCiA402VarObjDic[SPD_REF_VCTL_VAR_OBJW_3019H].pVarPtr                 =   ((void *)(&gSevDrv.obj.vel.spd_ref));
+    DefCiA402VarObjDic[SPD_ERR_VCTL_VAR_OBJW_301AH].pVarPtr                 =   ((void *)(&gSevDrv.obj.vel.spd_err));
+
+    DefCiA402VarObjDic[XWKP_VCTL_VAR_OBJW_301BH].pVarPtr                    =   ((void *)(&gSevDrv.obj.vel.xwkp));
+    DefCiA402VarObjDic[XWKI_VCTL_VAR_OBJW_301CH].pVarPtr                    =   ((void *)(&gSevDrv.obj.vel.xwki));
+    DefCiA402VarObjDic[TQR_VCTL_VAR_OBJW_301DH].pVarPtr                     =   ((void *)(&gSevDrv.obj.vel.tqr));
+    DefCiA402VarObjDic[IQR_VCTL_VAR_OBJW_301EH].pVarPtr                     =   ((void *)(&gSevDrv.obj.vel.iqr));
+    DefCiA402VarObjDic[VELR_RAMP_IN_OBJW_301FH].pVarPtr                     =   ((void *)(&gSevDrv.obj.vel.velr_ramp_in));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -200,10 +272,20 @@ int16   CpiReadRamPrmByDicInx(Uint16 inx, double * m_data)
 int16   CpiReadRamVarByDicInx(Uint16 inx, double * m_data)
 {
    double  dtmp;
+   Uint32  lutmp;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
    if (inx  < VAR_SERVO_OBJW_INX_MAX_NUM)
    {
-       dtmp                         =   *((double *)(DefCiA402VarObjDic[inx].pVarPtr));
+       if (DefCiA402VarObjDic[inx].ObjDesc.DataType == DEFTYPE_UNSIGNED32)
+       {
+            lutmp                   =   *((Uint32 *)(DefCiA402VarObjDic[inx].pVarPtr));
+            dtmp                    =   lutmp;
+       }
+       else
+       {
+            dtmp                    =   *((double *)(DefCiA402VarObjDic[inx].pVarPtr));
+       }
+
        *m_data                      =   dtmp;
        return  TRUE;
    }

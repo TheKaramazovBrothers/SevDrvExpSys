@@ -183,22 +183,40 @@ typedef enum
     TID_CCTL_PRM_ID32_OBJW_2011H                =   17,                                     // d axis integral time constant | unit[us]
     TIQ_CCTL_PRM_ID32_OBJW_2012H                =   18,                                     // q axis integral time constant | unit[us]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    LINE_NUM_ENC_PRM_ID32_OBJW_2013H            =   19,                                     // line number of encoder in one circle | unit[pulse]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FNV_FST_VCTL_PRM_ID32_OBJW_2014H            =   20,                                     // velocity loop gain band width | unit[0.1Hz]
+    TIV_FST_VCTL_PRM_ID32_OBJW_2015H            =   21,                                     // velocity loop integral time constant | unit[0.01ms]
+    FNV_SEC_VCTL_PRM_ID32_OBJW_2016H            =   22,                                     // the second velocity loop gain bandwidth | unit[0.1Hz]
+    TIV_SEC_VCTL_PRM_ID32_OBJW_2017H            =   23,                                     // the second velocity loop integral time constant | unit[0.01ms]
+    TS_VCTL_PRM_ID32_OBJW_2018H                 =   24,                                     // velocity loop sample times | unit[ns]
+
+    TF_RMP_VCTL_PRM_ID32_OBJW_2019H             =   25,                                     // ramp time constant of velocity command | unit[ms]
+    CFG_OPT_ALL_PRM_ID32_OBJW_201AH             =   26,                                     // velocity control config option
+
+    ABS_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201BH    =   27,                                     // max torque limit rate | unit[Q12]
+    POS_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201CH    =   28,                                     // positive tqrque limit rate | unit[Q12]
+    NEG_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201DH    =   29,                                     // negative tqrque limit rate | unit[Q12]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
+
+
+
 
 //#############################################################################################################################
 typedef enum
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    ID_CCTL_VAR_OBJW_3000H                      =   0,                                      // d axis current feedback
-    IQ_CCTL_VAR_OBJW_3001H                      =   1,                                      // q axis current feedback
-    ID_REF_CCTL_VAR_OBJW_3002H                  =   2,                                      // d axis current reference
-    IQ_REF_CCTL_VAR_OBJW_3003H                  =   3,                                      // q axis current reference
+    ID_CCTL_VAR_OBJW_3000H                      =   0,                                      // d axis current feedback | unit[A]
+    IQ_CCTL_VAR_OBJW_3001H                      =   1,                                      // q axis current feedback | unit[A]
+    ID_REF_CCTL_VAR_OBJW_3002H                  =   2,                                      // d axis current reference | unit[A]
+    IQ_REF_CCTL_VAR_OBJW_3003H                  =   3,                                      // q axis current reference | unit[A]
 
-    ID_ERR_CCTL_VAR_OBJW_3004H                  =   4,                                      // d axis current control error
-    IQ_ERR_CCTL_VAR_OBJW_3005H                  =   5,                                      // q axis current control error
-    UD_CCTL_VAR_OBJW_3006H                      =   6,                                      // d axis voltage output
-    UQ_CCTL_VAR_OBJW_3007H                      =   7,                                      // q axis voltage output
+    ID_ERR_CCTL_VAR_OBJW_3004H                  =   4,                                      // d axis current control error | unit[A]
+    IQ_ERR_CCTL_VAR_OBJW_3005H                  =   5,                                      // q axis current control error | unit[A]
+    UD_CCTL_VAR_OBJW_3006H                      =   6,                                      // d axis voltage output | unit[V]
+    UQ_CCTL_VAR_OBJW_3007H                      =   7,                                      // q axis voltage output | unit[V]
 
     ID_S_CCTL_VAR_OBJW_3008H                    =   8,                                      // sum of d axis control output
     IQ_S_CCTL_VAR_OBJW_3009H                    =   9,                                      // sum of q axis control output
@@ -207,18 +225,31 @@ typedef enum
 
     PHIM_CCTL_VAR_OBJW_300CH                    =   12,                                     // mechancal angel rad
     PHIE_CCTL_VAR_OBJW_300DH                    =   13,                                     // electrical angel rad
-    IA_CCTL_VAR_OBJW_300EH                      =   14,                                     // a phase current input
-    IB_CCTL_VAR_OBJW_300FH                      =   15,                                     // b phase current input
-    IC_CCTL_VAR_OBJW_3010H                      =   16,                                     // c phase current input
+    IA_CCTL_VAR_OBJW_300EH                      =   14,                                     // a phase current input | unit[A]
+    IB_CCTL_VAR_OBJW_300FH                      =   15,                                     // b phase current input | unit[A]
+    IC_CCTL_VAR_OBJW_3010H                      =   16,                                     // c phase current input | unit[A]
 
-    UA_CCTL_VAR_OBJW_3011H                      =   17,                                     // a phase voltage output
-    UB_CCTL_VAR_OBJW_3012H                      =   18,                                     // b phase voltage output
-    UC_CCTL_VAR_OBJW_3013H                      =   19,                                     // c phase voltage output
-    UD_REF_CCTL_VAR_OBJW_3014H                  =   20,                                     // d axis voltage reference
-    UQ_REF_CCTL_VAR_OBJW_3015H                  =   21,                                     // q axis voltage reference
+    UA_CCTL_VAR_OBJW_3011H                      =   17,                                     // a phase voltage output | unit[V]
+    UB_CCTL_VAR_OBJW_3012H                      =   18,                                     // b phase voltage output | unit[V]
+    UC_CCTL_VAR_OBJW_3013H                      =   19,                                     // c phase voltage output | unit[V]
+    UD_REF_CCTL_VAR_OBJW_3014H                  =   20,                                     // d axis voltage reference | unit[V]
+    UQ_REF_CCTL_VAR_OBJW_3015H                  =   21,                                     // q axis voltage reference | unit[V]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    MOT_SPD_SENS_VAR_OBJW_3016H                 =   22,                                     // motor speed | unit[rad/s]
+    POS_IN_SENS_VAR_OBJW_3017H                  =   23,                                     // encoder position input | unit[pulse]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    SPD_FB_VCTL_VAR_OBJW_3018H                  =   24,                                     // motor speed feedback | unit[rad/s]
+    SPD_REF_VCTL_VAR_OBJW_3019H                 =   25,                                     // motor speed reference | unit[rad/s]
+    SPD_ERR_VCTL_VAR_OBJW_301AH                 =   26,                                     // speed control error | unit[rad/s]
+    XWKP_VCTL_VAR_OBJW_301BH                    =   27,                                     // proportional accumulation value
+    XWKI_VCTL_VAR_OBJW_301CH                    =   28,                                     // intergral accumulation value
+    TQR_VCTL_VAR_OBJW_301DH                     =   29,                                     // torque command output | unit[Nm]
+    IQR_VCTL_VAR_OBJW_301EH                     =   30,                                     // q axis current command output | unit[A]
+    VELR_RAMP_IN_OBJW_301FH                     =   31,                                     // ramp input variable of velocity reference | unit[rad/s]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
+
 
 //#############################################################################################################################
 // parameter entry discription
@@ -272,13 +303,13 @@ const   Uint8   aName0x2008[] = "Continued speed rated value |  unit[RPM]";
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x2009 Over speed unit(max speed) entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x2009 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x2009 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 /** \brief Object 0x2009 */
 const   Uint8   aName0x2009[] = "Over speed unit(max speed) | unit[RPM]";
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200A Motor rated torque entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x200A = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x200A = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 /** \brief Object 0x200A */
 const   Uint8   aName0x200A[] = "Motor rated torque | unit[0.001 N.m]";
 
@@ -286,49 +317,117 @@ const   Uint8   aName0x200A[] = "Motor rated torque | unit[0.001 N.m]";
 /** \brief Object 0x200B */
 const   Uint8   aName0x200B[] = "EMF constant | unit[0.1mV/r/min]";
 /** \brief Object 0x200B EMF constant*/
-const   TSDOINFOENTRYDESC sEntryDesc0x200B = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x200B = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200C */
 const   Uint8   aName0x200C[] = " Motor d axis reactive inductance | unit[0.001mH]";
 /** \brief Object 0x200C Motor d axis reactive resistance entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x200C = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x200C = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200D */
 const   Uint8   aName0x200D[] = "Motor q axis reactive inductance | unit[0.001mH]";
 /** \brief Object 0x200D  Motor q axis reactive resistance entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x200D = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x200D = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200E */
 const   Uint8   aName0x200E[] = "Motor rotate winding resistance | unit[1 m ohm]";
 /** \brief Object 0x200E  Motor rotate winding resistance entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x200E = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x200E = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200F */
 const   Uint8   aName0x200F[] = "Rotary inertia of motor | unit[10^-6 kg.m^2]";
 /** \brief Object 0x200F  Rotary inertia of motor entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x200F = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x200F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x2010 */
 const   Uint8   aName0x2010[] = "Digital control sample periods | unit[1ns]";
 /** \brief Object 0x2010  Digital control sample periods entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x2010 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x2010 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x2011 */
 const   Uint8   aName0x2011[] = "D axis integral time constant | unit[us]";
 /** \brief Object 0x2011  D axis integral time constant  entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x2011 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x2011 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x2012 */
 const   Uint8   aName0x2012[] = "Q axis integral time constant | unit[us]";
 /** \brief Object 0x2012  Q axis integral time constant entry description*/
-const   TSDOINFOENTRYDESC sEntryDesc0x2012 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x2012 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2013 */
+const   Uint8   aName0x2013[] = "line number of encoder in one circle | unit[pulse]";
+/** \brief Object 0x2013  line number of encoder in one circle | unit[pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2013 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2014 */
+const   Uint8   aName0x2014[] = "velocity loop gain band width | unit[0.1Hz]";
+/** \brief Object 0x2014  // velocity loop gain band width | unit[0.1Hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2014 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2015 */
+const   Uint8   aName0x2015[] = "velocity loop integral time constant | unit[0.01ms]";
+/** \brief Object 0x2015  velocity loop integral time constant | unit[0.01ms]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2015 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2016 */
+const   Uint8   aName0x2016[] = "the second velocity loop gain bandwidth | unit[0.1Hz]";
+/** \brief Object 0x2016  the second velocity loop gain bandwidth | unit[0.1Hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2016 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2017 */
+const   Uint8   aName0x2017[] = "the second velocity loop integral time constant | unit[0.01ms]";
+/** \brief Object 0x2017  the second velocity loop integral time constant | unit[0.01ms]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2017 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2018 */
+const   Uint8   aName0x2018[] = "velocity loop sample times | unit[ns]";
+/** \brief Object 0x2018  velocity loop sample times | unit[ns]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2018 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2019 */
+const   Uint8   aName0x2019[] = "ramp time constant of velocity command | unit[ms]";
+/** \brief Object 0x2019  ramp time constant of velocity command | unit[ms]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2019 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x201a */
+const   Uint8   aName0x201a[] = "velocity control config option";
+/** \brief Object 0x201a  velocity control config option*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201a = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x201b */
+const   Uint8   aName0x201b[] = "max torque limit rate | unit[Q12]";
+/** \brief Object 0x201b  max torque limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201b = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x201c */
+const   Uint8   aName0x201c[] = "positive tqrque limit rate | unit[Q12]";
+/** \brief Object 0x201c  positive tqrque limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201c = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x201d */
+const   Uint8   aName0x201d[] = "negative tqrque limit rate | unit[Q12]";
+/** \brief Object 0x201d  positive tqrque limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201d = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+
 
 
 //#############################################################################################################################
@@ -442,6 +541,60 @@ const   TSDOINFOENTRYDESC sEntryDesc0x3014 = {DEFTYPE_REAL64, 0x40, ACCESS_READW
 const   Uint8   aName0x3015[] = "q axis voltage reference";
 /** \brief Object 0x3015 q axis voltage reference*/
 const   TSDOINFOENTRYDESC sEntryDesc0x3015 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3016[] = "motor speed | unit[rad/s]";
+/** \brief Object motor speed | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3016 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3017[] = "encoder position input | unit[pulse]";
+/** \brief Object 0x3017 encoder position input | unit[pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3017 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3018[] = "motor speed feedback | unit[rad/s]";
+/** \brief Object 0x3018 motor speed feedback | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3018 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3019[] = "motor speed reference | unit[rad/s]";
+/** \brief Object 0x3019 motor speed reference | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3019 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x301a[] = "speed control error | unit[rad/s]";
+/** \brief Object 0x301a speed control error | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301a = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x301b[] = "proportional accumulation value";
+/** \brief Object 0x301b proportional accumulation value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301b = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x301c[] = "intergral accumulation value";
+/** \brief Object 0x301c intergral accumulation value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301c = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x301d[] = "torque command output | unit[Nm]";
+/** \brief Object 0x301d torque command output | unit[Nm]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301d = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x301e[] = "q axis current command output | unit[A]";
+/** \brief Object 0x301e q axis current command output | unit[A]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301e = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x301f[] = "ramp input variable of velocity reference | unit[rad/s]";
+/** \brief Object 0x301f ramp input variable of velocity reference | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301f = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
 //#############################################################################################################################
 // function interface define
 void    CpiInitCiA402PrmObjPtr(void);

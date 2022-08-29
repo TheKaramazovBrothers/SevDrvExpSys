@@ -318,6 +318,15 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
             color_tmp                           =   tableWidget_plot_curve->item(i,0)->textColor();
             this->plot->graph(i)->setPen(QPen(color_tmp));
 
+            if (wave_vis_tab[i] == true)
+            {
+                plot->graph(i)->setVisible(true);
+            }
+            else
+            {
+                plot->graph(i)->setVisible(false);
+            }
+
             Uint16 inx_tmp = 0;
             bool    en_ok   =   true;
             inx_tmp         =   tableWidget_plot_curve->item(i, 0)->text().toInt(&en_ok,16) - 0x3000;

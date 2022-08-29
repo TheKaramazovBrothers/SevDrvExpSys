@@ -107,7 +107,6 @@ typedef struct curr_ctl
 }CURR_CTL;
 
 
-int16   KpiInitCurrCtlPrm(CURR_CTL_PRM * m_prm);
 int16   KpiInitCurrCtlModule(CURR_CTL * m_ctl);
 int16   KpiInitCurrCtlVar(CURR_CTL * m_ctl);
 

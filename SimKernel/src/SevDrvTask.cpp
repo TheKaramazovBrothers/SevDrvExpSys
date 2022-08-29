@@ -449,15 +449,40 @@ void	TpiInitCurrCloseLoopDrv(SERVO_DRV * m_drv)                                 
 void	TpiVelCloseLoopDrv(SERVO_DRV * m_drv)                                               // VCLD task routine
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    double  idr_tmp, iqr_tmp;
+    double  ua_tmp, ub_tmp, uc_tmp;
+
+    idr_tmp     =   m_drv->obj.seq.idr_out;
+    iqr_tmp     =   m_drv->obj.vel.iqr;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    KpiGetCurrLoopFb(&m_drv->obj.cur, &m_drv->obj.sens.ia, &m_drv->obj.sens.ib, &m_drv->obj.sens.ic, &m_drv->obj.sens.phim);
+
+    KpiGetCurrLootRef(&m_drv->obj.cur, &idr_tmp, &iqr_tmp);
+
+    KpiCurrCtlLoopUpdate(&m_drv->obj.cur);
+
+    KpiSetCurrLoopOut(&m_drv->obj.cur, &ua_tmp, &ub_tmp, &uc_tmp);
+
+    KpiThreeVoltageOutput(&ua_tmp, &ub_tmp, &uc_tmp);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void	TpiVelCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                           // VCLD task routine 2
 {
+    double  spdr_tmp, spdf_tmp, tqrp_tmp;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    spdr_tmp            =   m_drv->obj.seq.spdr_out;
+    spdf_tmp            =   m_drv->obj.sens.mot_spd;
+    tqrp_tmp            =   0;
+
+    KpiVelCloseLoopCtrl(&m_drv->obj.vel, &spdr_tmp, &spdf_tmp, &tqrp_tmp);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void	TpiInitVelCloseLoopDrv(SERVO_DRV * m_drv)                                           // initialize VCLD task routine
 {
+    KpiInitCurrCtlVar(&m_drv->obj.cur);
+    KpiInitVelLoopVar(&m_drv->obj.vel);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 

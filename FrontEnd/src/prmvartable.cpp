@@ -227,7 +227,7 @@ void SevPrmFlashTable::OnTableCellChanged(int row, int column)
 
         if (str != item(row,column)->text())
         {
-            item(row,column)->setBackgroundColor(Qt::red);
+            item(row,column)->setBackgroundColor(Qt::yellow);
         }
         else
         {

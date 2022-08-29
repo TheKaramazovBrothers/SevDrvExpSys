@@ -1,0 +1,14 @@
+#
+*.obj
+*.exe
+*.out
+
+#
+debug/
+release/
+*.Debug
+*.Release
+ui_*.h
+
+/Makefile
+/SevDrvExpSys.pro.user

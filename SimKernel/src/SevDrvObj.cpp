@@ -19,6 +19,7 @@ int16   TpiInitServoObjModule(SERVO_OBJ * m_obj)
     KpiInitCurrCtlModule(&m_obj->cur);
     KpiInitSensMeasModule(&m_obj->sens);
     KpiInitSeqCtlModule(&m_obj->seq);
+    KpiInitVelLoopModule(&m_obj->vel);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     return  TRUE;
 }

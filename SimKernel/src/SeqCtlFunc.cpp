@@ -139,6 +139,13 @@ int16	KpiSeqBackGroundRout(SEQ_CTL * m_ctl, void * m_drv)
             p_drv->task.cmd_id                      =   CCLD;
             break;
         }
+        case    VCLD_SEQ_WORK:
+        {
+            m_ctl->spdr_out                         =   m_ctl->spdr_tmp;
+            m_ctl->idr_out                          =   0;
+            p_drv->task.cmd_id                      =   VCLD;
+            break;
+        }
         default:
         {
             p_drv->task.cmd_id                      =   IDLE;
