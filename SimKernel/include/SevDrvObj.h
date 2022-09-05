@@ -17,9 +17,10 @@
 #include "DspCpu.h"
 #include "CurrCtlLoop.h"
 #include "VelCtlLoop.h"
+#include "PosCtlLoop.h"
 #include "SevDrvMeas.h"
 #include "SeqCtlFunc.h"
-
+#include "PosTrajProd.h"
 
 typedef		struct	servo_obj
 {
@@ -29,6 +30,8 @@ typedef		struct	servo_obj
     SENS_MEAS       sens;                                                       // sensor module
     SEQ_CTL         seq;                                                        // sequence control
     VEL_CTL         vel;                                                        // velocity control module
+    POS_CTL         pos;                                                        // position control module
+    POS_TRAJ        ptrj;                                                       // position trajectory maker
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }SERVO_OBJ;
 

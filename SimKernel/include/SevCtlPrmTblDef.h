@@ -27,7 +27,7 @@
 
 #define		SEV_PRM_FROM_EX_MEM_EN			ENABLE
 
-#define     PI_CIRCULAR_CONSTANT            3.1415926
+#define     PI_CIRCULAR_CONSTANT            3.1415926535
 #define     PI2_CIRCULAR_CONSTANT          (2 * PI_CIRCULAR_CONSTANT)
 //#############################################################################################################################
 // parameter table enum define
@@ -45,8 +45,23 @@ typedef enum
     POS_RAT_TQR_LIM_VCTL_PRM_ID16_ADR       =   7,                                                          // positive tqrque limit rate | unit[Q12]
     NEG_RAT_TQR_LIM_VCTL_PRM_ID16_ADR       =   8,                                                          // negative tqrque limit rate | unit[Q12]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FNP_FST_PCTL_PRM_ID16_ADR               =   9,                                                          // position loop gain band width | unit[0.1Hz]
+    FNP_SEC_PCTL_PRM_ID16_ADR               =   10,                                                         // the second position loop gain bandwidth | unit[0.1Hz]
+
+    ABS_RAT_SPD_LIM_PCTL_PRM_ID16_ADR       =   11,                                                         // max velocity limit rate | unit[Q12]
+    POS_RAT_SPD_LIM_PCTL_PRM_ID16_ADR       =   12,                                                         // positive velocity limit rate | unit[Q12]
+    NEG_RAT_SPD_LIM_PCTL_PRM_ID16_ADR       =   13,                                                         // negative velocity limit rate | unit[Q12]
+    MAF_NUM_PCTL_PRM_ID16_ADR               =   14,                                                         // moving average filtering times | unit[scan]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    PSRC_SEL_SEQ_CTL_PRM_ID16_ADR           =   15,                                                         // position command source select
+    VSRC_SEL_SEQ_CTL_PRM_ID16_ADR           =   16,                                                         // velocity command source select
+    CSRC_SEL_SEQ_CTL_PRM_ID16_ADR           =   17,                                                         // current command source select
+    CMD_DIR_SEQ_CTL_PRM_ID16_ADR            =   18,                                                         // command direction of sequence control
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
+
+
 
 //#############################################################################################################################
 typedef enum
@@ -78,8 +93,22 @@ typedef enum
     TF_RMP_VCTL_PRM_ID32_ADR                =   19,                                                         // ramp time constant of velocity command | unit[ms]
     CFG_OPT_ALL_PRM_ID32_ADR                =   20,                                                         // velocity control config option
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    TS_POS_CTL_PRM_ID32_ADR                 =   21,                                                         // position loop sample times | unit[ns]
+    CFG_OPT_ALL_PCTL_PRM_ID32_ADR           =   22,                                                         // position control config option
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CFG_OPT_ALL_SEQ_CTL_PRM_ID32_ADR        =   23,                                                         // config option of sequence control
+
+    ROT_RES_POS_TRAJ_PRM_ID32_ADR           =   24,                                                         // rotation resolution | unit[pulse number/circle]
+    TS_POS_TRAJ_PRM_ID32_ADR                =   25,                                                         // position command maker sample times | unit[ns]
+
+    ACCRATE_POS_TRAJ_PRM_ID32_ADR           =   26,                                                         // acceleration of position command maker | unit[10000pulse/s/s]
+    DECRATE_POS_TRAJ_PRM_ID32_ADR           =   27,                                                         // deceleration of position command maker | unit[10000pulse/s/s]
+    MAXSPD_POS_TRAJ_PRM_ID32_ADR            =   28,                                                         // maximum velocity set for position trajectory maker | unit[RPM]
+    CFG_OPT_ALL_POS_TRAJ_PRM_ID32_ADR       =   29,                                                         // point position trajectory nest mask bit | 1/mask
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_DWORD_MAX_NUM
 }tPrmServoCtlId_DWORD;
+
 
 //#############################################################################################################################
 

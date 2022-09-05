@@ -198,10 +198,33 @@ typedef enum
     POS_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201CH    =   28,                                     // positive tqrque limit rate | unit[Q12]
     NEG_RAT_TQR_LIM_VCTL_PRM_ID16_OBJW_201DH    =   29,                                     // negative tqrque limit rate | unit[Q12]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    TS_POS_CTL_PRM_ID32_OBJW_201EH              =   30,                                     // position loop sample times | unit[ns]
+    CFG_OPT_ALL_PCTL_PRM_ID32_OBJW_201FH        =   31,                                     // position control config option
+
+    FNP_FST_PCTL_PRM_ID16_OBJW_2020H            =   32,                                     // position loop gain band width | unit[0.1Hz]
+    FNP_SEC_PCTL_PRM_ID16_OBJW_2021H            =   33,                                     // the second position loop gain bandwidth | unit[0.1Hz]
+
+    ABS_RAT_SPD_LIM_PCTL_PRM_ID16_OBJW_2022H    =   34,                                     // max velocity limit rate | unit[Q12]
+    POS_RAT_SPD_LIM_PCTL_PRM_ID16_OBJW_2023H    =   35,                                     // positive velocity limit rate | unit[Q12]
+    NEG_RAT_SPD_LIM_PCTL_PRM_ID16_OBJW_2024H    =   36,                                     // negative velocity limit rate | unit[Q12]
+    MAF_NUM_PCTL_PRM_ID16_OBJW_2025H            =   37,                                     // moving average filtering times | unit[scan]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    PSRC_SEL_SEQ_CTL_PRM_ID16_OBJW_2026H        =   38,                                     // position command source select
+    VSRC_SEL_SEQ_CTL_PRM_ID16_OBJW_2027H        =   39,                                     // velocity command source select
+    CSRC_SEL_SEQ_CTL_PRM_ID16_OBJW_2028H        =   40,                                     // current command source select
+    CMD_DIR_SEQ_CTL_PRM_ID16_OBJW_2029H         =   41,                                     // command direction of sequence control
+    CFG_OPT_ALL_SEQ_CTL_PRM_ID32_OBJW_202AH     =   42,                                     // config option of sequence control
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    ROT_RES_POS_TRAJ_PRM_ID32_OBJW_202BH        =   43,                                     // rotation resolution | unit[pulse number/circle]
+    TS_POS_TRAJ_PRM_ID32_OBJW_202CH             =   44,                                     // position command maker sample times | unit[ns]
+
+    ACCRATE_POS_TRAJ_PRM_ID32_OBJW_202DH        =   45,                                     // acceleration of position command maker | unit[10000pulse/s/s]
+    DECRATE_POS_TRAJ_PRM_ID32_OBJW_202EH        =   46,                                     // deceleration of position command maker | unit[10000pulse/s/s]
+    MAXSPD_POS_TRAJ_PRM_ID32_OBJW_202FH         =   47,                                     // maximum velocity set for position trajectory maker | unit[RPM]
+    CFG_OPT_ALL_POS_TRAJ_PRM_ID32_OBJW_2030H    =   48,                                     // point position trajectory nest mask bit | 1/mask
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
-
-
 
 
 //#############################################################################################################################
@@ -246,6 +269,46 @@ typedef enum
     TQR_VCTL_VAR_OBJW_301DH                     =   29,                                     // torque command output | unit[Nm]
     IQR_VCTL_VAR_OBJW_301EH                     =   30,                                     // q axis current command output | unit[A]
     VELR_RAMP_IN_OBJW_301FH                     =   31,                                     // ramp input variable of velocity reference | unit[rad/s]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    ACC_POS_REF_PCTL_VAR_OBJW_3020H             =   32,                                     // accumulate position command | unit[pulse]
+    ACC_POS_FB_PCTL_VAR_OBJW_3021H              =   33,                                     // accumulate position feedback | unit[pulse]
+    POS_ERR_PCTL_VAR_OBJW_3022H                 =   34,                                     // position control error | unit[pulse]
+
+    XWKP_PCTL_VAR_OBJW_3023H                    =   35,                                     // proportional accumulation value
+    SPDR_PCTL_VAR_OBJW_3024H                    =   36,                                     // position loop velocity command output | unit[rad/s]
+    TQRP_PCTL_VAR_OBJW_3025H                    =   37,                                     // torque feedforward command
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    MAF_IN_PCTL_VAR_OBJW_3026H                  =   38,                                     // input of moving average filtering
+    MAF_OUT_PCTL_VAR_OBJW_3027H                 =   39,                                     // output of moving average filtering
+    DPCMD_PCTL_VAR_OBJW_3028H                   =   40,                                     // delta position command
+    DPFB_PCTL_VAR_OBJW_3029H                    =   41,                                     // delta position feedback
+    SIG_POS_PCTL_VAR_OBJW_302AH                 =   42,                                     // singal circle encoder position
+    SIG_POS_LST_PCTL_VAR_OBJW_302BH             =   43,                                     // the last circle encoder position
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    IQR_OUT_SEQ_CTL_VAR_OBJW_302CH              =   44,                                     // q axis current command output of sequece control
+    SPDR_OUT_SEQ_CTL_VAR_OBJW_302DH             =   45,                                     // speed command output of sequence control
+    POSR_OUT_SEQ_CTL_VAR_OBJW_302EH             =   46,                                     // position command output of sequence control
+    POSR_OUT_LST_SEQ_CTL_VAR_OBJW_302FH         =   47,                                     // the last position command output of sequence control
+
+    DPCMP_IN_SEQ_CTL_VAR_OBJW_3030H             =   48,                                     // delta position command input of sequence control
+    DPCMP_OUT_SEQ_CTL_VAR_OBJW_3031H            =   49,                                     // delta position command output of sequence control
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    PTRAJ_SET_POS_TRAJ_VAR_OBJW_3032H           =   50,                                     // position command set value
+    PTRAJ_IN_POS_TRAJ_VAR_OBJW_3033H            =   51,                                     // position command input value
+    PTRAJ_OUT_POS_TRAJ_VAR_OBJW_3034H           =   52,                                     // position command output value
+    XQ0_POS_TRAJ_VAR_OBJW_3035H                 =   53,                                     // initialize position | unit[pulse]
+    XQ1_POS_TRAJ_VAR_OBJW_3036H                 =   54,                                     // finish position | unit [pulse]
+
+    XQ_REAL_POS_TRAJ_VAR_OBJW_3037H             =   55,                                     // real position | unit [pulse]
+    XQH_POS_TRAJ_VAR_OBJW_3038H                 =   56,                                     // increment positon between q0 to q1
+
+    XV0_POS_TRAJ_VAR_OBJW_3039H                 =   57,                                     // initialize velocity | unit[pulse/s]
+    XV1_POS_TRAJ_VAR_OBJW_303AH                 =   58,                                     // the max velocity can be reached | unit[pulse/s]
+    XV_REAL_POS_TRAJ_VAR_OBJW_303BH             =   59,                                     // real velocity command | unit[pule/s]
+
+    TREAL_POS_TRAJ_VAR_OBJW_303CH               =   60,                                     // current time | unit[s]
+    XACC_REAL_POS_TRAJ_VAR_OBJW_303DH           =   61,                                     // the real accelerate | unit[pulse/s/s]
+    FLAG_ALL_POS_TRAJ_VAR_OBJW_303EH            =   62,                                     // trajectory produce flag
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
@@ -405,29 +468,142 @@ const   TSDOINFOENTRYDESC sEntryDesc0x2019 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_R
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x201a */
-const   Uint8   aName0x201a[] = "velocity control config option";
-/** \brief Object 0x201a  velocity control config option*/
-const   TSDOINFOENTRYDESC sEntryDesc0x201a = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+const   Uint8   aName0x201A[] = "velocity control config option";
+/** \brief Object 0x201A  velocity control config option*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201A = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-/** \brief Object 0x201b */
-const   Uint8   aName0x201b[] = "max torque limit rate | unit[Q12]";
+/** \brief Object 0x201B */
+const   Uint8   aName0x201B[] = "max torque limit rate | unit[Q12]";
 /** \brief Object 0x201b  max torque limit rate | unit[Q12]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x201b = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+const   TSDOINFOENTRYDESC sEntryDesc0x201B = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-/** \brief Object 0x201c */
-const   Uint8   aName0x201c[] = "positive tqrque limit rate | unit[Q12]";
-/** \brief Object 0x201c  positive tqrque limit rate | unit[Q12]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x201c = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+/** \brief Object 0x201C */
+const   Uint8   aName0x201C[] = "positive tqrque limit rate | unit[Q12]";
+/** \brief Object 0x201C  positive tqrque limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201C = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-/** \brief Object 0x201d */
-const   Uint8   aName0x201d[] = "negative tqrque limit rate | unit[Q12]";
-/** \brief Object 0x201d  positive tqrque limit rate | unit[Q12]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x201d = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+/** \brief Object 0x201D */
+const   Uint8   aName0x201D[] = "negative tqrque limit rate | unit[Q12]";
+/** \brief Object 0x201D  positive tqrque limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201D = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x201E */
+const   Uint8   aName0x201E[] = "position loop sample times | unit[ns]";
+/** \brief Object 0x201E  position loop sample times | unit[ns]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201E = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x201F */
+const   Uint8   aName0x201F[] = "position control config option";
+/** \brief Object 0x201F  position control config option*/
+const   TSDOINFOENTRYDESC sEntryDesc0x201F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2020 */
+const   Uint8   aName0x2020[] = "position loop gain band width | unit[0.1Hz]";
+/** \brief Object 0x2020  position loop gain band width | unit[0.1Hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2020 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2021 */
+const   Uint8   aName0x2021[] = "the second position loop gain bandwidth | unit[0.1Hz]";
+/** \brief Object 0x2021  the second position loop gain bandwidth | unit[0.1Hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2021 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2022 */
+const   Uint8   aName0x2022[] = "max velocity limit rate | unit[Q12]";
+/** \brief Object 0x2022  max velocity limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2022 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2023 */
+const   Uint8   aName0x2023[] = "positive velocity limit rate | unit[Q12]";
+/** \brief Object 0x2023  positive velocity limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2023 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2024 */
+const   Uint8   aName0x2024[] = "negative velocity limit rate | unit[Q12]";
+/** \brief Object 0x2024  negative velocity limit rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2024 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2025 */
+const   Uint8   aName0x2025[] = "moving average filtering times | unit[scan]";
+/** \brief Object 0x2025  moving average filtering times | unit[scan]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2025 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2026 */
+const   Uint8   aName0x2026[] = "position command source select";
+/** \brief Object 0x2026  position command source select*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2026 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2027 */
+const   Uint8   aName0x2027[] = "velocity command source select";
+/** \brief Object 0x2027  velocity command source select*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2027 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2028 */
+const   Uint8   aName0x2028[] = "current command source select";
+/** \brief Object 0x2028  current command source select*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2028 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2029 */
+const   Uint8   aName0x2029[] = "command direction of sequence control";
+/** \brief Object 0x2029  command direction of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2029 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x202A */
+const   Uint8   aName0x202A[] = "config option of sequence control";
+/** \brief Object 0x202A  config option of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x202A = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x202B */
+const   Uint8   aName0x202B[] = "rotation resolution | unit[pulse number/circle]";
+/** \brief Object 0x202B  rotation resolution | unit[pulse number/circle]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x202B = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x202C */
+const   Uint8   aName0x202C[] = "position command maker sample times | unit[ns]";
+/** \brief Object 0x202C  position command maker sample times | unit[ns]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x202C = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x202D */
+const   Uint8   aName0x202D[] = "acceleration of position command maker | unit[10000pulse/s/s]";
+/** \brief Object 0x202D  acceleration of position command maker | unit[10000pulse/s/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x202D = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x202E */
+const   Uint8   aName0x202E[] = "deceleration of position command maker | unit[10000pulse/s/s]";
+/** \brief Object 0x202E  deceleration of position command maker | unit[10000pulse/s/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x202E = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x202F */
+const   Uint8   aName0x202F[] = "maximum velocity set for position trajectory maker | unit[RPM]";
+/** \brief Object 0x202F  maximum velocity set for position trajectory maker | unit[RPM]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x202F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2030 */
+const   Uint8   aName0x2030[] = "point position trajectory nest mask bit | 1/mask";
+/** \brief Object 0x2030  point position trajectory nest mask bit | 1/mask*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2030 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 
 //#############################################################################################################################
@@ -563,36 +739,192 @@ const   Uint8   aName0x3019[] = "motor speed reference | unit[rad/s]";
 const   TSDOINFOENTRYDESC sEntryDesc0x3019 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-const   Uint8   aName0x301a[] = "speed control error | unit[rad/s]";
-/** \brief Object 0x301a speed control error | unit[rad/s]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x301a = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x301A[] = "speed control error | unit[rad/s]";
+/** \brief Object 0x301A speed control error | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301A = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-const   Uint8   aName0x301b[] = "proportional accumulation value";
-/** \brief Object 0x301b proportional accumulation value*/
-const   TSDOINFOENTRYDESC sEntryDesc0x301b = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x301B[] = "proportional accumulation value";
+/** \brief Object 0x301B proportional accumulation value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301B = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-const   Uint8   aName0x301c[] = "intergral accumulation value";
-/** \brief Object 0x301c intergral accumulation value*/
-const   TSDOINFOENTRYDESC sEntryDesc0x301c = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x301C[] = "intergral accumulation value";
+/** \brief Object 0x301C intergral accumulation value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301C = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-const   Uint8   aName0x301d[] = "torque command output | unit[Nm]";
-/** \brief Object 0x301d torque command output | unit[Nm]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x301d = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x301D[] = "torque command output | unit[Nm]";
+/** \brief Object 0x301D torque command output | unit[Nm]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301D = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-const   Uint8   aName0x301e[] = "q axis current command output | unit[A]";
-/** \brief Object 0x301e q axis current command output | unit[A]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x301e = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x301E[] = "q axis current command output | unit[A]";
+/** \brief Object 0x301E q axis current command output | unit[A]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301E = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 
 //----------------------------------------------------------------------------------------------------------------------------
-const   Uint8   aName0x301f[] = "ramp input variable of velocity reference | unit[rad/s]";
-/** \brief Object 0x301f ramp input variable of velocity reference | unit[rad/s]*/
-const   TSDOINFOENTRYDESC sEntryDesc0x301f = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+const   Uint8   aName0x301F[] = "ramp input variable of velocity reference | unit[rad/s]";
+/** \brief Object 0x301F ramp input variable of velocity reference | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x301F = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3020[] = "accumulate position command | unit[pulse]";
+/** \brief Object 0x3020 accumulate position command | unit[pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3020 = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3021[] = "accumulate position feedback | unit[pulse]";
+/** \brief Object 0x3021 accumulate position feedback | unit[pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3021 = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3022[] = "position control error | unit[pulse]";
+/** \brief Object 0x3022 position control error | unit[pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3022 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3023[] = "proportional accumulation value of position control]";
+/** \brief Object 0x3023 proportional accumulation value of position control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3023 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3024[] = "position loop velocity command output | unit[rad/s]]";
+/** \brief Object 0x3024 position loop velocity command output | unit[rad/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3024 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3025[] = "torque feedforward command";
+/** \brief Object 0x3025 torque feedforward command*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3025 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3026[] = "input of moving average filtering";
+/** \brief Object 0x3026 input of moving average filtering*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3026 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3027[] = "output of moving average filtering";
+/** \brief Object 0x3027 output of moving average filtering*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3027 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3028[] = "delta position command";
+/** \brief Object 0x3028 delta position command*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3028 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3029[] = "delta position feedback";
+/** \brief Object 0x3029 delta position command*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3029 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x302A[] = "singal circle encoder position";
+/** \brief Object 0x302A singal circle encoder position*/
+const   TSDOINFOENTRYDESC sEntryDesc0x302A = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x302B[] = "the last circle encoder position";
+/** \brief Object 0x302B the last circle encoder position*/
+const   TSDOINFOENTRYDESC sEntryDesc0x302B = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x302C[] = "q axis current command output of sequece control";
+/** \brief Object 0x302C q axis current command output of sequece control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x302C = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x302D[] = "speed command output of sequence control";
+/** \brief Object 0x302D speed command output of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x302D = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x302E[] = "position command output of sequence control";
+/** \brief Object 0x302E position command output of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x302E = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x302F[] = "the last position command output of sequence control";
+/** \brief Object 0x302F the last position command output of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x302F = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3030[] = "delta position command input of sequence control";
+/** \brief Object 0x3030 delta position command input of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3030 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3031[] = "delta position command output of sequence control";
+/** \brief Object 0x3031 delta position command output of sequence control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3031 = {DEFTYPE_INTEGER32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3032[] = "position command set value in trajectory produce";
+/** \brief Object 0x3032 position command set value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3032 = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3033[] = "position command input value trajectory produce";
+/** \brief Object 0x3033 position command input value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3033 = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3034[] = "position command output value trajectory produce";
+/** \brief Object 0x3034 position command output value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3034 = {DEFTYPE_INTEGER64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3035[] = "initialize position | unit[pulse] | for trajectory produce";
+/** \brief Object 0x3035 position command output value*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3035 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3036[] = "finish position | unit [pulse] | for trajectory produce";
+/** \brief Object 0x3036 finish position | unit [pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3036 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3037[] = "real position | unit [pulse] | for trajectory produce";
+/** \brief Object 0x3037 real position | unit [pulse]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3037 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3038[] = "increment positon between q0 to q1 | for trajectory produce";
+/** \brief Object 0x3038 increment positon between q0 to q1*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3038 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3039[] = "initialize velocity | unit[pulse/s] | for trajectory produce";
+/** \brief Object 0x3039 initialize velocity | unit[pulse/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x3039 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x303A[] = "the max velocity can be reached | unit[pulse/s] | for trajectory produce";
+/** \brief Object 0x303A the max velocity can be reached | unit[pulse/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x303A = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x303B[] = "real velocity command | unit[pule/s] | for trajectory produce";
+/** \brief Object 0x303B real velocity command | unit[pule/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x303B = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x303C[] = "current time | unit[s] | for trajectory produce";
+/** \brief Object 0x303C current time | unit[s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x303C = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x303D[] = "the real accelerate | unit[pulse/s/s] | for trajectory produce";
+/** \brief Object 0x303D the real accelerate | unit[pulse/s/s]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x303D = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x303E[] = "trajectory produce flag | for trajectory produce";
+/** \brief Object trajectory produce flag*/
+const   TSDOINFOENTRYDESC sEntryDesc0x303E = {DEFTYPE_UNSIGNED32, 0x40, ACCESS_READWRITE};
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 
 
 //#############################################################################################################################

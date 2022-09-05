@@ -13,11 +13,13 @@
 #ifndef __VELCTLLOOP_H__
 #define __VELCTLLOOP_H__
 
+#include "DspCpu.h"
+
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 typedef struct	vel_cfg_opt_bits
 {
-    Uint32		RAMP		: 1;                                                        // servo enable instruction bit
+    Uint32		RAMP		: 1;                                                        // velocity command ramp mask bit
     Uint32		res         : 31;                                                       // reserved
 }VEL_CFG_OPT_BITS;
 

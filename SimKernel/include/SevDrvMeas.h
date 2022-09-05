@@ -42,8 +42,8 @@ typedef		struct	sens_meas
     double          phim;                                                               // meachnical position /rad
     double          phil;                                                               // load position
 
-    int64           pos_cnt;                                                            // position count variable
-    int64           pos_cnt_lst;                                                        // the last position count variable
+    Uint32          pos_cnt;                                                            // position count variable
+    Uint32          pos_cnt_lst;                                                        // the last position count variable
     Uint32          pos_in;                                                             // enccoder position feedback
     int32           dpos;                                                               // delta position feeedback
 }SENS_MEAS;

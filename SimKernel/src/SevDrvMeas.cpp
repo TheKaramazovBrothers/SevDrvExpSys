@@ -63,11 +63,14 @@ int16   KpiGetEncValue(SENS_MEAS * m_sens)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     HalGetAbsPosValue(&m_sens->phim, &m_sens->phil);
 
+
     m_sens->pos_cnt                     =   (m_sens->phim / PI2_CIRCULAR_CONSTANT) * (double)(m_sens->prm.enc_line_num);
+
     m_sens->dpos                        =   m_sens->pos_cnt - m_sens->pos_cnt_lst;
     m_sens->pos_cnt_lst                 =   m_sens->pos_cnt;
 
-    lltmp                               =   m_sens->pos_in  + m_sens->dpos;
+
+    lltmp                               =   (int32)(m_sens->pos_in)  + m_sens->dpos;
 
     if (lltmp > m_sens->prm.enc_line_num)
     {

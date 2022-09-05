@@ -68,10 +68,10 @@ public:
 typedef		struct	bkgd_task_prm
 {
 // back ground task module parameter define
-    int16			model_task_scan_tim;														// scan time of modeling task | unit[scan]
-    int16			ccld_task_scan_tim;                                                         // scan time of current control task | unit[scan]
-    int16			pvcld_task_scan_tim;														// scan time of pos&vel control task | unit[scan]
-    int16           prochd_task_scan_tim;                                                       // scan time of protect&schedule | unit[scan]
+    int16			model_task_scan_tim;                                                            // scan time of modeling task | unit[scan]
+    int16			ccld_task_scan_tim;                                                             // scan time of current control task | unit[scan]
+    int16			pvcld_task_scan_tim;                                                            // scan time of pos&vel control task | unit[scan]
+    int16           prochd_task_scan_tim;                                                           // scan time of protect&schedule | unit[scan]
 }BKGD_TASK_PRM;
 
 //-------------------------------------------------------------------------------------
@@ -79,12 +79,12 @@ typedef		struct	bkgd_task_prm
 //-------------------------------------------------------------------------------------
 typedef struct	bkgd_task_flag_bits
 {
-    Uint16		MTF		: 1;																// finish flag of modeling task
-    Uint16		CTF		: 1;																// finish flag of current control task
-    Uint16		PTF		: 1;																// finish flag of pos&vel control task
-    Uint16      STF     : 1;                                                                // finish flag of protect&schedule task
+    Uint16		MTF		: 1;                                                                        // finish flag of modeling task
+    Uint16		CTF		: 1;                                                                        // finish flag of current control task
+    Uint16		PTF		: 1;                                                                        // finish flag of pos&vel control task
+    Uint16      STF     : 1;                                                                        // finish flag of protect&schedule task
 
-    Uint16		rsvd	: 12;																// rsvd
+    Uint16		rsvd	: 12;                                                                       // rsvd
 }BKGD_TASK_FLAG_BITS;
 
 

@@ -26,15 +26,69 @@ typedef	enum
     COLD_SEQ_WORK			=	4,													// current open loop control work mode in sequence control | COLD_TASK_ID
     CCLD_SEQ_WORK			=	5,													// current closed loop control work mode in sequence control | CCLD_TASK_ID
     VCLD_SEQ_WORK			=	6,													// velocity closed loop control work mode in sequence control | VCLD_TASK_ID
-    PROF_VELC_SEQ_WORK		=	7,													// open velocity control work mode in sequence control | POSCLD_TASK_ID
-    PROF_POSC_SEQ_WORK      =	8,                                                  // close velocity control work mode in sequence control	| POSCLD_TASK_ID
-    PROF_CURC_SEQ_WORK		=	9,			   										// fixed position control work mode in sequence control | POSCLD_TASK_ID
-    CS_VELC_SEQ_WORK		=	10,													// track position control work mode in sequence control | POSCLD_TASK_ID
-    CS_POSC_SEQ_WORK		=	11,													// stop velocity control work mode in sequence control | POSCLD_TASK_ID
-    CS_CURC_SEQ_WORK        =	12,                                                 // motor torque discharge work mode in sequence control | POSCLD_TASK_ID
+    PROF_VELC_SEQ_WORK		=	7,													// profile velocity control work mode in sequence control | POSCLD_TASK_ID
+    PROF_POSC_SEQ_WORK      =	8,                                                  // profile position control work mode in sequence control	| POSCLD_TASK_ID
+    PROF_CURC_SEQ_WORK		=	9,			   										// profile current control work mode in sequence control | POSCLD_TASK_ID
+    CS_VELC_SEQ_WORK		=	10,													// periodic synchronization velocity control work mode in sequence control | POSCLD_TASK_ID
+    CS_POSC_SEQ_WORK		=	11,													// periodic synchronization position control work mode in sequence control | POSCLD_TASK_ID
+    CS_CURC_SEQ_WORK        =	12,                                                 // periodic synchronization torque discharge work mode in sequence control | POSCLD_TASK_ID
     HOME_SEQ_WORK           =   13,                                                 // mechanic home search and fix mode in sequence control | POSCLD_TASK_ID
+    STOP_SEQ_WORK           =   14,                                                 // stop mode in sequence control
     REV_SEQ_WORK_MODE		=	0x8000
 }tSeqWorkMode;
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// position command input source select
+typedef	enum
+{
+    PC_USER_PCMD			=	0,													// position command come from app in PC
+    LINK_NET_PCMD			=	1,													// position command come from bus network
+    PULSE_DIR_PCMD			=	2,													// position command come from pulse direction
+    PT_INTERP_PCMD          =   3,                                                  // position command come from position time interpolate
+    REV_PCMD_SEL			=	0x8000
+}tSeqPcmdSel;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// velocity command input source select
+typedef	enum
+{
+    PC_USER_VCMD			=	0,													// velocity command come form app in PC
+    LINK_NET_VCMD			=	1,													// velocity command come form bus network
+    ANALOG_VCMD				=	2,													// velocity command come form analog signal input
+    REV_VCMD_SEL			=	0x8000
+}tSeqVcmdSel;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// current command input source select
+typedef	enum
+{
+    PC_USER_CCMD			=	0,													// current command come form app in PC
+    LINK_NET_CCMD			=	1,													// current command come form bus network
+    ANALOG_CCMD				=	2,													// current command come form analog signal input
+    REV_CCMD_SEL			=	0x8000
+}tSeqCcmdSel;
+
+
+// command direction select
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+typedef struct	seq_cmd_dir_bits
+{
+    Uint16  POSC_DIR    : 1;                                                        // position command direction bit
+    Uint16  VELC_DIR    : 1;                                                        // velocity command direction bit
+    Uint16  CURC_DIR    : 1;                                                        // current command direction bit
+
+    Uint16  rsvd        : 13;                                                       // reserved
+}SEQ_CMD_DIR_BITS;
+
+
+typedef	union
+{
+    Uint16					all;
+    SEQ_CMD_DIR_BITS		bit;
+}tSeqCmdDir;
+
 
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -92,10 +146,10 @@ typedef	union
 typedef	enum
 {
     STOP_VCTL_SERVO			=	0,													// stop in velocity mode
-    TRA_VCTL_SERVO          =	1,													// closed loop velocity control mode (with position control in outside controller)
+    SPD_TRA_VCTL_SERVO      =	1,													// closed loop velocity control mode (with position control in outside controller)
     FIX_PCTL_SERVO			=	2,													// fixed position control mode
-    TRA_PCTL_SERVO			=	3,													// track position control mode
-    TRA_CCTL_SERVO          =	4,													// torque control mode
+    POS_TRA_PCTL_SERVO      =	3,													// track position control mode
+    TQR_TRA_CCTL_SERVO      =	4,													// torque control mode
     HOME_VCTL_SERVO         =   5,                                                  // home velocity control mode
     REV_SERVO_MODE			=	0x8000
 }tSeqServoMode;
@@ -109,6 +163,21 @@ typedef	enum
 }tSeqPoscldMode;
 
 
+typedef struct	seq_cfg_opt_bits
+{
+    Uint32		CURF	: 1;                                                        // current feedback mask bit
+    Uint32		VELF	: 1;                                                        // velocity feedback mask bit
+    Uint32		POSF	: 1;                                                        // position feedback mask bit
+
+    Uint32		rsvd	: 13;	                                                    // rsvd
+}SEQ_CFG_OPT_BITS;
+
+
+typedef	union
+{
+    Uint32					all;
+    SEQ_CFG_OPT_BITS        bit;
+}tSeqCfgOpt;
 
 
 //-------------------------------------------------------------------------------------
@@ -117,6 +186,12 @@ typedef	enum
 typedef		struct	seq_ctl_prm
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// config parameter
+    tSeqPcmdSel             psrc_sel;                                               // position command source select
+    tSeqVcmdSel             vsrc_sel;                                               // velocity command source select
+    tSeqCcmdSel             csrc_sel;                                               // current command source select
+    tSeqCmdDir              cmd_dir;                                                // command direction of sequence control
+    tSeqCfgOpt              cfg_opt;                                                // config option of sequence control
 // user define work task mode parameter
     tSeqWorkMode			usr_mode_tmp;											// user define work task mode
     tSeqWorkMode			usr_mode;												// user define work task mode
@@ -149,7 +224,7 @@ typedef		struct	seq_ctl
     double              idr_tmp;
     double              iqr_tmp;
     double              spdr_tmp;
-    double              posr_tmp;
+    int64               posr_tmp;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     double              udr_out;
     double              uqr_out;
@@ -161,7 +236,11 @@ typedef		struct	seq_ctl
     double              idr_out;
     double              iqr_out;
     double              spdr_out;
-    double              posr_out;
+    int64               posr_out;
+    int64               posr_out_lst;
+
+    int32               dpcmd_in;
+    int32               dpcmd_out;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     int16               act_on_tmp;
     int16               act_on_out;
@@ -174,7 +253,7 @@ typedef		struct	seq_ctl
 int16	KpiInitSeqCtlModule(SEQ_CTL * m_ctl);
 int16	KpiInitSeqCtlVar(SEQ_CTL * m_ctl);
 int16	KpiSeqBackGroundRout(SEQ_CTL * m_ctl, void * m_drv);
-
+int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv);
 
 
 
