@@ -21,8 +21,16 @@
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 typedef struct	pos_cfg_opt_bits
 {
-    Uint32		MAF         : 1;                                                        // moving average filtering mask bit
-    Uint32		res         : 31;                                                       // reserved
+    Uint32		MAF         : 1;                                                        // moving average filtering mask bit | 1/mask
+    Uint32      FFV         : 1;                                                        // velocity feedforward mask  bit | 1/mask
+    Uint32      FFT         : 1;                                                        // torque feedforward mask bit | 1/mask
+    Uint32      FFJ         : 1;                                                        // jerk feedforward enable | 1/enable,0/disable
+
+    Uint32      LPFFV       : 1;                                                        // low pass filter of velocity feedforward
+    Uint32      LPFFT       : 1;                                                        // low pass filter of torque feedforward
+    Uint32      LPFFJ       : 1;                                                        // low pass filter of jerk feedforward
+
+    Uint32		res         : 25;                                                       // reserved
 }POS_CFG_OPT_BITS;
 
 
@@ -54,6 +62,10 @@ typedef		struct	pos_ctl_prm
 //#############################################################################################################################
     Uint16              maf_num;                                                        // moving average filtering times | unit[scan]
 //#############################################################################################################################
+    Uint16              ffv_rat;                                                        // velocity feedforward rate | unit[Q12]
+    Uint16              fft_rat;                                                        // torque feedforward rate | unit[Q12]
+    Uint32              ffj_kg;                                                         // jerk feedforward rate | unit[Q12]
+//#############################################################################################################################
 }POS_CTL_PRM;
 
 
@@ -70,6 +82,9 @@ typedef		struct	pos_ctl
     double              po_ulim;                                                        // position control output upper limit
     double              po_llim;                                                        // position control output lower limit
 
+    double              kg_ffv;                                                         // gain of velocity feedforward
+    double              kg_fft;                                                         // gain of torque feedforward
+
     Uint32              line_num_pctl;                                                  // line number for position control
 //**************************************************************************************************************************
 // velocity control module variable define
@@ -80,6 +95,13 @@ typedef		struct	pos_ctl
     double              xwkp;                                                           // proportional accumulation value
     double              spdr;                                                           // position loop velocity command output | unit[rad/s]
     double              tqrp;                                                           // torque feedforward command
+
+    double              spd_ffd;                                                        // velocity feedforward value | unit[rad/s]
+    double              spd_ffd_lst;                                                    // the last velocity feedforward value | unit[rad/s]
+    double              spd_ffd_out;                                                    // the output of speed feedforward | unit[rad/s]
+
+    double              tqr_ffd;                                                        // torque feedforward value | unit[Nm]
+    double              tqr_ffd_out;                                                    // the output of torque feedforward | unit[Nm]
 //**************************************************************************************************************************
 // position command filter variable define
 // moving average filter variable

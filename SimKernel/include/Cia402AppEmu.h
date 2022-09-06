@@ -223,6 +223,10 @@ typedef enum
     MAXSPD_POS_TRAJ_PRM_ID32_OBJW_202FH         =   47,                                     // maximum velocity set for position trajectory maker | unit[RPM]
     CFG_OPT_ALL_POS_TRAJ_PRM_ID32_OBJW_2030H    =   48,                                     // point position trajectory nest mask bit | 1/mask
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FFV_RATE_PCTL_PRM_ID16_OBJW_2031H           =   49,                                     // velocity feedforward rate | unit[Q12]
+    FFT_RATE_PCTL_PRM_ID16_OBJW_2032H           =   50,                                     // torque feedforward rate | unit[Q12]
+    FFJ_RATE_PCTL_PRM_ID32_OBJW_2033H           =   51,                                     // jerk feedforward gain coefficient | unit[Q16]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
 
@@ -310,8 +314,14 @@ typedef enum
     XACC_REAL_POS_TRAJ_VAR_OBJW_303DH           =   61,                                     // the real accelerate | unit[pulse/s/s]
     FLAG_ALL_POS_TRAJ_VAR_OBJW_303EH            =   62,                                     // trajectory produce flag
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    SPD_FFD_PCTL_VAR_OBJW_303FH                 =   63,                                     // speed feedforward value | unit[rad/s]
+    SPD_FFD_OUT_PCTL_VAR_OBJW_3040H             =   64,                                     // speed feedforward output value | unit[Nm]
+    TQR_FFD_PCTL_VAR_OBJW_3041H                 =   65,                                     // torque feedforward value | unit[Nm]
+    TQR_FFD_OUT_PCTL_VAR_OBJW_3042H             =   66,                                     // torque feedforward output value | unit[Nm]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
+
 
 
 //#############################################################################################################################
@@ -603,7 +613,26 @@ const   TSDOINFOENTRYDESC sEntryDesc0x202F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_R
 const   Uint8   aName0x2030[] = "point position trajectory nest mask bit | 1/mask";
 /** \brief Object 0x2030  point position trajectory nest mask bit | 1/mask*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2030 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2031 */
+const   Uint8   aName0x2031[] = "velocity feedforward rate | unit[Q12]";
+/** \brief Object 0x2031  velocity feedforward rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2031 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2032 */
+const   Uint8   aName0x2032[] = "torque feedforward rate | unit[Q12]";
+/** \brief Object 0x2032  torque feedforward rate | unit[Q12]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2032 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2033 */
+const   Uint8   aName0x2033[] = "jerk feedforward gain coefficient | unit[Q16]";
+/** \brief Object 0x2033  jerk feedforward gain coefficient | unit[Q16]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2033 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 
 
 //#############################################################################################################################
@@ -920,10 +949,30 @@ const   TSDOINFOENTRYDESC sEntryDesc0x303D = {DEFTYPE_REAL64, 0x40, ACCESS_READW
 
 //----------------------------------------------------------------------------------------------------------------------------
 const   Uint8   aName0x303E[] = "trajectory produce flag | for trajectory produce";
-/** \brief Object trajectory produce flag*/
+/** \brief Object 0x303E trajectory produce flag*/
 const   TSDOINFOENTRYDESC sEntryDesc0x303E = {DEFTYPE_UNSIGNED32, 0x40, ACCESS_READWRITE};
 
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x303F[] = "speed feedforward value | unit[rad/s]";
+/** \brief Object 0x303F speed feedforward value | unit[rad/s] */
+const   TSDOINFOENTRYDESC sEntryDesc0x303F = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3040[] = "speed feedforward output value | unit[rad/s]";
+/** \brief Object 0x3040 speed feedforward output value | unit[Nm] */
+const   TSDOINFOENTRYDESC sEntryDesc0x3040 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3041[] = "torque feedforward value | unit[Nm]";
+/** \brief Object 0x3041 torque feedforward value | unit[Nm] */
+const   TSDOINFOENTRYDESC sEntryDesc0x3041 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3042[] = "torque feedforward output value | unit[Nm]";
+/** \brief Object 0x3042 torque feedforward output value | unit[Nm] */
+const   TSDOINFOENTRYDESC sEntryDesc0x3042 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 
 
 

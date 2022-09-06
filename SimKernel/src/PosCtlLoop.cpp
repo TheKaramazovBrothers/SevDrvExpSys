@@ -28,6 +28,7 @@
 int16	KpiInitPosLoopModule(POS_CTL * m_ctl)
 {
     double  line_num_tmp, nos_tmp;
+    double  jm_tmp, jrat_tmp, jall_tmp;
     int32   ltmp, ltmp2;
     int16   i;
 //**************************************************************************************************************************
@@ -44,13 +45,23 @@ int16	KpiInitPosLoopModule(POS_CTL * m_ctl)
         m_ctl->prm.cfg_opt.all      =   0;
         m_ctl->prm.maf_num          =   320;
 
+
+        m_ctl->prm.ffv_rat          =   4096;
+        m_ctl->prm.fft_rat          =   4096;
+        m_ctl->prm.ffj_kg           =   65536;
+
         line_num_tmp                =   16777216.0;
         nos_tmp                     =   6000;
+
+        jm_tmp                      =   44;
+        jrat_tmp                    =   540;
     }
     else
     {
         CpiReadRamPrmByDicInx(LINE_NUM_ENC_PRM_ID32_OBJW_2013H, &line_num_tmp);
         CpiReadRamPrmByDicInx(NOS_MOT_PRM_ID32_OBJW_2009H, &nos_tmp);
+        CpiReadRamPrmByDicInx(JM_MOT_PRM_ID32_OBJW_200FH, &jm_tmp);
+        CpiReadRamPrmByDicInx(JRAT_MOT_PRM_ID16_OBJW_2002H, &jrat_tmp);
     }
 //**************************************************************************************************************************
     m_ctl->kp_fst               =   ((PI2_CIRCULAR_CONSTANT * PI2_CIRCULAR_CONSTANT)*(m_ctl->prm.fnp_fst/10.0))/line_num_tmp;
@@ -63,6 +74,11 @@ int16	KpiInitPosLoopModule(POS_CTL * m_ctl)
     m_ctl->po_llim              =   (((nos_tmp/60.0)*PI2_CIRCULAR_CONSTANT) * (double)(ltmp2))/16777216.0;
 
     m_ctl->line_num_pctl        =   line_num_tmp;
+
+    m_ctl->kg_ffv               =   (((1000000000.0/m_ctl->prm.ts)/(double)(line_num_tmp))*PI2_CIRCULAR_CONSTANT)/(double)(m_ctl->prm.maf_num);
+
+    jall_tmp                    =   (jm_tmp + (jm_tmp * (jrat_tmp / 100.0)))/1000000.0;
+    m_ctl->kg_fft               =   jall_tmp*(1000000000.0/m_ctl->prm.ts);
 //**************************************************************************************************************************
     m_ctl->acc_pos_ref          =   0;
     m_ctl->acc_pos_fb           =   0;
@@ -71,6 +87,13 @@ int16	KpiInitPosLoopModule(POS_CTL * m_ctl)
     m_ctl->xwkp                 =   0;
     m_ctl->spdr                 =   0;
     m_ctl->tqrp                 =   0;
+
+    m_ctl->spd_ffd              =   0.0;
+    m_ctl->spd_ffd_lst          =   0.0;
+    m_ctl->spd_ffd_out          =   0.0;
+
+    m_ctl->tqr_ffd              =   0.0;
+    m_ctl->tqr_ffd_out          =   0.0;
 //**************************************************************************************************************************
     m_ctl->idx_maf              =   0;
     m_ctl->ksub_maf             =   0;
@@ -117,6 +140,13 @@ int16	KpiInitPosLoopVar(POS_CTL * m_ctl)
     m_ctl->xwkp                 =   0;
     m_ctl->spdr                 =   0;
     m_ctl->tqrp                 =   0;
+
+    m_ctl->spd_ffd              =   0.0;
+    m_ctl->spd_ffd_lst          =   0.0;
+    m_ctl->spd_ffd_out          =   0.0;
+
+    m_ctl->tqr_ffd              =   0.0;
+    m_ctl->tqr_ffd_out          =   0.0;
 //**************************************************************************************************************************
     m_ctl->idx_maf              =   0;
     m_ctl->ksub_maf             =   0;
@@ -210,6 +240,34 @@ int16	KpiPosCloseLoopCtl(POS_CTL * m_ctl, int32 * dpcmd)
         m_ctl->maf_out                      =   outx;
     }
 //**************************************************************************************************************************
+    if (m_ctl->prm.cfg_opt.bit.FFV == FALSE)
+    {
+        m_ctl->spd_ffd                      =   (double)(m_ctl->sumx_maf) * m_ctl->kg_ffv;
+        m_ctl->spd_ffd_out                  =   (m_ctl->spd_ffd * (double)(m_ctl->prm.ffv_rat))/4096.0;
+
+        if (m_ctl->prm.cfg_opt.bit.FFT == FALSE)
+        {
+            m_ctl->tqr_ffd                  =   (m_ctl->spd_ffd  -   m_ctl->spd_ffd_lst) * m_ctl->kg_fft;
+            m_ctl->tqr_ffd_out              =   (m_ctl->tqr_ffd * (double)(m_ctl->prm.fft_rat))/4096.0;
+        }
+        else
+        {
+            m_ctl->tqr_ffd                  =   0;
+            m_ctl->tqr_ffd_out              =   0;
+        }
+
+        m_ctl->spd_ffd_lst                  =   m_ctl->spd_ffd;
+    }
+    else
+    {
+        m_ctl->spd_ffd                      =   0;
+        m_ctl->spd_ffd_out                  =   0;
+        m_ctl->spd_ffd_lst                  =   0;
+
+        m_ctl->tqr_ffd                      =   0;
+        m_ctl->tqr_ffd_out                  =   0;
+    }
+//**************************************************************************************************************************
     m_ctl->dpcmd                            =   m_ctl->maf_out;
 
     ltmp                                    =   m_ctl->dpcmd - m_ctl->dpfb;
@@ -220,9 +278,9 @@ int16	KpiPosCloseLoopCtl(POS_CTL * m_ctl, int32 * dpcmd)
     dtmp                                    =   (double)(m_ctl->pos_err) * m_ctl->kp_fst;
     m_ctl->xwkp                             =   IQSatLimit(dtmp, m_ctl->po_ulim, m_ctl->po_llim);
 
-    m_ctl->spdr                             =   m_ctl->xwkp;
+    m_ctl->spdr                             =   m_ctl->xwkp + m_ctl->spd_ffd_out;
 //**************************************************************************************************************************
-    m_ctl->tqrp                             =   0;
+    m_ctl->tqrp                             =   m_ctl->tqr_ffd_out;
 //**************************************************************************************************************************
     return  TRUE;
 }

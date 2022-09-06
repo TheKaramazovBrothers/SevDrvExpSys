@@ -113,8 +113,13 @@ TOBJ_ENTRY  DefCiA402PrmObjDic[PRM_SERVO_OBJW_INX_MAX_NUM] =
    {0x202F, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x202F, aName0x202F, NULL, NULL, NULL, MAXSPD_POS_TRAJ_PRM_ID32_ADR},
     /* Object 0x2030 */
    {0x2030, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2030, aName0x2030, NULL, NULL, NULL, CFG_OPT_ALL_POS_TRAJ_PRM_ID32_ADR},
+    /* Object 0x2031 */
+   {0x2031, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2031, aName0x2031, NULL, NULL, NULL, FFV_RATE_PCTL_PRM_ID16_ADR},
+    /* Object 0x2032 */
+   {0x2032, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2032, aName0x2032, NULL, NULL, NULL, FFT_RATE_PCTL_PRM_ID16_ADR},
+    /* Object 0x2033 */
+   {0x2033, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2033, aName0x2033, NULL, NULL, NULL, FFJ_RATE_PCTL_PRM_ID32_ADR},
 };
-
 
 
 /*ECATCHANGE_END(V5.11) COE1*/
@@ -245,12 +250,18 @@ TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM]  =
     /* Object 0x303D */
     {0x303D, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x303D, aName0x303D, NULL, NULL, NULL, NULL},
     /* Object 0x303E */
-    {0x303E, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x303E, aName0x303E, NULL, NULL, NULL, NULL},
+    {0x303E, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x303E, aName0x303E, NULL, NULL, NULL, NULL},    
+    /* Object 0x303F */
+    {0x303F, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x303F, aName0x303F, NULL, NULL, NULL, NULL},
+    /* Object 0x3040 */
+    {0x3040, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3040, aName0x3040, NULL, NULL, NULL, NULL},
+    /* Object 0x3041 */
+    {0x3041, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3041, aName0x3041, NULL, NULL, NULL, NULL},
+    /* Object 0x3042 */
+    {0x3042, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3042, aName0x3042, NULL, NULL, NULL, NULL},
 };
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-
 
 void    CpiInitCiA402PrmObjPtr(void)
 {
@@ -315,8 +326,13 @@ void    CpiInitCiA402PrmObjPtr(void)
     DefCiA402PrmObjDic[MAXSPD_POS_TRAJ_PRM_ID32_OBJW_202FH].pVarPtr         =   ((void *)(&gSevDrv.obj.ptrj.prm.maxspd));
     DefCiA402PrmObjDic[CFG_OPT_ALL_POS_TRAJ_PRM_ID32_OBJW_2030H].pVarPtr    =   ((void *)(&gSevDrv.obj.ptrj.prm.cfg_opt.all));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[FFV_RATE_PCTL_PRM_ID16_OBJW_2031H].pVarPtr           =   ((void *)(&gSevDrv.obj.pos.prm.ffv_rat));
+    DefCiA402PrmObjDic[FFT_RATE_PCTL_PRM_ID16_OBJW_2032H].pVarPtr           =   ((void *)(&gSevDrv.obj.pos.prm.fft_rat));
+    DefCiA402PrmObjDic[FFJ_RATE_PCTL_PRM_ID32_OBJW_2033H].pVarPtr           =   ((void *)(&gSevDrv.obj.pos.prm.ffj_kg));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 
 
 void    CpiInitCiA402VarObjPtr(void)
@@ -400,6 +416,11 @@ void    CpiInitCiA402VarObjPtr(void)
     DefCiA402VarObjDic[TREAL_POS_TRAJ_VAR_OBJW_303CH].pVarPtr               =   ((void *)(&gSevDrv.obj.ptrj.treal));
     DefCiA402VarObjDic[XACC_REAL_POS_TRAJ_VAR_OBJW_303DH].pVarPtr           =   ((void *)(&gSevDrv.obj.ptrj.xacc_real));
     DefCiA402VarObjDic[FLAG_ALL_POS_TRAJ_VAR_OBJW_303EH].pVarPtr            =   ((void *)(&gSevDrv.obj.ptrj.flag.all));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402VarObjDic[SPD_FFD_PCTL_VAR_OBJW_303FH].pVarPtr                 =   ((void *)(&gSevDrv.obj.pos.spd_ffd));
+    DefCiA402VarObjDic[SPD_FFD_OUT_PCTL_VAR_OBJW_3040H].pVarPtr             =   ((void *)(&gSevDrv.obj.pos.spd_ffd_out));
+    DefCiA402VarObjDic[TQR_FFD_PCTL_VAR_OBJW_3041H].pVarPtr                 =   ((void *)(&gSevDrv.obj.pos.tqr_ffd));
+    DefCiA402VarObjDic[TQR_FFD_OUT_PCTL_VAR_OBJW_3042H].pVarPtr             =   ((void *)(&gSevDrv.obj.pos.tqr_ffd_out));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 

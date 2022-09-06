@@ -58,6 +58,9 @@ typedef enum
     CSRC_SEL_SEQ_CTL_PRM_ID16_ADR           =   17,                                                         // current command source select
     CMD_DIR_SEQ_CTL_PRM_ID16_ADR            =   18,                                                         // command direction of sequence control
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FFV_RATE_PCTL_PRM_ID16_ADR              =   19,                                                         // velocity feedforward rate | unit[Q12]
+    FFT_RATE_PCTL_PRM_ID16_ADR              =   20,                                                         // torque feedforward rate | unit[Q12]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
 
@@ -105,6 +108,8 @@ typedef enum
     DECRATE_POS_TRAJ_PRM_ID32_ADR           =   27,                                                         // deceleration of position command maker | unit[10000pulse/s/s]
     MAXSPD_POS_TRAJ_PRM_ID32_ADR            =   28,                                                         // maximum velocity set for position trajectory maker | unit[RPM]
     CFG_OPT_ALL_POS_TRAJ_PRM_ID32_ADR       =   29,                                                         // point position trajectory nest mask bit | 1/mask
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FFJ_RATE_PCTL_PRM_ID32_ADR              =   30,                                                         // jerk feedforward gain coefficient | unit[Q16]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_DWORD_MAX_NUM
 }tPrmServoCtlId_DWORD;

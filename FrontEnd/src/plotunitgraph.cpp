@@ -210,6 +210,8 @@ void    PlotUnitGraph::InitTableWidgetPloCurve()
     {
         wave_vis_tab[i]             =   true;
     }
+
+    all_show_flag               =   true;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -483,13 +485,28 @@ void    PlotUnitGraph::onBtnCurveClearClicked()
 
 void    PlotUnitGraph::onBtnCurveShowAllClicked()
 {
-    for (int i = 0; i < tab_wave_cnt; i++)
+    if (all_show_flag == false)
     {
-        tableWidget_plot_curve->item(i,0)->setBackgroundColor(m_showColor);
-        plot->graph(i)->setVisible(true);
-        plot->replot();
-        wave_vis_tab[i]         =   true;
+        for (int i = 0; i < tab_wave_cnt; i++)
+        {
+            tableWidget_plot_curve->item(i,0)->setBackgroundColor(m_showColor);
+            plot->graph(i)->setVisible(true);
+            wave_vis_tab[i]         =   true;
+        }
+        all_show_flag               =   true;
     }
+    else
+    {
+        for (int i = 0; i < tab_wave_cnt; i++)
+        {
+            tableWidget_plot_curve->item(i,0)->setBackgroundColor(m_hideColor);
+            plot->graph(i)->setVisible(false);
+            wave_vis_tab[i]         =   false;
+        }
+        all_show_flag               =   false;
+    }
+
+    plot->replot();
 }
 
 

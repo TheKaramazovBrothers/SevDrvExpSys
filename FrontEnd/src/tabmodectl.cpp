@@ -90,6 +90,8 @@ TabModeCtl::TabModeCtl(QWidget *parent)
     connect(comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(onModeCtlPanelModeChanged(int)));
     connect(tbtn_plot_servoOnMode,SIGNAL(clicked(bool)),this,SLOT(onBtnServoOnClicked(bool)));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    stackedWidget_plot_mode->setCurrentIndex(usr_mode);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 

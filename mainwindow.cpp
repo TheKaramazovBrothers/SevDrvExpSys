@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle(tr("expert system"));
     setWindowIcon(QIcon(":/res/images/person.png"));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     initNavgTree();
@@ -48,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_prm_service           =   new ConfigService;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     showMaximized();
+    setWindowTitle(tr("expert system"));
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

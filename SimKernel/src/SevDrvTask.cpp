@@ -535,7 +535,7 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
             spdr_tmp            =   m_drv->obj.pos.spdr;
             spdf_tmp            =   m_drv->obj.sens.mot_spd;
 
-            tqrp_tmp            =   0;
+            tqrp_tmp            =   m_drv->obj.pos.tqrp;
 
             m_drv->obj.vel.prm.cfg_opt.bit.RAMP         = TRUE;
             KpiVelCloseLoopCtrl(&m_drv->obj.vel, &spdr_tmp, &spdf_tmp, &tqrp_tmp);
