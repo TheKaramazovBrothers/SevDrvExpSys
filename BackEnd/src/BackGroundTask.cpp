@@ -20,7 +20,7 @@ WaveBuf::WaveBuf(QObject *parent)
 // parameter initialization
     this->enp                       =   false;
     this->samp_div_tims             =   1;
-    this->graph_num                 =   8;
+    this->graph_num                 =   20;
     this->data_space_ulim           =   96000;
     this->clu_cyc_ts                =   0.00003125;
 // variable initialization

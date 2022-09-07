@@ -60,6 +60,8 @@ typedef enum
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     FFV_RATE_PCTL_PRM_ID16_ADR              =   19,                                                         // velocity feedforward rate | unit[Q12]
     FFT_RATE_PCTL_PRM_ID16_ADR              =   20,                                                         // torque feedforward rate | unit[Q12]
+
+    TF_LPF_CCTL_PRM_ID16_ADR                =   21,                                                         // low pass filter time constant | uni[us]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
@@ -110,9 +112,12 @@ typedef enum
     CFG_OPT_ALL_POS_TRAJ_PRM_ID32_ADR       =   29,                                                         // point position trajectory nest mask bit | 1/mask
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     FFJ_RATE_PCTL_PRM_ID32_ADR              =   30,                                                         // jerk feedforward gain coefficient | unit[Q16]
+
+    CFG_OPT_ALL_CCTL_PRM_ID32_ADR           =   31,                                                         // config option for current loop control
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_DWORD_MAX_NUM
 }tPrmServoCtlId_DWORD;
+
 
 
 //#############################################################################################################################

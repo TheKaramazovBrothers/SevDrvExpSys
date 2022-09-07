@@ -22,6 +22,8 @@
 
 
 const   int  g_MAX_TAB_WAVE_NUM     =   20;
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 class PlotUnitGraph : public QWidget, public Ui::PlotUnitGraph
 {
@@ -91,6 +93,8 @@ private:
     bool                    wave_vis_tab[g_MAX_TAB_WAVE_NUM];
 
     bool                    all_show_flag;                                                  // the flag of the show of all graph | true/show,false/hild
+//*******************************************************************************************************
+    QMap<QString, int>      wave_tbl_def;                                                   // the default wave table parameter
 //*******************************************************************************************************
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

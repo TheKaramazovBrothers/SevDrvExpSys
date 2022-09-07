@@ -8,6 +8,9 @@
 // date			:	2022/06/21
 // copyright(C)	:	liu.g	(2022-2030)
 //=========================================================================================================
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 #include "dialogselectcurve.h"
 #include "Cia402AppEmu.h"
@@ -212,6 +215,65 @@ void    PlotUnitGraph::InitTableWidgetPloCurve()
     }
 
     all_show_flag               =   true;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    QString             data;
+    QStringList         usr_data;
+
+//    QFile ifs("./res/xml/WaveTblPctl.txt");
+//    QFile ifs("./res/xml/WaveTblG20.txt");
+    QFile ifs("./res/xml/WaveTblG10.txt");
+    if (!ifs.open(QFile::ReadWrite))
+    {
+        qDebug () << "Could not open the file by reading";
+        return;
+    }
+    else
+    {
+        if (ifs.size() != 0)
+        {
+            QTextStream in(&ifs);
+            while(!in.atEnd())
+            {
+                data                =   in.readLine();
+                usr_data            =   data.split(QRegExp("\\s+"));
+
+                if (usr_data.count() >= 2)
+                {
+                    QString    str      =   usr_data.at(1);
+                    wave_tbl_def.insert(usr_data.at(0), str.toInt());
+                }
+            }
+        }
+    }
+ //----------------------------------------------------------------------------------------------------------------
+    QList<QString> keylist = wave_tbl_def.keys();
+    QString str,str2;
+    for (int i = 0; i < keylist.size(); i++)
+    {
+        int inx         =       wave_tbl_def.value(keylist.at(i));
+
+        if ((inx >= 0) && (inx < VAR_SERVO_OBJW_INX_MAX_NUM) && (tab_wave_cnt < g_MAX_TAB_WAVE_NUM))
+        {
+            tableWidget_plot_curve->setRowCount(tab_wave_cnt+1);
+
+            tableWidget_plot_curve->setItem(tab_wave_cnt, 0, new QTableWidgetItem());
+            tableWidget_plot_curve->setItem(tab_wave_cnt, 1, new QTableWidgetItem());
+
+            tableWidget_plot_curve->item(tab_wave_cnt,0)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+            tableWidget_plot_curve->item(tab_wave_cnt,1)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+
+            str      =       QString::number(DefCiA402VarObjDic[inx].Index, 16);
+            str2     =       keylist.at(i);
+
+            tableWidget_plot_curve->item(tab_wave_cnt, 0)->setText(str);
+            tableWidget_plot_curve->item(tab_wave_cnt, 1)->setText(str2);
+
+            tableWidget_plot_curve->item(tab_wave_cnt, 0)->setFlags(Qt::ItemIsEnabled);
+            tableWidget_plot_curve->item(tab_wave_cnt, 1)->setFlags(Qt::ItemIsEnabled);
+
+            tab_wave_cnt++;
+        }
+    }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -542,10 +604,11 @@ void    PlotUnitGraph::OnWaveTableItemDoubleClicked(int row, int column)
 
 void    PlotUnitGraph::onCurveTableItemClicked(QTableWidgetItem *item)
 {
-    if(item->column() == 0)
-    {
-      int row = item->row();
+    int row = item->row();
+    int graph_num   =   plot->graphCount();
 
+    if((item->column() == 0) && (graph_num > row))
+    {
       if (wave_vis_tab[row] == false)
       {
           item->setBackgroundColor(m_showColor);

@@ -227,8 +227,12 @@ typedef enum
     FFT_RATE_PCTL_PRM_ID16_OBJW_2032H           =   50,                                     // torque feedforward rate | unit[Q12]
     FFJ_RATE_PCTL_PRM_ID32_OBJW_2033H           =   51,                                     // jerk feedforward gain coefficient | unit[Q16]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CFG_OPT_ALL_CCTL_PRM_ID32_OBJW_2034H        =   52,                                     // config option for current loop control
+    TF_LPF_CCTL_PRM_ID16_OBJW_2035H             =   53,                                     // low pass filter time constant | uni[us]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
+
 
 
 //#############################################################################################################################
@@ -394,7 +398,7 @@ const   TSDOINFOENTRYDESC sEntryDesc0x200B = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_R
 
 //----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x200C */
-const   Uint8   aName0x200C[] = " Motor d axis reactive inductance | unit[0.001mH]";
+const   Uint8   aName0x200C[] = "Motor d axis reactive inductance | unit[0.001mH]";
 /** \brief Object 0x200C Motor d axis reactive resistance entry description*/
 const   TSDOINFOENTRYDESC sEntryDesc0x200C = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
@@ -631,6 +635,17 @@ const   TSDOINFOENTRYDESC sEntryDesc0x2032 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_R
 const   Uint8   aName0x2033[] = "jerk feedforward gain coefficient | unit[Q16]";
 /** \brief Object 0x2033  jerk feedforward gain coefficient | unit[Q16]*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2033 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2034 */
+const   Uint8   aName0x2034[] = "config option for current loop control";
+/** \brief Object 0x2034  config option for current loop control*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2034 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+/** \brief Object 0x2035 */
+const   Uint8   aName0x2035[] = "low pass filter time constant of current command | uni[us]";
+/** \brief Object 0x2035  low pass filter time constant | uni[us]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2035 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 

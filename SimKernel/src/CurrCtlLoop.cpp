@@ -48,8 +48,12 @@ int16   KpiInitCurrCtlModule(CURR_CTL * m_ctl)
         m_ctl->prm.curr_ctl_Tiq         =   1000;                                       // q axis integral time constant | unit [us]
         m_ctl->prm.curr_ctl_fnd         =   1000;                                       // d axis frequent band width | unit[Hz]
         m_ctl->prm.curr_ctl_fnq         =   1000;                                       // q axis frequent band width | unit[Hz]
+//*****************************************************************************************************************************
+// low pass filter parameter of current reference
+        m_ctl->prm.cfg_opt.all          =   0;                                          // config option for current loop control
+        m_ctl->prm.tf_lpf               =   200;                                        // low pass filter time constant | uni[us]
 // parameter initialization
-//**************************************************************************************************************************
+//*****************************************************************************************************************************
     }
 
     m_ctl->kpq                      =   (2*3.1415926) * m_ctl->prm.curr_ctl_fnq * (m_ctl->prm.mot_Lqm/1000000.0);
@@ -69,6 +73,8 @@ int16   KpiInitCurrCtlModule(CURR_CTL * m_ctl)
 
     m_ctl->qi_ulim                  =   m_ctl->prm.mot_Vmax;
     m_ctl->qi_llim                  =   -m_ctl->qi_ulim;
+//**************************************************************************************************************************
+    m_ctl->klpf_ccmd                =   (double)(m_ctl->prm.curr_TS)/((double)(m_ctl->prm.curr_TS) + (double)(m_ctl->prm.tf_lpf)*1000.0);
 //**************************************************************************************************************************
 // variable initialization
     m_ctl->id                       =   0;                                         // d axis current feedback
@@ -135,9 +141,19 @@ int16   KpiInitCurrCtlVar(CURR_CTL * m_ctl)
 int16   KpiGetCurrLootRef(CURR_CTL * m_ctl, double * m_idr, double * m_iqr)
 {
 //*****************************************************************************************************************************
-    m_ctl->id_ref                   =   *m_idr;
-    m_ctl->iq_ref                   =   *m_iqr;
+    if (m_ctl->prm.cfg_opt.bit.LPF == FALSE)
+    {
+        m_ctl->id_ref                   =   m_ctl->id_ref + ((*m_idr) - m_ctl->id_ref) * m_ctl->klpf_ccmd;
+        m_ctl->iq_ref                   =   m_ctl->iq_ref + ((*m_iqr) - m_ctl->iq_ref ) * m_ctl->klpf_ccmd;
+    }
+    else
+    {
 //*****************************************************************************************************************************
+        m_ctl->id_ref                   =   *m_idr;
+        m_ctl->iq_ref                   =   *m_iqr;
+//*****************************************************************************************************************************
+    }
+
     return  TRUE;
 }
 
