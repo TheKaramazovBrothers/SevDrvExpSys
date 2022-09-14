@@ -76,7 +76,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>9</number>
          </property>
          <widget class="QWidget" name="page_idle">
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -366,7 +366,7 @@
            <item>
             <widget class="QLabel" name="label_22">
              <property name="text">
-              <string>profile velocity (%)</string>
+              <string>profile velocity </string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -389,7 +389,7 @@
            <item>
             <widget class="QLabel" name="label_23">
              <property name="text">
-              <string/>
+              <string>rad/s</string>
              </property>
             </widget>
            </item>
@@ -436,6 +436,9 @@
              <property name="text">
               <string>current reference</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
             </widget>
            </item>
            <item>
@@ -450,6 +453,9 @@
              <property name="text">
               <string>A</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
             </widget>
            </item>
           </layout>
@@ -457,9 +463,9 @@
          <widget class="QWidget" name="page_cs_velc">
           <layout class="QHBoxLayout" name="horizontalLayout_21">
            <item>
-            <widget class="QLabel" name="label_27">
+            <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>posion pulse (pulse)</string>
+              <string>velocity reference</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -468,21 +474,41 @@
            </item>
            <item>
             <widget class="QSpinBox" name="spinBox_mode_cs_spd_ref">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="font">
+              <font>
+               <kerning>true</kerning>
+              </font>
+             </property>
+             <property name="contextMenuPolicy">
+              <enum>Qt::DefaultContextMenu</enum>
+             </property>
+             <property name="acceptDrops">
+              <bool>false</bool>
+             </property>
+             <property name="wrapping">
+              <bool>false</bool>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <property name="readOnly">
+              <bool>false</bool>
+             </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
-             <property name="minimum">
-              <number>-429496729</number>
-             </property>
-             <property name="maximum">
-              <number>429496729</number>
+             <property name="keyboardTracking">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_28">
+            <widget class="QLabel" name="label_7">
              <property name="text">
-              <string/>
+              <string>rad/s</string>
              </property>
             </widget>
            </item>
@@ -491,12 +517,29 @@
          <widget class="QWidget" name="page_cs_pos_ref">
           <layout class="QHBoxLayout" name="horizontalLayout_22">
            <item>
-            <widget class="QLabel" name="label_29">
+            <widget class="QLabel" name="label_12">
              <property name="text">
-              <string>dynamic stop</string>
+              <string>position reference</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBox">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_29">
+             <property name="text">
+              <string>pulse</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -505,12 +548,29 @@
          <widget class="QWidget" name="page_cs_iq_ref">
           <layout class="QHBoxLayout" name="horizontalLayout_23">
            <item>
-            <widget class="QLabel" name="label_30">
+            <widget class="QLabel" name="label_13">
              <property name="text">
-              <string>circle sync current follow</string>
+              <string>current reference</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinBox_2">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string>A</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>

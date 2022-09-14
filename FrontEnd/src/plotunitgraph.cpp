@@ -15,6 +15,7 @@
 #include "dialogselectcurve.h"
 #include "Cia402AppEmu.h"
 #include "plotunitgraph.h"
+#include "dftdialog.h"
 
 const   int    g_WAVE_PLOT_UPDATE_TIM           =   100;                                                // unit[ms]
 const   int    g_WAVE_PLOT_RES_NUMBER           =   1000;                                               // wave disp resolution | unit[line number]
@@ -161,7 +162,7 @@ void PlotUnitGraph::setPlotUintGraphIcons()
     this->tbtn_plot_show_all->setIcon(QIcon(":/res/images/ok.png"));
     this->tbtn_plot_show_all->setIconSize(iconSize);
 
-    this->tbtn_plot_fft->setIcon(QIcon(":/res/images/eye.png"));
+    this->tbtn_plot_fft->setIcon(QIcon(":/res/images/plot_fft.png"));
     this->tbtn_plot_fft->setIconSize(iconSize);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -411,7 +412,7 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
             this->plot->graph(i)->data().data()->clear();
         }
 
-        this->plot->rescaleAxes(true);
+//        this->plot->rescaleAxes(true);
         vtmp->clear();
 
         m_task->m_buf->ClearWaveVecBuf();
@@ -496,8 +497,24 @@ void    PlotUnitGraph::onBtnSaveCurveClicked()
 
 void    PlotUnitGraph::onBtnFFTClicked(bool checked)
 {
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DFTDialog * m_DftDialog         =   new DFTDialog(this);
 
+    onBtnMeaVClicked(true);
+
+    qreal x1 = plot->getHorizX1();
+    qreal x2 = plot->getHorizX2();
+
+    m_DftDialog->setCurveList(tableWidget_plot_curve, &key_vec, &value_list);
+    m_DftDialog->setCurveTime(x1, x2, 0.00003125);
+
+    m_DftDialog->exec();
+    this->tbtn_plot_fft->setChecked(false);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
+
+
+
 
 void    PlotUnitGraph::onPlotPosHoverChanged(const QPointF &point)
 {
@@ -684,9 +701,12 @@ void    PlotUnitGraph::realTimeDataPlot()
             this->plot->xAxis->setRange(key, wave_size, Qt::AlignRight);
             this->plot->setPlottingHint(QCP::phFastPolylines);
 
-            for (int i = 0; i < m_task->m_buf->graph_num; i++)
+            if (this->tbtn_plot_auto->isChecked())
             {
-                this->plot->graph(i)->rescaleValueAxis(true, true);
+                for (int i = 0; i < m_task->m_buf->graph_num; i++)
+                {
+                    this->plot->graph(i)->rescaleValueAxis(true, true);
+                }
             }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
             this->plot->replot();

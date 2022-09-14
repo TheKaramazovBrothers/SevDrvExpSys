@@ -165,11 +165,9 @@ typedef	enum
 
 typedef struct	seq_cfg_opt_bits
 {
-    Uint32		CURF	: 1;                                                        // current feedback mask bit
-    Uint32		VELF	: 1;                                                        // velocity feedback mask bit
-    Uint32		POSF	: 1;                                                        // position feedback mask bit
+    Uint32		VRAMP	: 1;                                                        // velocity reference ramp mask bit in VEL_CTL_POSCLD mode | 1/mask ramp
 
-    Uint32		rsvd	: 13;	                                                    // rsvd
+    Uint32		rsvd	: 31;	                                                    // rsvd
 }SEQ_CFG_OPT_BITS;
 
 

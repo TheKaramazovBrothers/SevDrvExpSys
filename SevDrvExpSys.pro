@@ -6,6 +6,8 @@
 INCLUDEPATH+=$${PWD}/FrontEnd/include/
 INCLUDEPATH+=$${PWD}/BackEnd/include/
 INCLUDEPATH+=$${PWD}/SimKernel/include/
+INCLUDEPATH+=$${PWD}/AnalysisKernel/include/
+INCLUDEPATH+=$${PWD}/FrontEnd/ui/
 
 QT       += widgets printsupport
 QT       += core gui designer
@@ -14,6 +16,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = SevDrvExpSys
 TEMPLATE = app
+
+UI_DIR  = ./FrontEnd/ui
 
 
 SOURCES += main.cpp\
@@ -41,7 +45,10 @@ SOURCES += main.cpp\
     BackEnd/src/PrmConfigService.cpp \
     SimKernel/src/VelCtlLoop.cpp \
     SimKernel/src/PosCtlLoop.cpp \
-    SimKernel/src/PosTrajProd.cpp
+    SimKernel/src/PosTrajProd.cpp \
+    AnalysisKernel/src/FastFourierTrans.cpp \
+    AnalysisKernel/src/SignalAnalysis.cpp \
+    FrontEnd/src/dftdialog.cpp
 
 HEADERS  += mainwindow.h \
         FrontEnd/include/qttreemanager.h \
@@ -68,12 +75,18 @@ HEADERS  += mainwindow.h \
     BackEnd/include/PrmConfigService.h \
     SimKernel/include/VelCtlLoop.h \
     SimKernel/include/PosCtlLoop.h \
-    SimKernel/include/PosTrajProd.h
+    SimKernel/include/PosTrajProd.h \
+    AnalysisKernel/include/FastFourierTrans.h \
+    AnalysisKernel/include/SignalAnalysis.h \
+    FrontEnd/include/dftdialog.h
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     FrontEnd/ui/plotunitgraph.ui \
     FrontEnd/ui/tabmodectl.ui \
-    FrontEnd/ui/dialogselectcurve.ui
+    FrontEnd/ui/dialogselectcurve.ui \
+    FrontEnd/ui/dftdialog.ui \
+    FrontEnd/ui/dftsettingdialog.ui \
+    FrontEnd/ui/mainwindow.ui
 
 RESOURCES += \
     servodrv.qrc

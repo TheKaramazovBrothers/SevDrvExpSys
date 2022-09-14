@@ -220,6 +220,8 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
         {
             m_ctl->prm.pov_mode                 =   VEL_CTL_POSCLD;
             m_ctl->spdr_out                     =   0;
+            m_ctl->prm.cfg_opt.bit.VRAMP        =   FALSE;
+
 
             if ((m_ctl->prm.sev_mode != m_ctl->prm.sev_mode_tmp))
             {
@@ -256,6 +258,15 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
             else
             {
                 m_ctl->spdr_out                     =   m_ctl->spdr_tmp;
+            }
+
+            if (m_ctl->prm.usr_mode == CS_VELC_SEQ_WORK)
+            {
+                m_ctl->prm.cfg_opt.bit.VRAMP        =   TRUE;
+            }
+            else
+            {
+                m_ctl->prm.cfg_opt.bit.VRAMP        =   FALSE;
             }
 
             if (m_ctl->prm.sev_mode != m_ctl->prm.sev_mode_tmp)

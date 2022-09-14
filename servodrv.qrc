@@ -136,5 +136,30 @@
         <file>res/images/zoomin.png</file>
         <file>res/images/zoomout.png</file>
         <file>res/xml/NavgationTree.ui</file>
+        <file>res/images/plot_add.png</file>
+        <file>res/images/plot_all.png</file>
+        <file>res/images/plot_auto.png</file>
+        <file>res/images/plot_clear.png</file>
+        <file>res/images/plot_config.png</file>
+        <file>res/images/plot_curve_custom.png</file>
+        <file>res/images/plot_extend.png</file>
+        <file>res/images/plot_fft.png</file>
+        <file>res/images/plot_fft_amp.png</file>
+        <file>res/images/plot_fft_pha.png</file>
+        <file>res/images/plot_fit.png</file>
+        <file>res/images/plot_meaH.png</file>
+        <file>res/images/plot_meaV.png</file>
+        <file>res/images/plot_open.png</file>
+        <file>res/images/plot_remove.png</file>
+        <file>res/images/plot_save.png</file>
+        <file>res/images/plot_show_all.png</file>
+        <file>res/images/plot_shrink.png</file>
+        <file>res/images/plot_soff.png</file>
+        <file>res/images/plot_soff2.png</file>
+        <file>res/images/plot_son.png</file>
+        <file>res/images/plot_son2.png</file>
+        <file>res/images/plot_start.png</file>
+        <file>res/images/plot_stop.png</file>
+        <file>res/images/plot_tag.png</file>
     </qresource>
 </RCC>

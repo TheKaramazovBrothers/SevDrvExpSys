@@ -18,7 +18,7 @@ DialogSelectCurve::DialogSelectCurve(QWidget *parent):QDialog(parent)
 {
     setupUi(this);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    setWindowIcon(QIcon(":/res/images/PHA.png"));
+    setWindowIcon(QIcon(":/res/images/menu_plotview.png"));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     int row_num         =   VAR_SERVO_OBJW_INX_MAX_NUM;
     int colum_num       =   2;

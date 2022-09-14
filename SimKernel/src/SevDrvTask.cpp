@@ -452,7 +452,7 @@ void	TpiVelCloseLoopDrv(SERVO_DRV * m_drv)                                      
     double  idr_tmp, iqr_tmp;
     double  ua_tmp, ub_tmp, uc_tmp;
 
-    idr_tmp     =   m_drv->obj.seq.idr_out;
+    idr_tmp     =   0;
     iqr_tmp     =   m_drv->obj.vel.iqr;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     KpiGetCurrLoopFb(&m_drv->obj.cur, &m_drv->obj.sens.ia, &m_drv->obj.sens.ib, &m_drv->obj.sens.ic, &m_drv->obj.sens.phim);
@@ -505,7 +505,7 @@ void	TpiPosCloseLoopDrv(SERVO_DRV * m_drv)
     double  idr_tmp, iqr_tmp;
     double  ua_tmp, ub_tmp, uc_tmp;
 
-    idr_tmp     =   m_drv->obj.seq.idr_out;
+    idr_tmp     =   0;
     iqr_tmp     =   m_drv->obj.vel.iqr;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     KpiGetCurrLoopFb(&m_drv->obj.cur, &m_drv->obj.sens.ia, &m_drv->obj.sens.ib, &m_drv->obj.sens.ic, &m_drv->obj.sens.phim);
@@ -532,10 +532,10 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
         {
             KpiPosCloseLoopCtl(&m_drv->obj.pos, &m_drv->obj.seq.dpcmd_out);
 
-            spdr_tmp            =   m_drv->obj.pos.spdr;
-            spdf_tmp            =   m_drv->obj.sens.mot_spd;
+            spdr_tmp                    =   m_drv->obj.pos.spdr;
+            spdf_tmp                    =   m_drv->obj.sens.mot_spd;
 
-            tqrp_tmp            =   m_drv->obj.pos.tqrp;
+            tqrp_tmp                    =   m_drv->obj.pos.tqrp;
 
             m_drv->obj.vel.prm.cfg_opt.bit.RAMP         = TRUE;
             KpiVelCloseLoopCtrl(&m_drv->obj.vel, &spdr_tmp, &spdf_tmp, &tqrp_tmp);
@@ -543,10 +543,11 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
         }
     case    VEL_CTL_POSCLD:
         {
-            spdr_tmp            =   m_drv->obj.seq.spdr_out;
-            spdf_tmp            =   m_drv->obj.sens.mot_spd;
-            tqrp_tmp            =   0;
+            spdr_tmp                        =   m_drv->obj.seq.spdr_out;
+            spdf_tmp                        =   m_drv->obj.sens.mot_spd;
+            tqrp_tmp                        =   0;
 
+            m_drv->obj.vel.prm.cfg_opt.bit.RAMP         = m_drv->obj.seq.prm.cfg_opt.bit.VRAMP;
             KpiVelCloseLoopCtrl(&m_drv->obj.vel, &spdr_tmp, &spdf_tmp, &tqrp_tmp);
             break;
         }

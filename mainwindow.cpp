@@ -47,7 +47,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_prm_service           =   new ConfigService;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     showMaximized();
-    setWindowTitle(tr("expert system"));
+
+
+    setWindowTitle(tr("expert system (v%1.%2.%3)").arg(SERVO_DRV_SOFTWARE_VERSION)\
+                                                  .arg(SERVO_SOFTWARE_MINI_VERSION)\
+                                                  .arg(SERVO_SOFTWARE_TINY_VERSION));
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

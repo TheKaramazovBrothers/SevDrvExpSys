@@ -17,6 +17,8 @@
 
 #include <QWidget>
 #include <QColor>
+#include <QStringList>
+
 #include "ui_plotunitgraph.h"
 #include "BackGroundTask.h"
 
