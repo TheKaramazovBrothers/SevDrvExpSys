@@ -20,7 +20,7 @@
 // servo driver dsp software version
 #define		SERVO_DRV_SOFTWARE_VERSION				1								// main version of servo driver software
 #define		SERVO_SOFTWARE_MINI_VERSION				0								// mini version of servo driver software
-#define		SERVO_SOFTWARE_TINY_VERSION				12								// tiny version of servo driver software
+#define		SERVO_SOFTWARE_TINY_VERSION				13								// tiny version of servo driver software
 //----------------------------------------------------------------------------------------
 
 

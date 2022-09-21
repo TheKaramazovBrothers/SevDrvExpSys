@@ -46,6 +46,8 @@ typedef	enum
     LINK_NET_PCMD			=	1,													// position command come from bus network
     PULSE_DIR_PCMD			=	2,													// position command come from pulse direction
     PT_INTERP_PCMD          =   3,                                                  // position command come from position time interpolate
+    EXCI_SIG_PCMD           =   4,                                                  // position command come from exitation signal source module
+    RECIP_STEP_PCMD         =   5,                                                  // position command come from reciprocate step motion
     REV_PCMD_SEL			=	0x8000
 }tSeqPcmdSel;
 
@@ -54,9 +56,11 @@ typedef	enum
 // velocity command input source select
 typedef	enum
 {
-    PC_USER_VCMD			=	0,													// velocity command come form app in PC
-    LINK_NET_VCMD			=	1,													// velocity command come form bus network
-    ANALOG_VCMD				=	2,													// velocity command come form analog signal input
+    PC_USER_VCMD			=	0,													// velocity command come from app in PC
+    LINK_NET_VCMD			=	1,													// velocity command come from bus network
+    ANALOG_VCMD				=	2,													// velocity command come from analog signal input
+    EXCI_SIG_VCMD           =   3,                                                  // velocity command come from exitation signal source module
+    RECIP_STEP_VCMD         =   4,                                                  // velocity command come from reciprocate step motion
     REV_VCMD_SEL			=	0x8000
 }tSeqVcmdSel;
 
@@ -64,9 +68,11 @@ typedef	enum
 // current command input source select
 typedef	enum
 {
-    PC_USER_CCMD			=	0,													// current command come form app in PC
-    LINK_NET_CCMD			=	1,													// current command come form bus network
-    ANALOG_CCMD				=	2,													// current command come form analog signal input
+    PC_USER_CCMD			=	0,													// current command come from app in PC
+    LINK_NET_CCMD			=	1,													// current command come from bus network
+    ANALOG_CCMD				=	2,													// current command come from analog signal input
+    EXCI_SIG_CCMD           =   3,                                                  // current command come from exitation signal source module
+    RECIP_STEP_CCMD         =   4,                                                  // current command come from reciprocate step motion
     REV_CCMD_SEL			=	0x8000
 }tSeqCcmdSel;
 
@@ -242,6 +248,8 @@ typedef		struct	seq_ctl
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     int16               act_on_tmp;
     int16               act_on_out;
+    int16               en_opera_tmp;
+    int16               en_opera_out;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }SEQ_CTL;
 

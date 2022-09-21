@@ -19,7 +19,9 @@
 #include	"SevDrvTask.h"
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-int16	VpiServoEnable(bool m_en);                                              // servo enable function declare | true/enable, false.disable
+int16	VpiServoEnable(bool m_en);                                              // servo enable function declare | true/enable, false/disable
+int16	VpiEnableOperate(bool m_en);                                            // enable operate function delcare | true/enable, false/disable
+
 int16	VpiSetServoWorkMode(tSeqWorkMode m_mod);                                // set servo work mode
 
 // servo reference interface function define

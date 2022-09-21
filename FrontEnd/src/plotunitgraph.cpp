@@ -37,11 +37,9 @@ PlotUnitGraph::PlotUnitGraph(QWidget *parent)
 
     wave_samp_ts            =   m_task->m_buf->clu_cyc_ts * m_task->m_buf->samp_div_tims;
     wave_disp_range         =   10.0;
-    wave_storage_range      =   40.0;
+    wave_storage_range      =   200.0;
 
-    wave_data_storage_num   =   wave_storage_range/m_task->m_buf->clu_cyc_ts;
-
-
+    wave_data_storage_num   =   wave_storage_range/wave_samp_ts;
     wave_disp_interval      =   (wave_disp_range / wave_samp_ts)/g_WAVE_PLOT_RES_NUMBER;
 
 // variable initialization
@@ -64,6 +62,7 @@ PlotUnitGraph::PlotUnitGraph(QWidget *parent)
         value_list.append(*vtmp);
     }
     key_vec.append(0.0);
+    vtmp->clear();
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     connect(&data_timer, SIGNAL(timeout()), this, SLOT(realTimeDataPlot()));
 
@@ -222,7 +221,9 @@ void    PlotUnitGraph::InitTableWidgetPloCurve()
 
 //    QFile ifs("./res/xml/WaveTblPctl.txt");
 //    QFile ifs("./res/xml/WaveTblG20.txt");
-    QFile ifs("./res/xml/WaveTblG10.txt");
+//    QFile ifs("./res/xml/WaveTblG10.txt");
+    QFile ifs("./res/xml/WaveTblIdf.txt");
+
     if (!ifs.open(QFile::ReadWrite))
     {
         qDebug () << "Could not open the file by reading";
@@ -372,6 +373,11 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
     {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         m_task->m_buf->graph_num                =   tab_wave_cnt;
+        m_task->m_buf->samp_div_tims            =   comboBox_plot_sampling->currentText().toInt();
+
+        wave_samp_ts            =   m_task->m_buf->clu_cyc_ts * m_task->m_buf->samp_div_tims;
+        wave_data_storage_num   =   wave_storage_range / wave_samp_ts;
+        wave_disp_interval      =   (wave_disp_range / wave_samp_ts)/g_WAVE_PLOT_RES_NUMBER;
 
         this->plot->clearGraphs();
 
@@ -420,6 +426,7 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
         wave_plot_en                            =   TRUE;
         m_task->m_buf->enp                      =   true;
 
+//        m_task->clearStopFlag();
         m_task->start();
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     }
@@ -431,6 +438,7 @@ void    PlotUnitGraph::onBtnStartSampleClicked(bool checked)
         m_task->stop();
         for (int i = 0; i < m_task->m_buf->graph_num; i++)
         {
+            this->plot->graph(i)->data()->clear();
             this->plot->graph(i)->setData(key_vec, value_list.at(i), true);
         }
         key                 =   key_vec.last();
@@ -487,12 +495,226 @@ void    PlotUnitGraph::onBtnLoadAllCurveClicked()
 
 void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
 {
+    auto file_name = QFileDialog::getOpenFileName(this, tr("Open wave"), "../", tr("*.txt"));
+    if(file_name.isEmpty())
+    {
+        return;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    QFile file;
+    file.setFileName(file_name);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::information(0,tr("file error"),tr("can not open file :\n%1").arg(file_name));
+        return;
+    }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    QTextStream in(&file);
+
+    QString     fst_line        = in.readLine(0);
+    QStringList fst_lstLine     = fst_line.split(QRegExp("\\s+"));
+
+    QString     sec_line        = in.readLine(0);
+    QStringList sec_lstLine     = sec_line.split(QRegExp("\\s+"));
+
+    int line_lth = fst_lstLine.count();
+    if (line_lth > 0)
+    {
+        QString     sdata           =  fst_lstLine.at(0);
+        wave_samp_ts                =  sdata.toDouble();
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        if (tab_wave_cnt > 0)
+        {
+            tableWidget_plot_curve->setRowCount(0);
+            tableWidget_plot_curve->clearContents();
+            tab_wave_cnt    =   0;
+        }
+
+        for (int i = 1; i < (line_lth - 1); i++)
+        {
+            if ((tab_wave_cnt < g_MAX_TAB_WAVE_NUM))
+            {
+                tableWidget_plot_curve->setRowCount(tab_wave_cnt+1);
+
+                tableWidget_plot_curve->setItem(tab_wave_cnt, 0, new QTableWidgetItem());
+                tableWidget_plot_curve->setItem(tab_wave_cnt, 1, new QTableWidgetItem());
+
+                tableWidget_plot_curve->item(tab_wave_cnt,0)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+                tableWidget_plot_curve->item(tab_wave_cnt,1)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+
+                QString str      =       fst_lstLine.at(i);
+                QString str2     =       sec_lstLine.at(i);
+
+                tableWidget_plot_curve->item(tab_wave_cnt, 0)->setText(str);
+                tableWidget_plot_curve->item(tab_wave_cnt, 1)->setText(str2);
+
+                tableWidget_plot_curve->item(tab_wave_cnt, 0)->setFlags(Qt::ItemIsEnabled);
+                tableWidget_plot_curve->item(tab_wave_cnt, 1)->setFlags(Qt::ItemIsEnabled);
+
+                tab_wave_cnt++;
+            }
+        }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        wave_plot_en                            =   FALSE;
+        m_task->m_buf->enp                      =   false;
+
+        if (m_task->isRunning())
+        {
+            m_task->stop();
+        }
+
+        value_list.clear();
+        key_vec.clear();
+
+        QVector<qreal> *vtmp        =   new QVector<qreal>;
+        vtmp->append(0);
+
+        for (int i = 1; i < (line_lth - 1); i++)
+        {
+            value_list.append(*vtmp);
+        }
+
+
+        double      dtmp;
+
+        while (!in.atEnd())
+        {
+            in >> dtmp;
+            key_vec.append(dtmp);
+
+            for (int i = 1; i < (line_lth - 1); i++)
+            {
+                in >> dtmp;;
+                value_list[(i-1)].append(dtmp);
+            }
+        }
+
+        key_vec.removeLast();
+
+        for (int i = 1; i < (line_lth - 1); i++)
+        {
+            in >> dtmp;;
+            value_list[(i-1)].removeLast();
+        }
+
+        vtmp->clear();
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        m_task->m_buf->graph_num                =   tab_wave_cnt;
+        int time_tmp                            =   wave_samp_ts/m_task->m_buf->clu_cyc_ts;
+        int inx_tmp                             =   log2(time_tmp);
+
+        comboBox_plot_sampling->setCurrentIndex(inx_tmp);
+        m_task->m_buf->samp_div_tims            =   comboBox_plot_sampling->currentText().toInt();
+
+        wave_samp_ts                            =   m_task->m_buf->clu_cyc_ts * m_task->m_buf->samp_div_tims;
+        wave_data_storage_num                   =   wave_storage_range / wave_samp_ts;
+        wave_disp_interval                      =   (wave_disp_range / wave_samp_ts)/g_WAVE_PLOT_RES_NUMBER;
+
+        this->plot->clearGraphs();
+
+        QColor     color_tmp;
+        // wave plot module initialization
+        for (int i = 0; i < m_task->m_buf->graph_num; i++)
+        {
+            this->plot->addGraph();
+            color_tmp                           =   tableWidget_plot_curve->item(i,0)->textColor();
+            this->plot->graph(i)->setPen(QPen(color_tmp));
+
+            plot->graph(i)->setVisible(true);
+        }
+
+        for (int i = 0; i < m_task->m_buf->graph_num; i++)
+        {
+            this->plot->graph(i)->setData(key_vec, value_list.at(i), true);
+        }
+
+        key                 =   key_vec.last();
+        double wave_size    =   key - key_vec.first();
+
+        plot->rescaleAxes(true);
+        this->plot->xAxis->setRange(key, wave_size, Qt::AlignRight);
+        this->plot->replot();
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+        file.close();
+        return;
+    }
+    else
+    {
+        return;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void    PlotUnitGraph::onBtnSaveCurveClicked()
 {
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    auto file_name = QFileDialog::getSaveFileName(this, tr("Save wave"), "../wave.txt",tr("*.txt"));
+    if(file_name.isEmpty())
+    {
+        return;
+    }
 
+    QFile fdata(file_name);
+
+    if (fdata.open(QFile::WriteOnly | QFile::Truncate | QIODevice::Text))
+    {
+        QTextStream out(&fdata);
+
+        QString nameStr;
+        int row_num      =   tableWidget_plot_curve->rowCount();
+        out.setFieldAlignment(QTextStream::AlignLeft);
+        out.setRealNumberPrecision(11);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        for (int i = -1; i < row_num; i++)
+        {
+            if (i != -1)
+            {
+                nameStr         =   tableWidget_plot_curve->item(i,0)->text();
+            }
+            else
+            {
+                nameStr         =   QString::number(wave_samp_ts);
+            }
+            out << qSetFieldWidth(20) <<  nameStr ;
+        }
+        out << qSetFieldWidth(0) << endl ;
+
+        for (int i = -1; i < row_num; i++)
+        {
+            if (i != -1)
+            {
+                nameStr         =   tableWidget_plot_curve->item(i,1)->text();
+            }
+            else
+            {
+                nameStr         =   tr("time(s)");
+            }
+            out << qSetFieldWidth(20) << nameStr ;
+        }
+
+        out << qSetFieldWidth(0) << endl ;
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        int wave_lth      =     key_vec.count();
+        for (int i = 1; i < wave_lth; i++)
+        {
+            out << qSetFieldWidth(20) << key_vec.at(i) ;
+
+            for (int j = 0; j < row_num; j++)
+            {
+                out << qSetFieldWidth(20) << value_list.at(j).at(i) ;
+            }
+            out << qSetFieldWidth(0) << endl ;
+        }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    }
+
+    fdata.close();
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void    PlotUnitGraph::onBtnFFTClicked(bool checked)
@@ -506,7 +728,7 @@ void    PlotUnitGraph::onBtnFFTClicked(bool checked)
     qreal x2 = plot->getHorizX2();
 
     m_DftDialog->setCurveList(tableWidget_plot_curve, &key_vec, &value_list);
-    m_DftDialog->setCurveTime(x1, x2, 0.00003125);
+    m_DftDialog->setCurveTime(x1, x2, wave_samp_ts);
 
     m_DftDialog->exec();
     this->tbtn_plot_fft->setChecked(false);
@@ -690,6 +912,7 @@ void    PlotUnitGraph::realTimeDataPlot()
                     for (int i = 0; i < m_task->m_buf->graph_num; i++)
                     {
                         this->plot->graph(i)->addData(tkey->at(j), tvalue->at(i).at(j));
+                        this->plot->graph(i)->data()->removeBefore(tkey->at(j)-wave_disp_range);
                     }
                 }
                 wave_disp_cnt++;

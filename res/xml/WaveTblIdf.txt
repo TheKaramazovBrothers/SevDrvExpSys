@@ -1,0 +1,8 @@
+Exci          69
+Icmd	3
+Ifb	1
+Vcmd	25
+Vel	22
+
+
+

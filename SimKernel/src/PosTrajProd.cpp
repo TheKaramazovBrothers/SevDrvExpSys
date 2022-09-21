@@ -35,6 +35,10 @@ int16	KpiInitPosTrajProdModule(POS_TRAJ * m_ctl)
         m_ctl->prm.maxspd                   =   3000;
         m_ctl->prm.rot_res                  =   16777216;
         m_ctl->prm.cfg_opt.all              =   0;
+
+        m_ctl->prm.recip_num                =   100;                                                          // reciprocating motion times
+        m_ctl->prm.interv_tim               =   1600;                                                         // interval time between motion | unit[scan]
+        m_ctl->prm.spdr_hold_tim            =   16000;                                                        // speed command hold time in reciprocate motion | unit[scan]
     }
 // temper parameter initialization
     m_ctl->vel_max                      =   ((double)(m_ctl->prm.maxspd)/60.0)*(double)(m_ctl->prm.rot_res);
@@ -66,6 +70,16 @@ int16	KpiInitPosTrajProdModule(POS_TRAJ * m_ctl)
     m_ctl->xacc_real                    =   0;                                                              // real accelerate  command | unit[pulse/s/s]
 
     m_ctl->flag.all                     =   0;
+
+    m_ctl->pcmd_in                      =   0;
+    m_ctl->pcmd_out                     =   0;
+
+    m_ctl->spd_cmd_in                   =   0;                                                              // input of speed command
+    m_ctl->spd_cmd_out                  =   0;                                                              // output o speed command
+
+    m_ctl->recip_cnt                    =   0;                                                              // reciprocating motion count value
+    m_ctl->motion_cnt                   =   0;                                                              // motion times count value
+    m_ctl->recip_state                  =   INIT_MOTION_STAGE_RMS;                                          // reciprocating motion state
 //**************************************************************************************************************************
     return  TRUE;
 }
@@ -100,6 +114,16 @@ int16	KpiInitPosTrajProdVar(POS_TRAJ * m_ctl)
     m_ctl->xacc_real                    =   0;                                                              // real accelerate  command | unit[pulse/s/s]
 
     m_ctl->flag.all                     =   0;
+
+    m_ctl->pcmd_in                      =   0;
+    m_ctl->pcmd_out                     =   0;
+
+    m_ctl->spd_cmd_in                   =   0;                                                              // input of speed command
+    m_ctl->spd_cmd_out                  =   0;                                                              // output o speed command
+
+    m_ctl->recip_cnt                    =   0;                                                              // reciprocating motion count value
+    m_ctl->motion_cnt                   =   0;                                                              // motion times count value
+    m_ctl->recip_state                  =   INIT_MOTION_STAGE_RMS;                                          // reciprocating motion state
 //**************************************************************************************************************************
     return  TRUE;
 }
@@ -231,10 +255,231 @@ int16	KpiPosTrajProd(POS_TRAJ * m_ctl, int64 * pset_in, int64 * pcmd_out)
         m_ctl->flag.bit.ENDF            =   TRUE;
     }
 
-
 //**************************************************************************************************************************
     m_ctl->ptraj_out                    =   m_ctl->xq_real;
     *pcmd_out                           =   m_ctl->ptraj_out;
 //**************************************************************************************************************************
     return  TRUE;
 }
+
+
+
+int16   KpiRecipMotionTrajProd(POS_TRAJ * m_ctl, int16 * en_opra, int64 * pset_in, int64 * pcmd_out)
+{
+    m_ctl->pcmd_in                  =   *pset_in;
+//**************************************************************************************************************************
+    if ((*en_opra) == TRUE)
+    {
+        switch (m_ctl->recip_state)
+        {
+            case    INIT_MOTION_STAGE_RMS:
+            {
+                m_ctl->recip_cnt++;
+                if (m_ctl->recip_cnt >= m_ctl->prm.interv_tim)
+                {
+                    m_ctl->recip_cnt            =   0;
+                    m_ctl->motion_cnt           =   0;
+                    m_ctl->recip_state          =   POS_MOTION_STAGE_RMS;
+                }
+                m_ctl->pcmd_out             =   0;
+                break;
+            }
+            case    POS_MOTION_STAGE_RMS:
+            {
+                m_ctl->pcmd_out                 =   m_ctl->pcmd_in;
+                m_ctl->recip_state              =   WAITN_MOTION_STAGE_RMS;
+                break;
+            }
+            case    WAITN_MOTION_STAGE_RMS:
+            {
+                if (m_ctl->flag.bit.ENDF == TRUE)
+                {
+                    m_ctl->recip_cnt++;
+                    if (m_ctl->recip_cnt >= m_ctl->prm.interv_tim)
+                    {
+                        m_ctl->recip_state          =   NEG_MOTION_STATE_RMS;
+                        m_ctl->recip_cnt            =   0;
+                    }
+                }
+                m_ctl->pcmd_out                 =   m_ctl->pcmd_in;
+                break;
+            }
+            case    NEG_MOTION_STATE_RMS:
+            {
+                m_ctl->pcmd_out                 =   0;
+                m_ctl->recip_state              =   WAITP_MOTION_STAGE_RMS;
+                break;
+            }
+            case    WAITP_MOTION_STAGE_RMS:
+            {
+                if (m_ctl->flag.bit.ENDF == TRUE)
+                {
+                    m_ctl->recip_cnt++;
+
+                    if (m_ctl->recip_cnt >= m_ctl->prm.interv_tim)
+                    {
+                        m_ctl->motion_cnt++;
+
+                        if (m_ctl->motion_cnt >= m_ctl->prm.recip_num)
+                        {
+                            m_ctl->motion_cnt           =   0;
+                            m_ctl->recip_state          =   END_MOTION_STAGE_RMS;
+                        }
+                        else
+                        {
+                            m_ctl->recip_state          =   POS_MOTION_STAGE_RMS;
+                        }
+                        m_ctl->recip_cnt            =   0;
+                    }
+                }
+                m_ctl->pcmd_out                 =   0;
+                break;
+            }
+            case    END_MOTION_STAGE_RMS:
+            {
+                m_ctl->pcmd_out                 =   0;
+                break;
+            }
+            default:
+            {
+                m_ctl->recip_state              =   INIT_MOTION_STAGE_RMS;
+                m_ctl->pcmd_out                 =   0;
+                break;
+            }
+        }
+    }
+    else
+    {
+        m_ctl->pcmd_out             =   0;
+        m_ctl->recip_state          =   INIT_MOTION_STAGE_RMS;
+        m_ctl->recip_cnt            =   0;
+    }
+//**************************************************************************************************************************
+    KpiPosTrajProd(m_ctl, &m_ctl->pcmd_out, pcmd_out);
+//**************************************************************************************************************************
+    return  TRUE;
+}
+
+
+
+int16   KpiStepCmdRecipMotion(POS_TRAJ * m_ctl, int16 * en_opra, double * cmd_in, double * cmd_out)
+{
+//**************************************************************************************************************************
+    m_ctl->spd_cmd_in           =   *cmd_in;
+
+    if (*en_opra == TRUE)
+    {
+        switch (m_ctl->recip_state)
+        {
+            case    INIT_MOTION_STAGE_RMS:
+            {
+                m_ctl->recip_cnt++;
+                if (m_ctl->recip_cnt >= m_ctl->prm.interv_tim)
+                {
+                    m_ctl->recip_cnt            =   0;
+                    m_ctl->motion_cnt           =   0;
+                    m_ctl->recip_state          =   POS_MOTION_STAGE_RMS;
+                }
+                m_ctl->spd_cmd_out              =   0;
+                break;
+            }
+            case    POS_MOTION_STAGE_RMS:
+            {
+                m_ctl->recip_cnt++;
+                if (m_ctl->recip_cnt >= m_ctl->prm.spdr_hold_tim)
+                {
+                    m_ctl->recip_cnt            =   0;
+                    m_ctl->spd_cmd_out          =   0;
+                    m_ctl->recip_state          =   WAITN_MOTION_STAGE_RMS;
+                }
+                else
+                {
+                    m_ctl->spd_cmd_out          =   m_ctl->spd_cmd_in;
+                }
+
+                break;
+            }
+            case    WAITN_MOTION_STAGE_RMS:
+            {
+                m_ctl->recip_cnt++;
+                if (m_ctl->recip_cnt >= m_ctl->prm.interv_tim)
+                {
+                    m_ctl->recip_state          =   NEG_MOTION_STATE_RMS;
+                    m_ctl->recip_cnt            =   0;
+                    m_ctl->spd_cmd_out          =   -m_ctl->spd_cmd_in;
+                }
+                else
+                {
+                    m_ctl->spd_cmd_out          =   0;
+                }
+
+                break;
+            }
+            case    NEG_MOTION_STATE_RMS:
+            {
+                m_ctl->recip_cnt++;
+                if (m_ctl->recip_cnt >= m_ctl->prm.spdr_hold_tim)
+                {
+                    m_ctl->recip_cnt            =   0;
+                    m_ctl->spd_cmd_out          =   0;
+                    m_ctl->recip_state          =   WAITP_MOTION_STAGE_RMS;
+                }
+                else
+                {
+                    m_ctl->spd_cmd_out          =   -m_ctl->spd_cmd_in;
+                }
+                break;
+            }
+            case    WAITP_MOTION_STAGE_RMS:
+            {
+                m_ctl->recip_cnt++;
+
+                if (m_ctl->recip_cnt >= m_ctl->prm.interv_tim)
+                {
+                    m_ctl->motion_cnt++;
+
+                    if (m_ctl->motion_cnt >= m_ctl->prm.recip_num)
+                    {
+                        m_ctl->motion_cnt           =   0;
+                        m_ctl->recip_state          =   END_MOTION_STAGE_RMS;
+                    }
+                    else
+                    {
+                        m_ctl->recip_state          =   POS_MOTION_STAGE_RMS;
+                    }
+
+                    m_ctl->recip_cnt            =   0;
+                }
+                else
+                {
+                    m_ctl->spd_cmd_out          =   0;
+                }
+                break;
+            }
+            case    END_MOTION_STAGE_RMS:
+            {
+                m_ctl->spd_cmd_out          =   0;
+                break;
+            }
+            default:
+            {
+                m_ctl->recip_state              =   INIT_MOTION_STAGE_RMS;
+                m_ctl->spd_cmd_out              =   0;
+                m_ctl->recip_cnt                =   0;
+                break;
+            }
+        }
+    }
+    else
+    {
+        m_ctl->spd_cmd_out          =   0;
+        m_ctl->recip_state          =   INIT_MOTION_STAGE_RMS;
+        m_ctl->recip_cnt            =   0;
+        m_ctl->motion_cnt           =   0;
+    }
+
+    *cmd_out                   =   m_ctl->spd_cmd_out;
+//**************************************************************************************************************************
+    return  TRUE;
+}
+

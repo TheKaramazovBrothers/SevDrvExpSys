@@ -49,7 +49,7 @@ PmsmDrvMechModel::PmsmDrvMechModel()
     this->JM                =       0.000044;
 
     this->JL                =       this->JM * this->J_Rat;                             // inertia of the loader (kg-m^2)
-    this->BS                =       0.0001;												// the viscous friction coefficient (Nm-s/rad)
+    this->BS                =       0.0002;												// the viscous friction coefficient (Nm-s/rad)
     this->KS                =       5000.0;                                             //	modulus of elasticity (Nm/rad)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     this->TL				=		0;													// load torque

@@ -66,6 +66,9 @@ int16	KpiInitSeqCtlModule(SEQ_CTL * m_ctl)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     m_ctl->act_on_tmp                       =   0;
     m_ctl->act_on_out                       =   0;
+
+    m_ctl->en_opera_tmp                     =   0;
+    m_ctl->en_opera_out                     =   0;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     return  TRUE;
 }
@@ -105,6 +108,9 @@ int16	KpiInitSeqCtlVar(SEQ_CTL * m_ctl)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     m_ctl->act_on_tmp                       =   0;
     m_ctl->act_on_out                       =   0;
+
+    m_ctl->en_opera_tmp                     =   0;
+    m_ctl->en_opera_out                     =   0;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     return  TRUE;
 }
@@ -127,7 +133,17 @@ int16	KpiSeqBackGroundRout(SEQ_CTL * m_ctl, void * m_drv)
         m_ctl->act_on_tmp                   =   FALSE;
     }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    if (m_ctl->prm.ctl_word.bit.EO == TRUE)
+    {
+        m_ctl->en_opera_tmp                 =   TRUE;
+    }
+    else
+    {
+        m_ctl->en_opera_tmp                 =   FALSE;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     m_ctl->act_on_out                       =   m_ctl->act_on_tmp;
+    m_ctl->en_opera_out                     =   m_ctl->en_opera_tmp;
 
     p_drv->task.act_on                      =   m_ctl->act_on_out;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -213,6 +229,7 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     int64   lltmp;
     SERVO_DRV * p_drv                       =   (SERVO_DRV *)(m_drv);
+    double  spd_ref_tmp, pos_ref_tmp;
 //--------------------------------------------------------------------------------------------------------
     switch (m_ctl->prm.sev_mode)
     {
@@ -237,6 +254,11 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
                         m_ctl->prm.sev_mode         =   POS_TRA_PCTL_SERVO;
                         break;
                     }
+                case    TQR_TRA_CCTL_SERVO:
+                    {
+                        m_ctl->prm.sev_mode         =   TQR_TRA_CCTL_SERVO;
+                        break;
+                    }
                 default:
                     {
                         break;
@@ -250,16 +272,40 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
     case	SPD_TRA_VCTL_SERVO:
         {
             m_ctl->prm.pov_mode                 =   VEL_CTL_POSCLD;
-
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            switch (m_ctl->prm.vsrc_sel)
+            {
+                case    PC_USER_VCMD:
+                {
+                    spd_ref_tmp                     =   m_ctl->spdr_tmp;
+                    break;
+                }
+                case    EXCI_SIG_VCMD:
+                {
+                    KpiExciSigProd(&p_drv->obj.excs, &spd_ref_tmp);
+                    break;
+                }
+                case    RECIP_STEP_VCMD:
+                {
+                    KpiStepCmdRecipMotion(&p_drv->obj.ptrj, &m_ctl->en_opera_out, &m_ctl->spdr_tmp, &spd_ref_tmp);
+                    break;
+                }
+                default:
+                {
+                    spd_ref_tmp                     =   0;
+                    break;
+                }
+            }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             if (m_ctl->prm.cmd_dir.bit.VELC_DIR == 1)
             {
-                m_ctl->spdr_out                     =   -m_ctl->spdr_tmp;
+                m_ctl->spdr_out                     =   -spd_ref_tmp;
             }
             else
             {
-                m_ctl->spdr_out                     =   m_ctl->spdr_tmp;
+                m_ctl->spdr_out                     =   spd_ref_tmp;
             }
-
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             if (m_ctl->prm.usr_mode == CS_VELC_SEQ_WORK)
             {
                 m_ctl->prm.cfg_opt.bit.VRAMP        =   TRUE;
@@ -287,8 +333,32 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
     case	POS_TRA_PCTL_SERVO:
         {
             m_ctl->prm.pov_mode                 =   POS_CTL_POSCLD;
-
-            KpiPosTrajProd(&p_drv->obj.ptrj, &m_ctl->posr_tmp, &m_ctl->posr_out);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            switch (m_ctl->prm.psrc_sel)
+            {
+                case    PC_USER_PCMD:
+                {
+                    KpiPosTrajProd(&p_drv->obj.ptrj, &m_ctl->posr_tmp, &m_ctl->posr_out);
+                    break;
+                }
+                case    EXCI_SIG_PCMD:
+                {
+                    KpiExciSigProd(&p_drv->obj.excs, &pos_ref_tmp);
+                    m_ctl->posr_out        =         pos_ref_tmp*1024.0;
+                    break;
+                }
+                case    RECIP_STEP_PCMD:
+                {
+                    KpiRecipMotionTrajProd(&p_drv->obj.ptrj, &m_ctl->en_opera_out, &m_ctl->posr_tmp, &m_ctl->posr_out);
+                    break;
+                }
+                default:
+                {
+                    m_ctl->posr_out         =   0;
+                    break;
+                }
+            }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             lltmp                               =   m_ctl->posr_out - m_ctl->posr_out_lst;
 
             m_ctl->dpcmd_in                     =   lltmp;
@@ -305,7 +375,31 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
     case	TQR_TRA_CCTL_SERVO:
         {
             m_ctl->prm.pov_mode                 =   CURR_CTL_POSCLD;
-            m_ctl->spdr_out                     =   0;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+            switch (m_ctl->prm.csrc_sel)
+            {
+                case    PC_USER_CCMD:
+                {
+                    m_ctl->iqr_out              =   m_ctl->iqr_tmp;
+                    break;
+                }
+                case    EXCI_SIG_CCMD:
+                {
+                    KpiExciSigProd(&p_drv->obj.excs, &m_ctl->iqr_out);
+                    break;
+                }
+                case    RECIP_STEP_CCMD:
+                {
+                    KpiStepCmdRecipMotion(&p_drv->obj.ptrj, &m_ctl->en_opera_out, &m_ctl->iqr_tmp, &m_ctl->iqr_out);
+                    break;
+                }
+                default:
+                {
+                    m_ctl->iqr_out              =   0;
+                    break;
+                }
+            }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             break;
         }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

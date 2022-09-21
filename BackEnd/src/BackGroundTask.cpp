@@ -38,6 +38,9 @@ WaveBuf::WaveBuf(QObject *parent)
     this->key_vec.append(0.0);
 
     this->curr_key                  =   0.0;
+    this->samp_cnt                  =   0;
+
+    vtmp->clear();
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 void    WaveBuf::ClearWaveVecBuf(void)
@@ -66,9 +69,13 @@ int16 WaveBuf::FillWaveToBuffer()
 {
     QMutexLocker locker(&mutex);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    if ((this->key_vec.count() <= this->data_space_ulim) && (this->enp == true))
+    this->samp_cnt++;
+
+    if ((this->samp_cnt >= this->samp_div_tims) && (this->enp == true) && (this->key_vec.count() <= this->data_space_ulim))
     {
-        this->curr_key = this->curr_key + this->clu_cyc_ts;
+        this->samp_cnt  =   0;
+
+        this->curr_key = this->curr_key + (this->clu_cyc_ts * (double)(this->samp_div_tims));
 
         double  dtmp    =   0;
 
@@ -307,6 +314,10 @@ void threadTask::stop()
 }
 
 
+void threadTask::clearStopFlag()
+{
+    stopped     =   false;
+}
 
 
 

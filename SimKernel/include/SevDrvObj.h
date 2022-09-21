@@ -21,6 +21,8 @@
 #include "SevDrvMeas.h"
 #include "SeqCtlFunc.h"
 #include "PosTrajProd.h"
+#include "ExciSigProd.h"
+
 
 typedef		struct	servo_obj
 {
@@ -32,6 +34,7 @@ typedef		struct	servo_obj
     VEL_CTL         vel;                                                        // velocity control module
     POS_CTL         pos;                                                        // position control module
     POS_TRAJ        ptrj;                                                       // position trajectory maker
+    EXCI_SIG        excs;                                                       // excitation signal module
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }SERVO_OBJ;
 

@@ -52,6 +52,7 @@ protected:
 private slots:
     void    onModeCtlPanelModeChanged(int mode);
     void    onBtnServoOnClicked(bool checked);
+    void    onBtnEnOperaClicked(bool checked);
     void    onModeSpinBoxValueChanged(int value);
 private:
     void    setupIcons(void);

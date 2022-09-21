@@ -48,7 +48,9 @@ SOURCES += main.cpp\
     SimKernel/src/PosTrajProd.cpp \
     AnalysisKernel/src/FastFourierTrans.cpp \
     AnalysisKernel/src/SignalAnalysis.cpp \
-    FrontEnd/src/dftdialog.cpp
+    FrontEnd/src/dftdialog.cpp \
+    SimKernel/src/ExciSigProd.cpp \
+    AnalysisKernel/src/OrthCorelAnalysis.cpp
 
 HEADERS  += mainwindow.h \
         FrontEnd/include/qttreemanager.h \
@@ -78,7 +80,9 @@ HEADERS  += mainwindow.h \
     SimKernel/include/PosTrajProd.h \
     AnalysisKernel/include/FastFourierTrans.h \
     AnalysisKernel/include/SignalAnalysis.h \
-    FrontEnd/include/dftdialog.h
+    FrontEnd/include/dftdialog.h \
+    SimKernel/include/ExciSigProd.h \
+    AnalysisKernel/include/OrthCorelAnalysis.h
 
 FORMS    += \
     FrontEnd/ui/plotunitgraph.ui \

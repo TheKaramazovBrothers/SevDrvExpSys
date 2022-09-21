@@ -69,6 +69,9 @@ TabModeCtl::TabModeCtl(QWidget *parent)
 
     tbtn_plot_servoOnMode->setCheckable(true);
     label_plot_servo_onoff->setText(tr("SEV OFF"));
+
+    tbtn_plot_en_opera->setCheckable(true);
+    label_plot_en_opera->setText(tr("OPERA OFF"));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     connect(spinBox_mode_ipa,SIGNAL(valueChanged(int)),this,SLOT(onModeSpinBoxValueChanged(int)));
     connect(spinBox_mode_idref,SIGNAL(valueChanged(int)),this,SLOT(onModeSpinBoxValueChanged(int)));
@@ -89,6 +92,7 @@ TabModeCtl::TabModeCtl(QWidget *parent)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     connect(comboBox,SIGNAL(currentIndexChanged(int)),this,SLOT(onModeCtlPanelModeChanged(int)));
     connect(tbtn_plot_servoOnMode,SIGNAL(clicked(bool)),this,SLOT(onBtnServoOnClicked(bool)));
+    connect(tbtn_plot_en_opera,SIGNAL(clicked(bool)),this,SLOT(onBtnEnOperaClicked(bool)));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     stackedWidget_plot_mode->setCurrentIndex(usr_mode);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -99,12 +103,18 @@ void TabModeCtl::setupIcons(void)
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
   QSize iconSize(100,100);
-  QIcon servoOnIcon;
+  QIcon servoOnIcon, servoOnIcon2;
   servoOnIcon.addPixmap(QPixmap(":/res/images/soff.png"),QIcon::Selected,QIcon::Off);
   servoOnIcon.addPixmap(QPixmap(":/res/images/son.png"),QIcon::Selected,QIcon::On);
 
   tbtn_plot_servoOnMode->setIcon(servoOnIcon);
   tbtn_plot_servoOnMode->setIconSize(iconSize);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  servoOnIcon2.addPixmap(QPixmap(":/res/images/plot_soff.png"),QIcon::Selected,QIcon::Off);
+  servoOnIcon2.addPixmap(QPixmap(":/res/images/plot_son.png"),QIcon::Selected,QIcon::On);
+
+  tbtn_plot_en_opera->setIcon(servoOnIcon2);
+  tbtn_plot_en_opera->setIconSize(iconSize);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -402,10 +412,37 @@ void TabModeCtl::onBtnServoOnClicked(bool checked)
     else
     {
         label_plot_servo_onoff->setText(tr("SEV OFF"));
+
+        tbtn_plot_en_opera->setChecked(false);
+        VpiEnableOperate(false);
     }
 
     VpiServoEnable(checked);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+
+
+
+void    TabModeCtl::onBtnEnOperaClicked(bool checked)
+{
+    if (tbtn_plot_servoOnMode->isChecked())
+    {
+        if (checked)
+        {
+            label_plot_en_opera->setText(tr("OPERA ON"));
+        }
+        else
+        {
+            label_plot_en_opera->setText(tr("OPERA OFF"));
+        }
+
+        VpiEnableOperate(checked);
+    }
+    else
+    {
+        tbtn_plot_en_opera->setChecked(false);
+    }
+
 }
 
 

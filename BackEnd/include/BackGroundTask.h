@@ -51,6 +51,7 @@ public:
     QVector<qreal>			key_vec;                                                                // wave key value vector
 
     QMutex                  mutex;                                                                  // mutex variable define
+    int32                   samp_cnt;                                                               // sample count variable
 public:
     void    ClearWaveVecBuf(void);
 public:
@@ -130,6 +131,7 @@ public:
     threadTask(QObject *parent);
     ~threadTask();
     void stop();
+    void clearStopFlag();
 protected:
     void run();
 

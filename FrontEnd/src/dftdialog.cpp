@@ -12,6 +12,9 @@
 #include "SignalAnalysis.h"
 #include "plotunitgraph.h"
 #include "dialogselectcurve.h"
+#include "OrthCorelAnalysis.h"
+#include "Cia402AppEmu.h"
+
 #include "dftdialog.h"
 
 
@@ -21,6 +24,25 @@ DFTDialog::DFTDialog(QWidget *parent):QDialog(parent)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     initDialogUi();
     setSignalSlotConnections();
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    double  dtmp, dtmp2 ;
+
+    CpiReadRamPrmByDicInx(SIN_HZ_START_EXCI_SIG_PRM_ID16_OBJW_203AH, &dtmp);
+    m_sin_hz_start                  =   dtmp;                                                           // HZ
+
+    CpiReadRamPrmByDicInx(SIN_HZ_STEP_EXCI_SIG_PRM_ID16_OBJW_203BH, &dtmp);
+    m_sin_hz_step                   =   dtmp;                                                           // HZ
+
+    CpiReadRamPrmByDicInx(SIN_HARM_NUM_EXCI_SIG_PRM_ID16_OBJW_203CH, &dtmp);
+    m_sin_harm_num                  =   dtmp;                                                            // Harmonic number
+
+    CpiReadRamPrmByDicInx(DELAY_TIM_EXCI_SIG_PRM_ID32_OBJW_2039H, &dtmp);
+    CpiReadRamPrmByDicInx(TS_EXCI_SIG_PRM_ID32_OBJW_2036H, &dtmp2);
+
+    m_sin_delay_tim                 =   dtmp * (dtmp2/1000000000.0);
+
+    CpiReadRamPrmByDicInx(STEADY_TIM_EXCI_SIG_PRM_ID32_OBJW_2038H, &dtmp);
+    m_sin_steady_tim                =   dtmp * (dtmp2/1000000000.0);                                    // by TS
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -341,9 +363,16 @@ void DFTDialog::onBtnAddClicked()
         if(m_anys_type == ANALYSIS_SIGNAL)
         {
             SignalAnalysisFFT(in, dbb, phh, length);
+
+            for(int i = 0; i < length / 2; i++)
+            {
+                m_amp.append(dbb[i]);
+                m_phase.append((phh[i]/3.1415926532)*180.0);
+            }
         }
         else
         {
+ /*********************************************************************************************************
             double *rout = new double[length];
             for (int i = 0; i < length; i++)
             {
@@ -352,12 +381,27 @@ void DFTDialog::onBtnAddClicked()
             RespAnalysisInFreDomain(in, rout, dbb, phh, length);
 
             delete []rout;
-        }
+**********************************************************************************************************/
+            OrthgCorelAnalysis  m_orthAnys;
+            m_orthAnys.setAnalySignalComp(m_sin_hz_start, m_sin_hz_step, m_samp_tim, m_sin_harm_num, m_sin_delay_num, m_sin_data_num);
 
-        for(int i = 0; i < length / 2; i++)
-        {
-            m_amp.append(dbb[i]);
-            m_phase.append((phh[i]/3.1415926532)*180.0);
+            QVector<qreal> v_rin, v_rout;
+
+            for (int i = 0; i < length; i++)
+            {
+                v_rin.append(in[i]);
+                v_rout.append(m_value_list->at(outx).at(i+startIndex));
+
+            }
+
+            m_orthAnys.RespAnalysisInSinSteadyState(&v_rin, &v_rout, m_amp, m_phase);
+
+            m_freq.clear();
+
+            for (int i = 0; i < m_sin_harm_num; i ++)
+            {
+                m_freq.append(m_sin_hz_start + i*m_sin_hz_step);
+            }
         }
 
         delete []in;
@@ -393,6 +437,9 @@ void DFTDialog::onBtnAddClicked()
         plot_phase->graph(rowCount)->setPen(QPen(tbl_col[rowCount%MAX_TABLE_WAVE_NUM]));
         plot_phase->graph(rowCount)->addData(m_freq, m_phase);
         plot_phase->rescaleAxes(true);
+
+        plot_amp->xAxis->setScaleType(QCPAxis::stLogarithmic);
+        plot_phase->xAxis->setScaleType(QCPAxis::stLogarithmic);
 
         plot_amp->replot();
         plot_phase->replot();
@@ -498,6 +545,9 @@ void DFTDialog::setCurveTime(double start_tim, double final_tim, double samp_tim
     m_start_tim                 =   start_tim;
     m_final_tim                 =   final_tim;
     m_samp_tim                  =   samp_tim;
+
+    m_sin_delay_num             =   m_sin_delay_tim/m_samp_tim;
+    m_sin_data_num              =   m_sin_steady_tim/m_samp_tim;
 
     doubleSpinBox_fft_start->setValue(m_start_tim);
     doubleSpinBox_fft_terminal->setValue(m_final_tim);

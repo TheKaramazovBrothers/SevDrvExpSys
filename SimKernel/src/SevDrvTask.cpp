@@ -506,7 +506,7 @@ void	TpiPosCloseLoopDrv(SERVO_DRV * m_drv)
     double  ua_tmp, ub_tmp, uc_tmp;
 
     idr_tmp     =   0;
-    iqr_tmp     =   m_drv->obj.vel.iqr;
+    iqr_tmp     =   m_drv->obj.seq.iqr_out;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     KpiGetCurrLoopFb(&m_drv->obj.cur, &m_drv->obj.sens.ia, &m_drv->obj.sens.ib, &m_drv->obj.sens.ic, &m_drv->obj.sens.phim);
 
@@ -539,6 +539,7 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
 
             m_drv->obj.vel.prm.cfg_opt.bit.RAMP         = TRUE;
             KpiVelCloseLoopCtrl(&m_drv->obj.vel, &spdr_tmp, &spdf_tmp, &tqrp_tmp);
+            m_drv->obj.seq.iqr_out                      =   m_drv->obj.vel.iqr;
             break;
         }
     case    VEL_CTL_POSCLD:
@@ -549,11 +550,11 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
 
             m_drv->obj.vel.prm.cfg_opt.bit.RAMP         = m_drv->obj.seq.prm.cfg_opt.bit.VRAMP;
             KpiVelCloseLoopCtrl(&m_drv->obj.vel, &spdr_tmp, &spdf_tmp, &tqrp_tmp);
+            m_drv->obj.seq.iqr_out                      =   m_drv->obj.vel.iqr;
             break;
         }
     case    CURR_CTL_POSCLD:
         {
-            m_drv->obj.seq.iqr_out          =   m_drv->obj.seq.iqr_tmp;
             break;
         }
     default:
@@ -572,6 +573,7 @@ void	TpiInitPosCloseLoopDrv(SERVO_DRV * m_drv)
     KpiInitCurrCtlVar(&m_drv->obj.cur);
     KpiInitVelLoopVar(&m_drv->obj.vel);
     KpiInitPosLoopVar(&m_drv->obj.pos);
+    KpiInitExciSigProdVar(&m_drv->obj.excs);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 }

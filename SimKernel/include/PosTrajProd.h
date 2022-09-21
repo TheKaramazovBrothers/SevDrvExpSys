@@ -17,11 +17,25 @@
 #include "DspCpu.h"
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// EXCITATION STATE STRUCT DEFINE
+typedef	enum
+{
+    INIT_MOTION_STAGE_RMS			=	0,                                                          // initialization stage of reciprocating motion trajectory produce function
+    POS_MOTION_STAGE_RMS			=	1,                                                          // position direction motion stage of reciprocating motion trajectory produce function
+    WAITN_MOTION_STAGE_RMS          =   2,                                                          // wait for negative motion stage of reciprocating motion trajectory produce function
+    NEG_MOTION_STATE_RMS            =   3,                                                          // negative direction motion stage of reciprocating motion trajectory produce function
+    WAITP_MOTION_STAGE_RMS          =   4,                                                          // wait for positive motion stage of reciprocating motion trajectory produce function
+    END_MOTION_STAGE_RMS            =   5,                                                          // end state of reciprocating motion trajectory produce function
+    REV_MOTION_STAGE_RMS            =	0x8000
+}tRecipMotionState;
+
+
 //#############################################################################################################################
 typedef struct	pos_traj_cfg_opt_bits
 {
-    Uint32		NEST            : 1;                                                        // point position trajectory nest mask bit | 1/mask
-    Uint32		rsvd            : 31;                                                       // reserved
+    Uint32		NEST            : 1;                                                                // point position trajectory nest mask bit | 1/mask
+    Uint32		rsvd            : 31;                                                               // reserved
 }POS_TRAJ_CFG_OPT_BITS;
 
 
@@ -62,6 +76,10 @@ typedef		struct	pos_traj_prm
     Uint32              decrate;															// deceleration of position command maker | unit[10000pulse/s/s]
     Uint32              maxspd;																// maximum velocity set for position trajectory maker | unit[RPM]
     tPosTrajCfgOpt      cfg_opt;                                                            // point position trajectory nest mask bit | 1/mask
+
+    Uint32              recip_num;                                                          // reciprocating motion times
+    Uint32              interv_tim;                                                         // interval time between motion | unit[scan]
+    Uint32              spdr_hold_tim;                                                      // speed command hold time in reciprocate motion | unit[scan]
 //#############################################################################################################################
 }POS_TRAJ_PRM;
 
@@ -106,14 +124,30 @@ typedef		struct	pos_traj
 
     tPosTrajFlag        flag;                                                               //  trajectory produce flag
 //#############################################################################################################################
+    int64               pcmd_in;                                                            // position command input for reciprocating motion trajectory produce
+    int64               pcmd_out;                                                           // position command output for reciprocating motion trajectory produce
+
+    double              spd_cmd_in;                                                         // input of speed command
+    double              spd_cmd_out;                                                        // output o speed command
+
+    int32               recip_cnt;                                                          // reciprocating motion count value
+    int32               motion_cnt;                                                         // motion times count value
+    tRecipMotionState   recip_state;                                                        // reciprocating motion state
+//#############################################################################################################################
 }POS_TRAJ;
 
 
 //#############################################################################################################################
 // function declare
-int16	KpiInitPosTrajProdModule(POS_TRAJ * m_ctl);                                          // Initialize the parameter of position control module
-int16	KpiInitPosTrajProdVar(POS_TRAJ * m_ctl);                                             // initialize the position control variable
-int16	KpiPosTrajProd(POS_TRAJ * m_ctl, int64 * pset_in, int64 * pcmd_out);                 // position close loop control function
+int16	KpiInitPosTrajProdModule(POS_TRAJ * m_ctl);                                          // Initialize the position trajectory produce module
+int16	KpiInitPosTrajProdVar(POS_TRAJ * m_ctl);                                             // initialize the position trajectory produce variable
+int16	KpiPosTrajProd(POS_TRAJ * m_ctl, int64 * pset_in, int64 * pcmd_out);                 // position trajectory produce function
+
+int16   KpiRecipMotionTrajProd(POS_TRAJ * m_ctl, int16 * en_opra, \
+                               int64 * pset_in, int64 * pcmd_out);                           // reciprocating motion trajectory produce function
+
+int16   KpiStepCmdRecipMotion(POS_TRAJ * m_ctl, int16 * en_opra, \
+                          double * cmd_in, double * cmd_out);                               // reciprocating motion in velocity mode
 
 
 

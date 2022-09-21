@@ -34,6 +34,24 @@ int16	VpiServoEnable(bool m_en)                                              // 
      return  TRUE;
 }
 
+
+int16	VpiEnableOperate(bool m_en)                                              // servo enable function declare | true/enable, false.disable
+{
+    QMutexLocker locker(&m_mutex);
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    if (m_en == true)
+    {
+        gSevDrv.obj.seq.prm.ctl_word_tmp.bit.EO     =   TRUE;
+    }
+    else
+    {
+        gSevDrv.obj.seq.prm.ctl_word_tmp.bit.EO     =   FALSE;
+    }
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+     return  TRUE;
+}
+
+
 int16	VpiSetServoWorkMode(tSeqWorkMode m_mod)                                // set servo work mode
 {
     QMutexLocker locker(&m_mutex);

@@ -123,8 +123,29 @@ TOBJ_ENTRY  DefCiA402PrmObjDic[PRM_SERVO_OBJW_INX_MAX_NUM] =
    {0x2034, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2034, aName0x2034, NULL, NULL, NULL, CFG_OPT_ALL_CCTL_PRM_ID32_ADR},
     /* Object 0x2035 */
    {0x2035, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2035, aName0x2035, NULL, NULL, NULL, TF_LPF_CCTL_PRM_ID16_ADR},
+    /* Object 0x2036 */
+   {0x2036, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2036, aName0x2036, NULL, NULL, NULL, TS_EXCI_SIG_PRM_ID32_ADR},
+    /* Object 0x2037 */
+   {0x2037, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2037, aName0x2037, NULL, NULL, NULL, CFG_OPT_ALL_EXCI_SIG_PRM_ID32_ADR},
+    /* Object 0x2038 */
+   {0x2038, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2038, aName0x2038, NULL, NULL, NULL, STEADY_TIM_EXCI_SIG_PRM_ID32_ADR},
+    /* Object 0x2039 */
+   {0x2039, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2039, aName0x2039, NULL, NULL, NULL, DELAY_TIM_EXCI_SIG_PRM_ID32_ADR},
+    /* Object 0x203A */
+   {0x203A, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x203A, aName0x203A, NULL, NULL, NULL, SIN_HZ_START_EXCI_SIG_PRM_ID16_ADR},
+    /* Object 0x203B */
+   {0x203B, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x203B, aName0x203B, NULL, NULL, NULL, SIN_HZ_STEP_EXCI_SIG_PRM_ID16_ADR},
+    /* Object 0x203C */
+   {0x203C, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x203C, aName0x203C, NULL, NULL, NULL, SIN_HARM_NUM_EXCI_SIG_PRM_ID16_ADR},
+    /* Object 0x203D */
+   {0x203D, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x203D, aName0x203D, NULL, NULL, NULL, EXCI_AMP_EXCI_SIG_PRM_ID32_ADR},
+    /* Object 0x203E */
+   {0x203E, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x203E, aName0x203E, NULL, NULL, NULL, RECIP_NUM_TRAJ_PRM_ID32_ADR},
+    /* Object 0x203F */
+   {0x203F, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x203F, aName0x203F, NULL, NULL, NULL, INTERV_TIM_TRAJ_PRM_ID32_ADR},
+    /* Object 0x2040 */
+   {0x2040, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2040, aName0x2040, NULL, NULL, NULL, SPDR_HOLD_TIM_TRAJ_PRM_ID32_ADR},
 };
-
 
 /*ECATCHANGE_END(V5.11) COE1*/
 //#############################################################################################################################
@@ -263,7 +284,14 @@ TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM]  =
     {0x3041, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3041, aName0x3041, NULL, NULL, NULL, NULL},
     /* Object 0x3042 */
     {0x3042, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3042, aName0x3042, NULL, NULL, NULL, NULL},
+    /* Object 0x3043 */
+    {0x3043, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3043, aName0x3043, NULL, NULL, NULL, NULL},
+    /* Object 0x3044 */
+    {0x3044, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3044, aName0x3044, NULL, NULL, NULL, NULL},
+    /* Object 0x3045 */
+    {0x3045, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3045, aName0x3045, NULL, NULL, NULL, NULL},
 };
+
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
@@ -337,9 +365,22 @@ void    CpiInitCiA402PrmObjPtr(void)
     DefCiA402PrmObjDic[CFG_OPT_ALL_CCTL_PRM_ID32_OBJW_2034H].pVarPtr        =   ((void *)(&gSevDrv.obj.cur.prm.cfg_opt.all));
     DefCiA402PrmObjDic[TF_LPF_CCTL_PRM_ID16_OBJW_2035H].pVarPtr             =   ((void *)(&gSevDrv.obj.cur.prm.tf_lpf));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[TS_EXCI_SIG_PRM_ID32_OBJW_2036H].pVarPtr             =   ((void *)(&gSevDrv.obj.excs.prm.ts));
+    DefCiA402PrmObjDic[CFG_OPT_ALL_EXCI_SIG_PRM_ID32_OBJW_2037H].pVarPtr    =   ((void *)(&gSevDrv.obj.excs.prm.cfg_opt.all));
+    DefCiA402PrmObjDic[STEADY_TIM_EXCI_SIG_PRM_ID32_OBJW_2038H].pVarPtr     =   ((void *)(&gSevDrv.obj.excs.prm.steady_tim));
+    DefCiA402PrmObjDic[DELAY_TIM_EXCI_SIG_PRM_ID32_OBJW_2039H].pVarPtr      =   ((void *)(&gSevDrv.obj.excs.prm.delay_tim));
+
+    DefCiA402PrmObjDic[SIN_HZ_START_EXCI_SIG_PRM_ID16_OBJW_203AH].pVarPtr   =   ((void *)(&gSevDrv.obj.excs.prm.sin_hz_start));
+    DefCiA402PrmObjDic[SIN_HZ_STEP_EXCI_SIG_PRM_ID16_OBJW_203BH].pVarPtr    =   ((void *)(&gSevDrv.obj.excs.prm.sin_hz_step));
+    DefCiA402PrmObjDic[SIN_HARM_NUM_EXCI_SIG_PRM_ID16_OBJW_203CH].pVarPtr   =   ((void *)(&gSevDrv.obj.excs.prm.sin_harm_num));
+    DefCiA402PrmObjDic[EXCI_AMP_EXCI_SIG_PRM_ID32_OBJW_203DH].pVarPtr       =   ((void *)(&gSevDrv.obj.excs.prm.exci_amp));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[RECIP_NUM_TRAJ_PRM_ID32_OBJW_203EH].pVarPtr          =   ((void *)(&gSevDrv.obj.ptrj.prm.recip_num));
+    DefCiA402PrmObjDic[INTERV_TIM_TRAJ_PRM_ID32_OBJW_203FH].pVarPtr         =   ((void *)(&gSevDrv.obj.ptrj.prm.interv_tim));
+    DefCiA402PrmObjDic[SPDR_HOLD_TIM_TRAJ_PRM_ID32_OBJW_2040H].pVarPtr      =   ((void *)(&gSevDrv.obj.ptrj.prm.spdr_hold_tim));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
 
 
 void    CpiInitCiA402VarObjPtr(void)
@@ -428,6 +469,10 @@ void    CpiInitCiA402VarObjPtr(void)
     DefCiA402VarObjDic[SPD_FFD_OUT_PCTL_VAR_OBJW_3040H].pVarPtr             =   ((void *)(&gSevDrv.obj.pos.spd_ffd_out));
     DefCiA402VarObjDic[TQR_FFD_PCTL_VAR_OBJW_3041H].pVarPtr                 =   ((void *)(&gSevDrv.obj.pos.tqr_ffd));
     DefCiA402VarObjDic[TQR_FFD_OUT_PCTL_VAR_OBJW_3042H].pVarPtr             =   ((void *)(&gSevDrv.obj.pos.tqr_ffd_out));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402VarObjDic[REAL_T_EXCI_SIG_VAR_OBJW_3043H].pVarPtr              =   ((void *)(&gSevDrv.obj.excs.real_t));
+    DefCiA402VarObjDic[REAL_F_EXCI_SIG_VAR_OBJW_3044H].pVarPtr              =   ((void *)(&gSevDrv.obj.excs.real_f));
+    DefCiA402VarObjDic[EXCI_SIG_OUT_EXCI_SIG_VAR_OBJW_3045H].pVarPtr        =   ((void *)(&gSevDrv.obj.excs.exci_sig_out));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 

@@ -169,7 +169,7 @@ void MainWindow::InitServoCtlTask()
 void MainWindow::onWritePrmButtonclicked(bool checked)
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    auto file = QFileDialog::getSaveFileName(this);
+    auto file = QFileDialog::getSaveFileName(this, tr("Save prm"), "../prm.txt",tr("*.txt"));
     if(file.isEmpty())
         return;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -180,7 +180,7 @@ void MainWindow::onWritePrmButtonclicked(bool checked)
 void MainWindow::onLoadPrmButtonclicked(bool checked)
 {
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    auto file = QFileDialog::getOpenFileName(this);
+    auto file = QFileDialog::getOpenFileName(this, tr("Open parameter"), "../", tr("*.txt"));
     if(file.isEmpty())
         return;
 

@@ -492,6 +492,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
            <property name="maxVisibleItems">
             <number>16</number>
            </property>
@@ -507,27 +510,7 @@
            </item>
            <item>
             <property name="text">
-             <string>3</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>4</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>6</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>7</string>
             </property>
            </item>
            <item>
@@ -537,42 +520,62 @@
            </item>
            <item>
             <property name="text">
-             <string>9</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>11</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>12</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>13</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>14</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>15</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>16</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>32</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>64</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>128</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>256</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>512</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>1024</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2048</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>4096</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>8192</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>16384</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>32768</string>
             </property>
            </item>
           </widget>

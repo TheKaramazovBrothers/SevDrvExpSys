@@ -230,9 +230,23 @@ typedef enum
     CFG_OPT_ALL_CCTL_PRM_ID32_OBJW_2034H        =   52,                                     // config option for current loop control
     TF_LPF_CCTL_PRM_ID16_OBJW_2035H             =   53,                                     // low pass filter time constant | uni[us]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    TS_EXCI_SIG_PRM_ID32_OBJW_2036H             =   54,                                     // excitation signal produce module sample times | unit[ns]
+    CFG_OPT_ALL_EXCI_SIG_PRM_ID32_OBJW_2037H    =   55,                                     // config option of excitation signal module
+    STEADY_TIM_EXCI_SIG_PRM_ID32_OBJW_2038H     =   56,                                     // Steady state time of sinusoidal excitation | unit[scan]
+    DELAY_TIM_EXCI_SIG_PRM_ID32_OBJW_2039H      =   57,                                     // delay time between harmonic component | unit[scan]
+
+    SIN_HZ_START_EXCI_SIG_PRM_ID16_OBJW_203AH   =   58,                                     // start frequency of sinusoidal excitation | unit[HZ]
+    SIN_HZ_STEP_EXCI_SIG_PRM_ID16_OBJW_203BH    =   59,                                     // step of sinusoidal excitation | unit[HZ]
+    SIN_HARM_NUM_EXCI_SIG_PRM_ID16_OBJW_203CH   =   60,                                     // sinusoidal excitation numbers (numbers of sine waves)
+
+    EXCI_AMP_EXCI_SIG_PRM_ID32_OBJW_203DH       =   61,                                     // amplitude of excitation signal | unit[Q10]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    RECIP_NUM_TRAJ_PRM_ID32_OBJW_203EH          =   62,                                     // reciprocating motion times
+    INTERV_TIM_TRAJ_PRM_ID32_OBJW_203FH         =   63,                                     // interval time between motion | unit[scan]
+    SPDR_HOLD_TIM_TRAJ_PRM_ID32_OBJW_2040H      =   64,                                     // speed command hold time in reciprocate motion | unit[scan]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
-
 
 
 //#############################################################################################################################
@@ -322,6 +336,10 @@ typedef enum
     SPD_FFD_OUT_PCTL_VAR_OBJW_3040H             =   64,                                     // speed feedforward output value | unit[Nm]
     TQR_FFD_PCTL_VAR_OBJW_3041H                 =   65,                                     // torque feedforward value | unit[Nm]
     TQR_FFD_OUT_PCTL_VAR_OBJW_3042H             =   66,                                     // torque feedforward output value | unit[Nm]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    REAL_T_EXCI_SIG_VAR_OBJW_3043H              =   67,                                     // real time of current harmonic signal
+    REAL_F_EXCI_SIG_VAR_OBJW_3044H              =   68,                                     // real frequency of current harmonic signal
+    EXCI_SIG_OUT_EXCI_SIG_VAR_OBJW_3045H        =   69,                                     // excition signal output
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
@@ -642,12 +660,78 @@ const   Uint8   aName0x2034[] = "config option for current loop control";
 /** \brief Object 0x2034  config option for current loop control*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2034 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
+//----------------------------------------------------------------------------------------------------------------------------
 /** \brief Object 0x2035 */
 const   Uint8   aName0x2035[] = "low pass filter time constant of current command | uni[us]";
 /** \brief Object 0x2035  low pass filter time constant | uni[us]*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2035 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2036 */
+const   Uint8   aName0x2036[] = "excitation signal produce module sample times | unit[ns]";
+/** \brief Object 0x2036  excitation signal produce module sample times | unit[ns]]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2036 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2037 */
+const   Uint8   aName0x2037[] = "config option of excitation signal module";
+/** \brief Object 0x2037  config option of excitation signal module*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2037 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2038 */
+const   Uint8   aName0x2038[] = "Steady state time of sinusoidal excitation | unit[scan]";
+/** \brief Object 0x2038  Steady state time of sinusoidal excitation | unit[scan]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2038 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2039 */
+const   Uint8   aName0x2039[] = "delay time between harmonic component | unit[scan]";
+/** \brief Object 0x2039  delay time between harmonic component | unit[scan]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2039 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x203A */
+const   Uint8   aName0x203A[] = "start frequency of sinusoidal excitation | unit[HZ]";
+/** \brief Object 0x203A  start frequency of sinusoidal excitation | unit[HZ]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x203A = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x203B */
+const   Uint8   aName0x203B[] = "step of sinusoidal excitation | unit[HZ]";
+/** \brief Object 0x203B  step of sinusoidal excitation | unit[HZ]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x203B = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x203C */
+const   Uint8   aName0x203C[] = "sinusoidal excitation numbers (numbers of sine waves)";
+/** \brief Object 0x203C  sinusoidal excitation numbers (numbers of sine waves)*/
+const   TSDOINFOENTRYDESC sEntryDesc0x203C = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x203D */
+const   Uint8   aName0x203D[] = "amplitude of excitation signal | unit[Q10]";
+/** \brief Object 0x203D  amplitude of excitation signal | unit[Q10]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x203D = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x203E */
+const   Uint8   aName0x203E[] = "reciprocating motion times";
+/** \brief Object 0x203E  reciprocating motion times*/
+const   TSDOINFOENTRYDESC sEntryDesc0x203E = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x203F */
+const   Uint8   aName0x203F[] = "interval time between motion | unit[scan]";
+/** \brief Object 0x203F  interval time between motion | unit[scan]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x203F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2040 */
+const   Uint8   aName0x2040[] = "speed command hold time in reciprocate motion | unit[scan]";
+/** \brief Object 0x2040  speed command hold time in reciprocate motion | unit[scan]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2040 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 
 //#############################################################################################################################
@@ -986,9 +1070,22 @@ const   TSDOINFOENTRYDESC sEntryDesc0x3041 = {DEFTYPE_REAL64, 0x40, ACCESS_READW
 const   Uint8   aName0x3042[] = "torque feedforward output value | unit[Nm]";
 /** \brief Object 0x3042 torque feedforward output value | unit[Nm] */
 const   TSDOINFOENTRYDESC sEntryDesc0x3042 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3043[] = "real time of current harmonic signal | unit[s]";
+/** \brief Object 0x3043 real time of current harmonic signal | unit[s] */
+const   TSDOINFOENTRYDESC sEntryDesc0x3043 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3044[] = "real frequency of current harmonic signal | unit[hz]";
+/** \brief Object 0x3044 real frequency of current harmonic signal | unit[hz] */
+const   TSDOINFOENTRYDESC sEntryDesc0x3044 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3045[] = "excition signal output";
+/** \brief Object 0x3045 excition signal output */
+const   TSDOINFOENTRYDESC sEntryDesc0x3045 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-
 
 
 //#############################################################################################################################
@@ -1016,14 +1113,3 @@ extern TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM];
 
 ///////////////////////////////////////////////////////// no more /////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////// no more ////////////////////////////////////////////////////////////

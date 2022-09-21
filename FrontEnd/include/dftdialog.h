@@ -57,7 +57,7 @@ private slots:
 
     void onTableItemClicked(QTableWidgetItem * item);
 private:
-    QTableWidget                * m_wave_name_tbl;                                                 // vector for storage curve name
+    QTableWidget                * m_wave_name_tbl;                                                  // vector for storage curve name
     QList<QVector<qreal>>       * m_value_list;                                                     // wave value list
     QVector<qreal>              * m_key_list;                                                       // wave key list
 
@@ -78,6 +78,15 @@ private:
     QColor                      m_showColor;
     QColor                      m_hideColor;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    double                      m_sin_hz_start;                                                       // HZ
+    double                      m_sin_hz_step;                                                        // HZ
+    int                         m_sin_harm_num;                                                       // Harmonic number
+
+    double                      m_sin_delay_tim;                                                      // delay time | unit[s]
+    double                      m_sin_steady_tim;                                                     // steady time | unit[s]
+
+    int                         m_sin_delay_num;                                                      // delay length number
+    int                         m_sin_data_num;                                                       // effective data length number
 };
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
