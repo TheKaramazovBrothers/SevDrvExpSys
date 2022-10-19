@@ -40,6 +40,9 @@ int16	KpiInitExciSigProdModule(EXCI_SIG * m_ctl)
         m_ctl->prm.sin_hz_start                 =   20;
         m_ctl->prm.sin_hz_step                  =   10;
         m_ctl->prm.sin_harm_num                 =   100;
+
+        m_ctl->prm.prbs_div_num                 =   8;
+        m_ctl->prm.prbs_durat_tim               =   160000;
     }
 //**************************************************************************************************************************
     m_ctl->delt_ts                              =   m_ctl->prm.ts/1000000000.0;
@@ -53,6 +56,8 @@ int16	KpiInitExciSigProdModule(EXCI_SIG * m_ctl)
     m_ctl->real_w                               =   0;
     m_ctl->real_t                               =   0;
     m_ctl->state                                =   INIT_STAGE_ESPS;
+
+    m_ctl->prbs_flag.all                        =   0x97c62ad5;
 //**************************************************************************************************************************
     return  TRUE;
 }
@@ -80,6 +85,8 @@ int16	KpiInitExciSigProdVar(EXCI_SIG * m_ctl)
     m_ctl->real_t                               =   0;
     m_ctl->exci_sig_out                         =   0;
     m_ctl->state                                =   INIT_STAGE_ESPS;
+
+    m_ctl->prbs_flag.all                        =   0x97c62ad5;
 //**************************************************************************************************************************
     return  TRUE;
 }
@@ -89,6 +96,9 @@ int16	KpiInitExciSigProdVar(EXCI_SIG * m_ctl)
 
 int16	KpiExciSigProd(EXCI_SIG * m_ctl, double * exci_out)
 {
+    Uint16 utmp;
+    double dtmp;
+
     switch (m_ctl->state)
     {
         case    INIT_STAGE_ESPS:
@@ -146,6 +156,34 @@ int16	KpiExciSigProd(EXCI_SIG * m_ctl, double * exci_out)
                         m_ctl->exci_sig_out             =   0;
                     }
 
+//**************************************************************************************************************************
+                    break;
+                }
+                case    1:
+                {
+//**************************************************************************************************************************
+                    m_ctl->period_cnt++;
+                    m_ctl->harm_cnt++;
+
+                    if (m_ctl->harm_cnt >= m_ctl->prm.prbs_div_num)
+                    {
+                        utmp = m_ctl->prbs_flag.bit.PB_X31 ^ m_ctl->prbs_flag.bit.PB_X28;
+
+                        m_ctl->prbs_flag.all        =   m_ctl->prbs_flag.all << 1;
+                        m_ctl->prbs_flag.bit.PB_X1  =   utmp;
+                        m_ctl->harm_cnt             =   0;
+
+                        dtmp                        =   (int32)(m_ctl->prm.exci_amp)/1024.0;
+                        m_ctl->exci_sig_out         =   (m_ctl->prbs_flag.bit.PB_X32 == 1) ? dtmp : -dtmp;
+
+                    }
+
+                    if (m_ctl->period_cnt >= m_ctl->prm.prbs_durat_tim)
+                    {
+                        m_ctl->state            =   END_STAGE_ESPS;
+                        m_ctl->harm_cnt         =   0;
+                        m_ctl->period_cnt       =   0;
+                    }
 //**************************************************************************************************************************
                     break;
                 }

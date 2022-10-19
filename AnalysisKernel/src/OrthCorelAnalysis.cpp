@@ -56,6 +56,8 @@ void OrthgCorelAnalysis::RespAnalysisInSinSteadyState(QVector<qreal> * in, QVect
     {
         start_inx++;
     }
+    start_inx--;
+
     for (int i = 0; i < m_sin_harm_num; i ++)
     {
         QVector<qreal>  *vtmp       =   new QVector<qreal>;

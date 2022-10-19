@@ -32,7 +32,7 @@ typedef	enum
 //#############################################################################################################################
 typedef struct	exci_sig_cfg_opt_bits
 {
-    Uint32		TYPE            : 4;                                                        // excitation signal type select bit | 0/sinusoidal signal
+    Uint32		TYPE            : 4;                                                        // excitation signal type select bit | 0/sinusoidal signal, 1/prbs signal
     Uint32		rsvd            : 28;                                                       // reserved
 }EXCI_SIG_CFG_OPT_BITS;
 
@@ -59,8 +59,24 @@ typedef	union
 }tExciSigFlag;
 //#############################################################################################################################
 
+typedef struct	prbs_prod_bits
+{
+    Uint32		PB_X1              : 1;                                                     // BIT 0
+    Uint32      PB_X2_X27          : 26;                                                    // BIT 2 ---> 27
+    Uint32      PB_X28             : 1;                                                     // BIT 28
+    Uint32      PB_X29_X30         : 2;                                                     // BIT 29 ---> 30
+    Uint32		PB_X31             : 1;                                                     // BIT 31
+    Uint32      PB_X32             : 1;                                                     // BIT 32
+}PRBS_PROD_BITS;
 
 
+typedef	union
+{
+    Uint32                      all;
+    PRBS_PROD_BITS              bit;
+}tPrbsProdFlag;
+
+//#############################################################################################################################
 //-------------------------------------------------------------------------------------
 //					EXCITATION SIGNAL MODULE PARAMETER STRUCT
 //-------------------------------------------------------------------------------------
@@ -78,6 +94,9 @@ typedef		struct	exci_sig_prm
     Uint16              sin_hz_start;                                                       // start frequency of sinusoidal excitation | unit[HZ]
     Uint16              sin_hz_step;                                                        // step of sinusoidal excitation | unit[HZ]
     Uint16              sin_harm_num;                                                       // sinusoidal excitation numbers (numbers of sine waves)
+// parameter define for prbs signal excitation
+    Uint16              prbs_div_num;                                                       // prbs division times | unit[ts]
+    Uint32              prbs_durat_tim;                                                     // prbs durate time | unit[ts]
 //#############################################################################################################################
 }EXCI_SIG_PRM;
 
@@ -105,6 +124,8 @@ typedef		struct	exci_sig
     int32               harm_cnt;                                                           // harmonic times count variable
     tExciSigFlag        status_flag;                                                        // status flag
     tExciSigProdState   state;                                                              // the work state of extition signal produce
+
+    tPrbsProdFlag       prbs_flag;                                                          // the prbs generate flag
 //#############################################################################################################################
 }EXCI_SIG;
 

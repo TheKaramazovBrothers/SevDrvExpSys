@@ -12,3 +12,5 @@ ui_*.h
 
 /Makefile
 /SevDrvExpSys.pro.user
+
+.qmake*

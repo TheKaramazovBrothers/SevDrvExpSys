@@ -1,13 +1,30 @@
-#-------------------------------------------------
+#----------------------------------------------------------------------------
 #
 # Project created by QtCreator 2022-06-07T10:49:44
 #
-#-------------------------------------------------
+#----------------------------------------------------------------------------
+DEFINES += __MW_STDINT_H__
+
+INCLUDEPATH += $$quote(D:/Program Files/Polyspace/R2020a/extern/include)
+INCLUDEPATH += $$quote(D:/Program Files/Polyspace/R2020a/extern/include/win64)
+
+LIBS+=-L$$quote(D:/Program Files/Polyspace/R2020a/extern/lib/win64/mingw64) -llibmx
+LIBS+=-L$$quote(D:/Program Files/Polyspace/R2020a/extern/lib/win64/mingw64) -llibmat
+LIBS+=-L$$quote(D:/Program Files/Polyspace/R2020a/extern/lib/win64/mingw64) -llibmex
+LIBS+=-L$$quote(D:/Program Files/Polyspace/R2020a/extern/lib/win64/mingw64) -llibeng
+LIBS+=-L$$quote(D:/Program Files/Polyspace/R2020a/extern/lib/win64/mingw64) -lmclmcr
+LIBS+=-L$$quote(D:/Program Files/Polyspace/R2020a/extern/lib/win64/mingw64) -lmclmcrrt
+
+
+
 INCLUDEPATH+=$${PWD}/FrontEnd/include/
 INCLUDEPATH+=$${PWD}/BackEnd/include/
 INCLUDEPATH+=$${PWD}/SimKernel/include/
 INCLUDEPATH+=$${PWD}/AnalysisKernel/include/
 INCLUDEPATH+=$${PWD}/FrontEnd/ui/
+INCLUDEPATH+=$${PWD}/Lib/include
+
+
 
 QT       += widgets printsupport
 QT       += core gui designer
@@ -61,6 +78,8 @@ HEADERS  += mainwindow.h \
     FrontEnd/include/plotunitgraph.h \
     BackEnd/include/BackGroundTask.h \
     BackEnd/include/DspCpu.h \
+    Lib/include/my_fft.h \
+    Lib/include/my_prbs_idf_n4sid.h \
     SimKernel/include/MechModel.h \
     SimKernel/include/SevCtlPrmTblDef.h \
     SimKernel/include/CurrCtlLoop.h \
@@ -82,7 +101,7 @@ HEADERS  += mainwindow.h \
     AnalysisKernel/include/SignalAnalysis.h \
     FrontEnd/include/dftdialog.h \
     SimKernel/include/ExciSigProd.h \
-    AnalysisKernel/include/OrthCorelAnalysis.h
+    AnalysisKernel/include/OrthCorelAnalysis.h \
 
 FORMS    += \
     FrontEnd/ui/plotunitgraph.ui \
@@ -94,3 +113,14 @@ FORMS    += \
 
 RESOURCES += \
     servodrv.qrc
+
+
+win32: LIBS += -L$$PWD/Lib/src/ -lmy_fft
+win32: LIBS += -L$$PWD/Lib/src/ -lmy_prbs_idf_n4sid
+
+INCLUDEPATH += $$PWD/Lib/src
+DEPENDPATH += $$PWD/Lib/src
+
+
+
+

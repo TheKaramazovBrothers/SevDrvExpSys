@@ -15,6 +15,8 @@
 #include "OrthCorelAnalysis.h"
 #include "Cia402AppEmu.h"
 
+#include "my_fft.h"
+#include "my_prbs_idf_n4sid.h"
 #include "dftdialog.h"
 
 
@@ -114,6 +116,9 @@ void DFTDialog::initDialogUi()
     radioBtn_signal->setChecked(true);
     label_fft_output->setVisible(false);
     comboBox_fft_output->setVisible(false);
+
+    label_fft_method->setVisible(false);
+    comboBox_fft_method->setVisible(false);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -151,12 +156,18 @@ void DFTDialog::onBtnSignalClicked()
         m_anys_type             =   ANALYSIS_SIGNAL;
         label_fft_output->setVisible(false);
         comboBox_fft_output->setVisible(false);
+
+        label_fft_method->setVisible(false);
+        comboBox_fft_method->setVisible(false);
     }
     else
     {
         m_anys_type             =   ANALYSIS_SYSTEM;
         label_fft_output->setVisible(true);
         comboBox_fft_output->setVisible(true);
+
+        label_fft_method->setVisible(true);
+        comboBox_fft_method->setVisible(true);
     }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
@@ -294,7 +305,7 @@ void DFTDialog::onBtnAddClicked()
 {
     QString str_ID, str_Name;
     double  startT, endT, minT, maxT, total_t, samplingFreq;
-    double  *in, *dbb, *phh;
+    double  *in, *out, *dbb, *phh, *m_dbb, *m_phh;
     int     inx, outx, length, startIndex, endIndex;
 
     if ((m_wave_name_tbl->rowCount() != 0) && (tableWidget->rowCount() < MAX_TABLE_WAVE_NUM))
@@ -346,24 +357,40 @@ void DFTDialog::onBtnAddClicked()
         length = endIndex - startIndex + 1;
 
         in          = new double[length];
+        out         = new double[length];
+
         dbb         = new double[length];
         phh         = new double[length];
-
-        samplingFreq        = 1.0 / m_samp_tim;
-        for (int i = 0; i < length / 2; i++)
-        {
-            m_freq.append(samplingFreq * i / length);
-        }
 
         for (int i = 0; i < length; i++)
         {
             in[i] = m_value_list->at(inx).at(i+startIndex);
+            out[i] = m_value_list->at(outx).at(i+startIndex);
         }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         if(m_anys_type == ANALYSIS_SIGNAL)
-        {
-            SignalAnalysisFFT(in, dbb, phh, length);
+        {          
+            samplingFreq        = 1.0 / m_samp_tim;
+            for (int i = 0; i < length / 2; i++)
+            {
+                m_freq.append(samplingFreq * i / length);
+            }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+//            SignalAnalysisFFT(in, dbb, phh, length);
+            my_fftInitialize();
 
+            mwArray in_u0(1,length,mxDOUBLE_CLASS);
+            mwArray out_phh(1,length,mxDOUBLE_CLASS);
+            mwArray out_dbb(1,length,mxDOUBLE_CLASS);
+
+            in_u0.SetData(in,length);
+
+            my_fft(2,out_dbb,out_phh,in_u0);
+
+            out_dbb.GetData(dbb,length);
+            out_phh.GetData(phh,length);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
             for(int i = 0; i < length / 2; i++)
             {
                 m_amp.append(dbb[i]);
@@ -371,40 +398,73 @@ void DFTDialog::onBtnAddClicked()
             }
         }
         else
-        {
- /*********************************************************************************************************
-            double *rout = new double[length];
-            for (int i = 0; i < length; i++)
+        {                             
+
+            if (comboBox_fft_method->currentIndex() == 0)
             {
-                rout[i] = m_value_list->at(outx).at(i+startIndex);;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                OrthgCorelAnalysis  m_orthAnys;
+                m_orthAnys.setAnalySignalComp(m_sin_hz_start, m_sin_hz_step, m_samp_tim, m_sin_harm_num, m_sin_delay_num, m_sin_data_num);
+
+                QVector<qreal> v_rin, v_rout;
+
+                for (int i = 0; i < length; i++)
+                {
+                    v_rin.append(in[i]);
+                    v_rout.append(m_value_list->at(outx).at(i+startIndex));
+
+                }
+
+                m_orthAnys.RespAnalysisInSinSteadyState(&v_rin, &v_rout, m_amp, m_phase);
+
+                for (int i = 0; i < m_sin_harm_num; i ++)
+                {
+                    m_freq.append(m_sin_hz_start + i*m_sin_hz_step);
+                }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
-            RespAnalysisInFreDomain(in, rout, dbb, phh, length);
-
-            delete []rout;
-**********************************************************************************************************/
-            OrthgCorelAnalysis  m_orthAnys;
-            m_orthAnys.setAnalySignalComp(m_sin_hz_start, m_sin_hz_step, m_samp_tim, m_sin_harm_num, m_sin_delay_num, m_sin_data_num);
-
-            QVector<qreal> v_rin, v_rout;
-
-            for (int i = 0; i < length; i++)
+            else
             {
-                v_rin.append(in[i]);
-                v_rout.append(m_value_list->at(outx).at(i+startIndex));
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                my_prbs_idf_n4sidInitialize();
 
-            }
+                m_dbb         = new double[N4SID_FRE_NUM_END];
+                m_phh         = new double[N4SID_FRE_NUM_END];
 
-            m_orthAnys.RespAnalysisInSinSteadyState(&v_rin, &v_rout, m_amp, m_phase);
+                mwArray idf_ts(1,1,mxDOUBLE_CLASS);
+                mwArray idf_u0(1,length,mxDOUBLE_CLASS);
+                mwArray idf_y0(1,length,mxDOUBLE_CLASS);
+                mwArray idf_phh(1,N4SID_FRE_NUM_END,mxDOUBLE_CLASS);
+                mwArray idf_dbb(1,N4SID_FRE_NUM_END,mxDOUBLE_CLASS);
 
-            m_freq.clear();
+                idf_u0.SetData(in,length);
+                idf_y0.SetData(out,length);
+                idf_ts.SetData(&m_samp_tim,1);
 
-            for (int i = 0; i < m_sin_harm_num; i ++)
-            {
-                m_freq.append(m_sin_hz_start + i*m_sin_hz_step);
+                my_prbs_idf_n4sid(2, idf_dbb, idf_phh, idf_u0, idf_y0, idf_ts);
+
+                idf_dbb.GetData(m_dbb,N4SID_FRE_NUM_END);
+                idf_phh.GetData(m_phh,N4SID_FRE_NUM_END);
+
+                for(int i = N4SID_FRE_NUM_START; i < N4SID_FRE_NUM_END; i++)
+                {
+                    m_amp.append(m_dbb[i]);
+                    m_phase.append(m_phh[i]);
+                }
+
+                for (int i = N4SID_FRE_NUM_START; i < N4SID_FRE_NUM_END; i ++)
+                {
+                    m_freq.append(i/100.0);
+                }
+
+                delete []m_dbb;
+                delete []m_phh;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
         }
 
         delete []in;
+        delete []out;
         delete []dbb;
         delete []phh;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -546,8 +606,8 @@ void DFTDialog::setCurveTime(double start_tim, double final_tim, double samp_tim
     m_final_tim                 =   final_tim;
     m_samp_tim                  =   samp_tim;
 
-    m_sin_delay_num             =   m_sin_delay_tim/m_samp_tim;
-    m_sin_data_num              =   m_sin_steady_tim/m_samp_tim;
+    m_sin_delay_num             =   (m_sin_delay_tim/m_samp_tim + 0.5);
+    m_sin_data_num              =   (m_sin_steady_tim/m_samp_tim + 0.5);
 
     doubleSpinBox_fft_start->setValue(m_start_tim);
     doubleSpinBox_fft_terminal->setValue(m_final_tim);

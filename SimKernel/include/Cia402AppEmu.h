@@ -245,6 +245,9 @@ typedef enum
     INTERV_TIM_TRAJ_PRM_ID32_OBJW_203FH         =   63,                                     // interval time between motion | unit[scan]
     SPDR_HOLD_TIM_TRAJ_PRM_ID32_OBJW_2040H      =   64,                                     // speed command hold time in reciprocate motion | unit[scan]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    PRBS_DIV_NUM_EXCI_SIG_PRM_ID16_OBJW_2041H   =   65,                                     // prbs diivision times | unit[ts]
+    PRBS_DURAT_TIM_EXCI_SIG_PRM_ID32_OBJW_2042H =   66,                                     // prbs durate time | unit[ts]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
 
@@ -340,6 +343,8 @@ typedef enum
     REAL_T_EXCI_SIG_VAR_OBJW_3043H              =   67,                                     // real time of current harmonic signal
     REAL_F_EXCI_SIG_VAR_OBJW_3044H              =   68,                                     // real frequency of current harmonic signal
     EXCI_SIG_OUT_EXCI_SIG_VAR_OBJW_3045H        =   69,                                     // excition signal output
+
+    PRBS_FLAG_EXCI_SIG_VAR_OBJW_3046H           =   70,                                     // the prbs flag
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
@@ -731,7 +736,23 @@ const   TSDOINFOENTRYDESC sEntryDesc0x203F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_R
 const   Uint8   aName0x2040[] = "speed command hold time in reciprocate motion | unit[scan]";
 /** \brief Object 0x2040  speed command hold time in reciprocate motion | unit[scan]*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2040 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2041 */
+const   Uint8   aName0x2041[] = "prbs division times | unit[ts]";
+/** \brief Object 0x2041  prbs division times | unit[ts]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2041 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2042 */
+const   Uint8   aName0x2042[] = "prbs durate time | unit[ts]";
+/** \brief Object 0x2042  prbs durate time | unit[ts]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2042 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
+
+
 
 
 //#############################################################################################################################
@@ -1085,6 +1106,12 @@ const   TSDOINFOENTRYDESC sEntryDesc0x3044 = {DEFTYPE_REAL64, 0x40, ACCESS_READW
 const   Uint8   aName0x3045[] = "excition signal output";
 /** \brief Object 0x3045 excition signal output */
 const   TSDOINFOENTRYDESC sEntryDesc0x3045 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3046[] = "the prbs generate flag";
+/** \brief Object 0x3046 the prbs generate flag */
+const   TSDOINFOENTRYDESC sEntryDesc0x3046 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 

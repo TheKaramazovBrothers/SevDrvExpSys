@@ -96,15 +96,36 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label_fft_output">
           <property name="text">
            <string>Output:</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QComboBox" name="comboBox_fft_output"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_fft_method">
+          <property name="text">
+           <string>method</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QComboBox" name="comboBox_fft_method">
+          <item>
+           <property name="text">
+            <string>Orthogonal correlation analysis</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Subspace identification method</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </item>

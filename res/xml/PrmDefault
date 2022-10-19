@@ -46,6 +46,8 @@
     "position loop gain band width | unit[0.1Hz]": 100,
     "position loop sample times | unit[ns]": 62500,
     "positive velocity limit rate | unit[Q12]": 4096,
+    "prbs division times | unit[ts]": 8,
+    "prbs durate time | unit[ts]": 160000,
     "ramp time constant of velocity command | unit[ms]": 2000,
     "reciprocating motion times": 100,
     "rotation resolution | unit[pulse number/circle]": 16777216,

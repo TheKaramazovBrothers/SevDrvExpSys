@@ -27,7 +27,7 @@
 
 #define		SEV_PRM_FROM_EX_MEM_EN			ENABLE
 
-#define     PI_CIRCULAR_CONSTANT            3.1415926536
+#define     PI_CIRCULAR_CONSTANT            3.14159265358979323846
 #define     PI2_CIRCULAR_CONSTANT          (2 * PI_CIRCULAR_CONSTANT)
 //#############################################################################################################################
 // parameter table enum define
@@ -66,6 +66,8 @@ typedef enum
     SIN_HZ_START_EXCI_SIG_PRM_ID16_ADR      =   22,                                                         // start frequency of sinusoidal excitation | unit[HZ]
     SIN_HZ_STEP_EXCI_SIG_PRM_ID16_ADR       =   23,                                                         // step of sinusoidal excitation | unit[HZ]
     SIN_HARM_NUM_EXCI_SIG_PRM_ID16_ADR      =   24,                                                         // sinusoidal excitation numbers (numbers of sine waves)
+
+    PRBS_DIV_NUM_EXCI_SIG_PRM_ID16_ADR      =   25,                                                         // prbs division times | unit[ts]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
@@ -127,6 +129,8 @@ typedef enum
     RECIP_NUM_TRAJ_PRM_ID32_ADR             =   37,                                                         // reciprocating motion times
     INTERV_TIM_TRAJ_PRM_ID32_ADR            =   38,                                                         // interval time between motion | unit[scan]
     SPDR_HOLD_TIM_TRAJ_PRM_ID32_ADR         =   39,                                                         // speed command hold time in reciprocate motion | unit[scan]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    PRBS_DURAT_TIM_EXCI_SIG_PRM_ID32_ADR    =   40,                                                         // prbs durate time | unit[ts]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_DWORD_MAX_NUM
 }tPrmServoCtlId_DWORD;
