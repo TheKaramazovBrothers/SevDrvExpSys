@@ -305,7 +305,7 @@ void DFTDialog::onBtnAddClicked()
 {
     QString str_ID, str_Name;
     double  startT, endT, minT, maxT, total_t, samplingFreq;
-    double  *in, *out, *dbb, *phh, *m_dbb, *m_phh;
+    double  *in, *out, *dbb, *phh, *m_dbb, *m_phh, phh_tmp;
     int     inx, outx, length, startIndex, endIndex;
 
     if ((m_wave_name_tbl->rowCount() != 0) && (tableWidget->rowCount() < MAX_TABLE_WAVE_NUM))
@@ -375,8 +375,9 @@ void DFTDialog::onBtnAddClicked()
             {
                 m_freq.append(samplingFreq * i / length);
             }
+            SignalAnalysisFFT(in, dbb, phh, length);
+/*
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-//            SignalAnalysisFFT(in, dbb, phh, length);
             my_fftInitialize();
 
             mwArray in_u0(1,length,mxDOUBLE_CLASS);
@@ -391,6 +392,7 @@ void DFTDialog::onBtnAddClicked()
             out_phh.GetData(phh,length);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
             for(int i = 0; i < length / 2; i++)
             {
                 m_amp.append(dbb[i]);
@@ -449,7 +451,19 @@ void DFTDialog::onBtnAddClicked()
                 for(int i = N4SID_FRE_NUM_START; i < N4SID_FRE_NUM_END; i++)
                 {
                     m_amp.append(m_dbb[i]);
-                    m_phase.append(m_phh[i]);
+                    if (m_phh[i] > 180.0)
+                    {
+                        phh_tmp =   m_phh[i] - 360.0;
+                    }
+                    else if (m_phh[i] < -180.0)
+                    {
+                        phh_tmp =   m_phh[i] + 360.0;
+                    }
+                    else
+                    {
+                        phh_tmp =   m_phh[i];
+                    }
+                    m_phase.append(phh_tmp);
                 }
 
                 for (int i = N4SID_FRE_NUM_START; i < N4SID_FRE_NUM_END; i ++)

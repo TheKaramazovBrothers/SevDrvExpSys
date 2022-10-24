@@ -26,7 +26,7 @@ typedef enum {
 #define     MAX_TABLE_WAVE_NUM    20
 
 #define     N4SID_FRE_NUM_END         200000                                                // unit[0.01hz]
-#define     N4SID_FRE_NUM_START       1000                                                  // unit[0.01hz]
+#define     N4SID_FRE_NUM_START       500                                                   // unit[0.01hz]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 class DFTDialog : public QDialog, public Ui::DFTDialog
 {

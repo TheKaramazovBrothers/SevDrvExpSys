@@ -115,6 +115,9 @@
         </item>
         <item row="3" column="1">
          <widget class="QComboBox" name="comboBox_fft_method">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
           <item>
            <property name="text">
             <string>Orthogonal correlation analysis</string>

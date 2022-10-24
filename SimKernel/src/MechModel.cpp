@@ -25,7 +25,7 @@
 //*********************************************************************************************************
 PmsmDrvMechModel::PmsmDrvMechModel()
 {
-    this->mode_sel          =       PMSM_ONLY;
+    this->mode_sel          =       PMSM_LOADER;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     this->PI				=		3.14159265358979323846;								// pi
     this->PI_2              =		this->PI*2.0;										// pi * 2
@@ -44,13 +44,14 @@ PmsmDrvMechModel::PmsmDrvMechModel()
 //	this->PSI_A             =		0.4204;												// PSI_A = PSI_F * 3/2
     this->PSI_A             =		this->PSI_F;										// PSI_A = PSI_F (the right relationship with k equal to 2/3)
 
-    this->J                 =		0.000044 * (1.0 + 5.4);                             // inertia of motor
-    this->J_Rat             =       5.4;                                                // JL/JM Ratio on resonance and anti-resonance
-    this->JM                =       0.000044;
+//    this->J                 =		0.000044 * (1.0 + 5.4);                             // inertia of all
+    this->J                 =		0.0002816;                                          // inertia of all
+    this->J_Rat             =       2.0;                                                // JL/JM Ratio on resonance and anti-resonance
+    this->JM                =       this->J * (1.0/(1.0+this->J_Rat));                  // inertia of motor
 
     this->JL                =       this->JM * this->J_Rat;                             // inertia of the loader (kg-m^2)
     this->BS                =       0.0002;												// the viscous friction coefficient (Nm-s/rad)
-    this->KS                =       5000.0;                                             //	modulus of elasticity (Nm/rad)
+    this->KS                =       1000.0;                                             //	modulus of elasticity (Nm/rad)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     this->TL				=		0;													// load torque
     this->DM				=		0.001;												// friction coefficient of velocity Nms/rad
