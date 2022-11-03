@@ -69,6 +69,17 @@ typedef enum
 
     PRBS_DIV_NUM_EXCI_SIG_PRM_ID16_ADR      =   25,                                                         // prbs division times | unit[ts]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FN_LPF0_TQR_VCTL_PRM_ID16_ADR           =   26,                                                         // fn of the first low pass filter for torque filter | unit[0.1hz]
+    FN_LPF1_TQR_VCTL_PRM_ID16_ADR           =   27,                                                         // fn of the second low pass filter for torque filter | unit[0.1hz]
+
+    FN_NCH0_TQR_VCTL_PRM_ID16_ADR           =   28,                                                         // fn of the first notch filter for torque filter | unit[0.1hz]
+    QX_NCH0_TQR_VCTL_PRM_ID16_ADR           =   29,                                                         // width of the first notch filter | unit[0.001]
+    KX_NCH0_TQR_VCTL_PRM_ID16_ADR           =   30,                                                         // depth of the first notch filter | unit[0.001]
+
+    FN_NCH1_TQR_VCTL_PRM_ID16_ADR           =   31,                                                         // fn of the second notch filter for torque filter | unit[0.1hz]
+    QX_NCH1_TQR_VCTL_PRM_ID16_ADR           =   32,                                                         // width of the second notch filter | unit[0.001]
+    KX_NCH1_TQR_VCTL_PRM_ID16_ADR           =   33,                                                         // depth of the second notch filter | unit[0.001]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
 

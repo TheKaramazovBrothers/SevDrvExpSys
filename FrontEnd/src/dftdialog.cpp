@@ -235,12 +235,130 @@ void DFTDialog::onBtnFitClicked()
 
 void DFTDialog::onBtnOpenClicked()
 {
+    auto file_name = QFileDialog::getOpenFileName(this, tr("Open wave"), "../", tr("*.txt"));
+    if(file_name.isEmpty())
+    {
+        return;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    QFile file;
+    file.setFileName(file_name);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::information(0,tr("file error"),tr("can not open file :\n%1").arg(file_name));
+        return;
+    }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    QTextStream in(&file);
+
+    QString     fst_line        = in.readLine(0);
+    QStringList fst_lstLine     = fst_line.split(QRegExp("\\s+"));
+
+    QString     sec_line        = in.readLine(0);
+    QStringList sec_lstLine     = sec_line.split(QRegExp("\\s+"));
+
+    QString str_ID, str_Name;
+    str_ID                      =   fst_lstLine.at(0);
+    str_Name                    =   fst_lstLine.at(1);
+
+    m_amp.clear();
+    m_freq.clear();
+    m_phase.clear();
+    double      dtmp;
+
+    while (!in.atEnd())
+    {
+        in >> dtmp;
+        m_freq.append(dtmp);
+        in >> dtmp;
+        m_amp.append(dtmp);
+        in >> dtmp;
+        m_phase.append(dtmp);
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+    int rowCount = tableWidget->rowCount();
+    tableWidget->insertRow(rowCount);
+
+    QTableWidgetItem *item = new QTableWidgetItem();
+    item->setText(str_ID);
+    item->setFlags(Qt::ItemIsEnabled);
+    tableWidget->setItem(rowCount, 0, item);
+
+    item = new QTableWidgetItem();
+    item->setText(str_Name);
+    item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item->setFlags(Qt::ItemIsEnabled);
+    tableWidget->setItem(rowCount, 1, item);
+
+    tableWidget->item(rowCount,0)->setTextColor(tbl_col[rowCount%MAX_TABLE_WAVE_NUM]);
+    tableWidget->item(rowCount,1)->setTextColor(tbl_col[rowCount%MAX_TABLE_WAVE_NUM]);
+
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    plot_amp->addGraph();
+    plot_amp->graph(rowCount)->setPen(QPen(tbl_col[rowCount%MAX_TABLE_WAVE_NUM]));
+    plot_amp->graph(rowCount)->addData(m_freq, m_amp);
+    plot_amp->rescaleAxes(true);
+
+    plot_phase->addGraph();
+    plot_phase->graph(rowCount)->setPen(QPen(tbl_col[rowCount%MAX_TABLE_WAVE_NUM]));
+    plot_phase->graph(rowCount)->addData(m_freq, m_phase);
+    plot_phase->rescaleAxes(true);
+
+    plot_amp->xAxis->setScaleType(QCPAxis::stLogarithmic);
+    plot_phase->xAxis->setScaleType(QCPAxis::stLogarithmic);
+
+    plot_amp->replot();
+    plot_phase->replot();
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    wave_vis_tbl[rowCount]          =   true;
+
+    file.close();
+    return;
 }
 
 void DFTDialog::onBtnSaveClicked()
 {
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    auto file_name = QFileDialog::getSaveFileName(this, tr("Save wave"), "../bode.txt",tr("*.txt"));
+    if(file_name.isEmpty())
+    {
+        return;
+    }
 
+    QFile fdata(file_name);
+
+    if (fdata.open(QFile::WriteOnly | QFile::Truncate | QIODevice::Text))
+    {
+        QTextStream out(&fdata);
+
+        QString nameStr;
+        out.setFieldAlignment(QTextStream::AlignLeft);
+        out.setRealNumberPrecision(11);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        int rowCount = tableWidget->rowCount()-1;
+        QString str_ID, str_Name;
+        str_ID      =   tableWidget->item(rowCount,0)->text();
+        str_Name    =   tableWidget->item(rowCount,1)->text();
+
+        out << qSetFieldWidth(20)  << str_ID << qSetFieldWidth(20) << str_Name;
+        out << qSetFieldWidth(0) << endl;
+        out << qSetFieldWidth(20)  << tr("fn[hz]") << qSetFieldWidth(20) <<  tr("amp[db]") << qSetFieldWidth(20) <<  tr("pha[deg]");
+        out << qSetFieldWidth(0) << endl ;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+        int wave_lth      =     m_freq.count();
+
+        for (int i = 0; i < wave_lth; i++)
+        {
+            out << qSetFieldWidth(20) << m_freq.at(i);
+            out << qSetFieldWidth(20) << m_amp.at(i);
+            out << qSetFieldWidth(20) << m_phase.at(i);
+            out << qSetFieldWidth(0) << endl;
+        }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    }
+    fdata.close();
+ //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void DFTDialog::onBtnAllClicked()
@@ -485,14 +603,23 @@ void DFTDialog::onBtnAddClicked()
         int rowCount = tableWidget->rowCount();
         tableWidget->insertRow(rowCount);
 
+        if(m_anys_type == ANALYSIS_SIGNAL)
+        {
+            str_ID                  =   tr("signal");
+            str_Name                =   m_wave_name_tbl->item(inx,1)->text();
+        }
+        else
+        {
+            str_ID                  =   tr("system");
+            str_Name                =   m_wave_name_tbl->item(inx,1)->text() +tr("->") + m_wave_name_tbl->item(outx,1)->text();
+        }
+
         QTableWidgetItem *item = new QTableWidgetItem();
-        str_ID                  =   m_wave_name_tbl->item(inx,0)->text();
         item->setText(str_ID);
         item->setFlags(Qt::ItemIsEnabled);
         tableWidget->setItem(rowCount, 0, item);
 
         item = new QTableWidgetItem();
-        str_Name                =   m_wave_name_tbl->item(inx,1)->text();
         item->setText(str_Name);
         item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         item->setFlags(Qt::ItemIsEnabled);

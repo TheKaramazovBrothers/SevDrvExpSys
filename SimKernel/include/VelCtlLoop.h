@@ -20,7 +20,13 @@
 typedef struct	vel_cfg_opt_bits
 {
     Uint32		RAMP		: 1;                                                        // velocity command ramp mask bit
-    Uint32		res         : 31;                                                       // reserved
+    Uint32      LPF0_TRF    : 1;                                                        // the first low pass filter for torque reference
+    Uint32      LPF1_TRF    : 1;                                                        // the second low pass filter for torque reference
+    Uint32      NCH0_TRF    : 1;                                                        // the first nortch filter for torque reference
+    Uint32      NCH1_TRF    : 1;                                                        // the second nortch filter for torque reference
+
+    Uint32      OPENLOOP    : 1;                                                        // velocity feedback openloop
+    Uint32		res         : 26;                                                       // reserved
 }VEL_CFG_OPT_BITS;
 
 
@@ -54,6 +60,17 @@ typedef		struct	vel_ctl_prm
     Uint32              tf_rmp;                                                         // ramp time constant of velocity command | unit[ms]
     tVelCtlCfgOpt       cfg_opt;                                                        // velocity control config option
 //#############################################################################################################################
+    Uint16              fn_lpf0_tqr;                                                    // the fn of the first low pass filter for torque filter | unit[0.1hz]
+    Uint16              fn_lpf1_tqr;                                                    // the fn of the second low pass filter for torque filter | unit[0.1hz]
+
+    Uint16              fn_nch0_tqr;                                                    // the fn of the first notch filter for torque filter | unit[0.1hz]
+    Uint16              qx_nch0_tqr;                                                    // the width of the first notch filter | unit[0.001]
+    Uint16              kx_nch0_tqr;                                                    // the depth of the first notch filter | unit[0.001]
+
+    Uint16              fn_nch1_tqr;                                                    // the fn of the second notch filter for torque filter | unit[0.1hz]
+    Uint16              qx_nch1_tqr;                                                    // the width of the second notch filter | unit[0.001]
+    Uint16              kx_nch1_tqr;                                                    // the depth of the second notch filter | unit[0.001]
+//#############################################################################################################################
 }VEL_CTL_PRM;
 
 
@@ -85,11 +102,27 @@ typedef		struct	vel_ctl
     double      tqr;                                                                    // torque command output | unit[Nm]
     double      iqr;                                                                    // q axis current command output | unit[A]
 //**************************************************************************************************************************
-// velocity command filter parameter define
+// velocity command ramp variable define
     double      delt_rmp;                                                               // delta ramp value of velocity command
     double      velr_ramp_in;                                                           // ramp input variable of velocity reference
     double      velr_ramp_out;                                                          // ramp output variable of velocity reference
 // velocity command filter variable define
+//**************************************************************************************************************************
+// torque command filter parameter define
+    double      kf_lpf0_tqr;                                                            // coefficient of the first low pass filter for torque command
+    double      kf_lpf1_tqr;                                                            // coefficient of the second low pass filter for torque command
+
+    double      kf_nch0_tqr[3];                                                         // coefficient of the first notch filter for torque command
+    double      kf_nch1_tqr[3];                                                         // coefficient of the second notch filter for torque command
+// torque command filter variable define
+//**************************************************************************************************************************
+    double      iqr_lpf0;                                                               // output of the first low pass filter for iq reference
+    double      iqr_lpf1;                                                               // output of the second low pass filter for iq reference
+    double      iqr_nch0;                                                               // output of the first notch filter for iq reference
+    double      iqr_nch1;                                                               // output of the second notch filter for iq reference
+
+    double      x_nch0[3];                                                              // buffer variable for notch filter
+    double      x_nch1[3];                                                              // buffer variable for notch filter
 //**************************************************************************************************************************
 }VEL_CTL;
 
@@ -101,6 +134,7 @@ int16	KpiInitVelLoopVar(VEL_CTL * m_ctl);                                       
 int16	KpiVelCloseLoopCtrl(VEL_CTL * m_ctl, \
                             double * m_spdr,double * m_spdf, double *m_tqrp);           // velocity close loop control function
 
+int16   KpiVctlOutTqrFit(VEL_CTL * m_ctl, double * iqr_in, double * iqr_our);           // Velocity close loop output torque filter
 
 
 #endif

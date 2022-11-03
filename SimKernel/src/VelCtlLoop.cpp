@@ -10,6 +10,8 @@
 //=========================================================================================================
 #include "Cia402AppEmu.h"
 #include "SevCtlPrmTblDef.h"
+#include <cmath>
+
 #include "VelCtlLoop.h"
 
 
@@ -27,7 +29,8 @@
 int16	KpiInitVelLoopModule(VEL_CTL * m_ctl)
 {
     double  imax_tmp, phim_tmp, jm_tmp, jrat_tmp, jall_tmp, tmax_tmp;
-    double  nos_tmp;
+    double  nos_tmp, dtmp;
+    double  zeta1, zeta2, wn, wc, b0, b1, b2, c0, h;
     int32   ltmp, ltmp2;
 //**************************************************************************************************************************
     if (SEV_PRM_FROM_EX_MEM_EN == DISABLE)
@@ -51,6 +54,18 @@ int16	KpiInitVelLoopModule(VEL_CTL * m_ctl)
 
         m_ctl->prm.tf_rmp           =   2000;
         m_ctl->prm.cfg_opt.all      =   0;
+//**************************************************************************************************************************
+        m_ctl->prm.fn_lpf0_tqr      =   4000;
+        m_ctl->prm.fn_lpf1_tqr      =   8000;
+
+        m_ctl->prm.fn_nch0_tqr      =   3000;
+        m_ctl->prm.qx_nch0_tqr      =   500;
+        m_ctl->prm.kx_nch0_tqr      =   500;
+
+        m_ctl->prm.fn_nch1_tqr      =   6000;
+        m_ctl->prm.qx_nch1_tqr      =   500;
+        m_ctl->prm.kx_nch1_tqr      =   500;
+//**************************************************************************************************************************
     }
     else
     {
@@ -99,6 +114,46 @@ int16	KpiInitVelLoopModule(VEL_CTL * m_ctl)
 //**************************************************************************************************************************
     m_ctl->delt_rmp             =   ((nos_tmp/60.0)*PI2_CIRCULAR_CONSTANT)/(((double)(m_ctl->prm.tf_rmp) * 1000000.0)/(double)(m_ctl->prm.ts));
 //**************************************************************************************************************************
+    dtmp                        =   1000000000.0/(PI2_CIRCULAR_CONSTANT*(m_ctl->prm.fn_lpf0_tqr/10.0));
+    m_ctl->kf_lpf0_tqr          =   m_ctl->prm.ts/(m_ctl->prm.ts + dtmp);
+
+    dtmp                        =   1000000000.0/(PI2_CIRCULAR_CONSTANT*(m_ctl->prm.fn_lpf1_tqr/10.0));
+    m_ctl->kf_lpf1_tqr          =   m_ctl->prm.ts/(m_ctl->prm.ts + dtmp);
+//**************************************************************************************************************************
+    wn                          =   PI2_CIRCULAR_CONSTANT * (m_ctl->prm.fn_nch0_tqr/10.0);
+    dtmp                        =   m_ctl->prm.ts/1000000000.0;
+
+    wc                          =   (2.0/dtmp)*tan((wn*dtmp)/2.0);
+    zeta2                       =   m_ctl->prm.qx_nch0_tqr/1000.0;
+    zeta1                       =   zeta2 * (m_ctl->prm.kx_nch0_tqr/1000.0);
+    h                           =   2.0/dtmp;
+
+    c0                          =   2.0*(zeta2 - zeta1)*wc*h;
+    b0                          =   h*h + 2.0*zeta2*wc*h + wc*wc;
+    b1                          =   2.0*(h*h-wc*wc);
+    b2                          =   h*h - 2.0*zeta2*wc*h + wc*wc;
+
+    m_ctl->kf_nch0_tqr[0]       =   b1/b0;
+    m_ctl->kf_nch0_tqr[1]       =   b2/b0;
+    m_ctl->kf_nch0_tqr[2]       =   c0/b0;
+//**************************************************************************************************************************
+    wn                          =   PI2_CIRCULAR_CONSTANT * (m_ctl->prm.fn_nch1_tqr/10.0);
+    dtmp                        =   m_ctl->prm.ts/1000000000.0;
+
+    wc                          =   (2.0/dtmp)*tan((wn*dtmp)/2.0);
+    zeta2                       =   m_ctl->prm.qx_nch1_tqr/1000.0;
+    zeta1                       =   zeta2 * (m_ctl->prm.kx_nch1_tqr/1000.0);
+    h                           =   2.0/dtmp;
+
+    c0                          =   2.0*(zeta2 - zeta1)*wc*h;
+    b0                          =   h*h + 2.0*zeta2*wc*h + wc*wc;
+    b1                          =   2.0*(h*h-wc*wc);
+    b2                          =   h*h - 2.0*zeta2*wc*h + wc*wc;
+
+    m_ctl->kf_nch1_tqr[0]       =   b1/b0;
+    m_ctl->kf_nch1_tqr[1]       =   b2/b0;
+    m_ctl->kf_nch1_tqr[2]       =   c0/b0;
+//**************************************************************************************************************************
     m_ctl->spd_fb               =   0;                                                                      // motor speed feedback | unit[rad/s]
     m_ctl->spd_ref              =   0;                                                                      // motor speed reference | unit[rad/s]
     m_ctl->spd_err              =   0;                                                                      // speed control error | unit[rad/s]
@@ -110,6 +165,19 @@ int16	KpiInitVelLoopModule(VEL_CTL * m_ctl)
 //**************************************************************************************************************************
     m_ctl->velr_ramp_in         =   0;                                                                      // ramp input of velocity command
     m_ctl->velr_ramp_out        =   0;                                                                      // ramp output of velociity command
+//**************************************************************************************************************************
+    m_ctl->iqr_lpf0             =   0;
+    m_ctl->iqr_lpf1             =   0;
+    m_ctl->iqr_nch0             =   0;
+    m_ctl->iqr_nch1             =   0;
+
+    m_ctl->x_nch0[0]            =   0;
+    m_ctl->x_nch0[1]            =   0;
+    m_ctl->x_nch0[2]            =   0;
+
+    m_ctl->x_nch1[0]            =   0;
+    m_ctl->x_nch1[1]            =   0;
+    m_ctl->x_nch1[2]            =   0;
 //**************************************************************************************************************************
     return  TRUE;
 }
@@ -139,6 +207,19 @@ int16	KpiInitVelLoopVar(VEL_CTL * m_ctl)
 //**************************************************************************************************************************
     m_ctl->velr_ramp_in         =   0;                                                                      // ramp input of velocity command
     m_ctl->velr_ramp_out        =   0;                                                                      // ramp output of velociity command
+//**************************************************************************************************************************
+    m_ctl->iqr_lpf0             =   0;
+    m_ctl->iqr_lpf1             =   0;
+    m_ctl->iqr_nch0             =   0;
+    m_ctl->iqr_nch1             =   0;
+
+    m_ctl->x_nch0[0]            =   0;
+    m_ctl->x_nch0[1]            =   0;
+    m_ctl->x_nch0[2]            =   0;
+
+    m_ctl->x_nch1[0]            =   0;
+    m_ctl->x_nch1[1]            =   0;
+    m_ctl->x_nch1[2]            =   0;
 //**************************************************************************************************************************
     return  TRUE;
 }
@@ -173,7 +254,16 @@ int16	KpiVelCloseLoopCtrl(VEL_CTL * m_ctl, double * m_spdr, double * m_spdf, dou
     }
 //**************************************************************************************************************************
     m_ctl->spd_ref              =   m_ctl->velr_ramp_out;
-    m_ctl->spd_fb               =   *m_spdf;
+
+    if (m_ctl->prm.cfg_opt.bit.OPENLOOP == TRUE)
+    {
+        m_ctl->spd_fb               =   0;
+    }
+    else
+    {
+        m_ctl->spd_fb               =   *m_spdf;
+    }
+
     m_ctl->spd_err              =   m_ctl->spd_ref - m_ctl->spd_fb;
 
     dtmp                        =   m_ctl->xwki + m_ctl->ki_fst * m_ctl->spd_err;
@@ -183,9 +273,65 @@ int16	KpiVelCloseLoopCtrl(VEL_CTL * m_ctl, double * m_spdr, double * m_spdf, dou
     m_ctl->xwkp                 =   IQSatLimit(dtmp, m_ctl->vo_ulim, m_ctl->vo_llim);
 
     m_ctl->tqr                  =   m_ctl->xwkp + (*m_tqrp);
-    m_ctl->iqr                  =   m_ctl->tqr/m_ctl->kti;
+
+    dtmp                        =   m_ctl->tqr/m_ctl->kti;
+
+    KpiVctlOutTqrFit(m_ctl, &dtmp, &m_ctl->iqr);
 //**************************************************************************************************************************
     return  TRUE;
 }
 
 
+int16   KpiVctlOutTqrFit(VEL_CTL * m_ctl, double * iqr_in, double * iqr_our)
+{
+//**************************************************************************************************************************
+    if (m_ctl->prm.cfg_opt.bit.LPF0_TRF == TRUE)
+    {
+        m_ctl->iqr_lpf0                 =   m_ctl->iqr_lpf0 + ((*iqr_in) - m_ctl->iqr_lpf0) * m_ctl->kf_lpf0_tqr;
+    }
+    else
+    {
+        m_ctl->iqr_lpf0                 =   *iqr_in;
+    }
+//**************************************************************************************************************************
+    if (m_ctl->prm.cfg_opt.bit.LPF1_TRF == TRUE)
+    {
+        m_ctl->iqr_lpf1                 =   m_ctl->iqr_lpf1 + (m_ctl->iqr_lpf0 - m_ctl->iqr_lpf1) * m_ctl->kf_lpf1_tqr;
+    }
+    else
+    {
+        m_ctl->iqr_lpf1                 =   m_ctl->iqr_lpf0;
+    }
+//**************************************************************************************************************************
+    if (m_ctl->prm.cfg_opt.bit.NCH0_TRF == TRUE)
+    {
+        m_ctl->x_nch0[0]                =   m_ctl->x_nch0[1] * m_ctl->kf_nch0_tqr[0] - m_ctl->x_nch0[2]*m_ctl->kf_nch0_tqr[1] + m_ctl->iqr_lpf1*m_ctl->kf_nch0_tqr[2];
+
+        m_ctl->iqr_nch0                 =   m_ctl->iqr_lpf1 - m_ctl->x_nch0[0] + m_ctl->x_nch0[2];
+
+        m_ctl->x_nch0[2]                =   m_ctl->x_nch0[1];
+        m_ctl->x_nch0[1]                =   m_ctl->x_nch0[0];
+    }
+    else
+    {
+        m_ctl->iqr_nch0              =   m_ctl->iqr_lpf1;
+    }
+//**************************************************************************************************************************
+    if (m_ctl->prm.cfg_opt.bit.NCH1_TRF == TRUE)
+    {
+        m_ctl->x_nch1[0]                =   m_ctl->x_nch1[1] * m_ctl->kf_nch1_tqr[0] - m_ctl->x_nch1[2]*m_ctl->kf_nch1_tqr[1] + m_ctl->iqr_nch0*m_ctl->kf_nch1_tqr[2];
+
+        m_ctl->iqr_nch1                 =   m_ctl->iqr_nch0 - m_ctl->x_nch1[0] + m_ctl->x_nch1[2];
+
+        m_ctl->x_nch1[2]                =   m_ctl->x_nch1[1];
+        m_ctl->x_nch1[1]                =   m_ctl->x_nch1[0];
+    }
+    else
+    {
+        m_ctl->iqr_nch1                 =   m_ctl->iqr_nch0;
+    }
+//**************************************************************************************************************************
+    *iqr_our                        =   m_ctl->iqr_nch1;
+//**************************************************************************************************************************
+    return  TRUE;
+}

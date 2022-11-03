@@ -27,7 +27,13 @@
     "current command source select": 3,
     "deceleration of position command maker | unit[10000pulse/s/s]": 25000,
     "delay time between harmonic component | unit[scan]": 1600,
+    "depth of the first notch filter | unit[0.001]": 500,
+    "depth of the second notch filter | unit[0.001]": 500,
     "excitation signal produce module sample times | unit[ns]": 62500,
+    "fn of the first low pass filter for torque filter | unit[0.1hz]": 3000,
+    "fn of the first notch filter for torque filter | unit[0.1hz]": 4000,
+    "fn of the second low pass filter for torque filter | unit[0.1hz]": 6000,
+    "fn of the second notch filter for torque filter | unit[0.1hz]": 8000,
     "interval time between motion | unit[scan]": 1600,
     "jerk feedforward gain coefficient | unit[Q16]": 65536,
     "line number of encoder in one circle | unit[pulse]": 16777216,
@@ -64,5 +70,7 @@
     "velocity feedforward rate | unit[Q12]": 4096,
     "velocity loop gain band width | unit[0.1Hz]": 1000,
     "velocity loop integral time constant | unit[0.01ms]": 1000,
-    "velocity loop sample times | unit[ns]": 62500
+    "velocity loop sample times | unit[ns]": 62500,
+    "width of the first notch filter | unit[0.001]": 500,
+    "width of the second notch filter | unit[0.001]": 500
 }

@@ -248,8 +248,20 @@ typedef enum
     PRBS_DIV_NUM_EXCI_SIG_PRM_ID16_OBJW_2041H   =   65,                                     // prbs diivision times | unit[ts]
     PRBS_DURAT_TIM_EXCI_SIG_PRM_ID32_OBJW_2042H =   66,                                     // prbs durate time | unit[ts]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    FN_LPF0_TQR_VCTL_PRM_ID16_OBJW_2043H        =   67,                                     // fn of the first low pass filter for torque filter | unit[0.1hz]
+    FN_LPF1_TQR_VCTL_PRM_ID16_OBJW_2044H        =   68,                                     // fn of the second low pass filter for torque filter | unit[0.1hz]
+
+    FN_NCH0_TQR_VCTL_PRM_ID16_OBJW_2045H        =   69,                                     // fn of the first notch filter for torque filter | unit[0.1hz]
+    QX_NCH0_TQR_VCTL_PRM_ID16_OBJW_2046H        =   70,                                     // width of the first notch filter | unit[0.001]
+    KX_NCH0_TQR_VCTL_PRM_ID16_OBJW_2047H        =   71,                                     // depth of the first notch filter | unit[0.001]
+
+    FN_NCH1_TQR_VCTL_PRM_ID16_OBJW_2048H        =   72,                                     // fn of the second notch filter for torque filter | unit[0.1hz]
+    QX_NCH1_TQR_VCTL_PRM_ID16_OBJW_2049H        =   73,                                     // width of the second notch filter | unit[0.001]
+    KX_NCH1_TQR_VCTL_PRM_ID16_OBJW_204AH        =   74,                                     // depth of the second notch filter | unit[0.001]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
+
 
 
 //#############################################################################################################################
@@ -346,9 +358,13 @@ typedef enum
 
     PRBS_FLAG_EXCI_SIG_VAR_OBJW_3046H           =   70,                                     // the prbs flag
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    IQR_LPF0_VCTL_VAR_OBJW_3047H                =   71,                                     // output of the first low pass filter for iq reference
+    IQR_LPF1_VCTL_VAR_OBJW_3048H                =   72,                                     // output of the second low pass filter for iq reference
+    IQR_NCH0_VCTL_VAR_OBJW_3049H                =   73,                                     // output of the first notch filter for iq reference
+    IQR_NCH1_VCTL_VAR_OBJW_304AH                =   74,                                     // output of the second notch filter for iq reference
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
-
 
 
 //#############################################################################################################################
@@ -748,10 +764,55 @@ const   TSDOINFOENTRYDESC sEntryDesc0x2041 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_R
 const   Uint8   aName0x2042[] = "prbs durate time | unit[ts]";
 /** \brief Object 0x2042  prbs durate time | unit[ts]*/
 const   TSDOINFOENTRYDESC sEntryDesc0x2042 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2043 */
+const   Uint8   aName0x2043[] = "fn of the first low pass filter for torque filter | unit[0.1hz]";
+/** \brief Object 0x2043  fn of the first low pass filter for torque filter | unit[0.1hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2043 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2044 */
+const   Uint8   aName0x2044[] = "fn of the second low pass filter for torque filter | unit[0.1hz]";
+/** \brief Object 0x2044  fn of the second low pass filter for torque filter | unit[0.1hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2044 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2045 */
+const   Uint8   aName0x2045[] = "fn of the first notch filter for torque filter | unit[0.1hz]";
+/** \brief Object 0x2045  fn of the first notch filter for torque filter | unit[0.1hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2045 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2046 */
+const   Uint8   aName0x2046[] = "width of the first notch filter | unit[0.001]";
+/** \brief Object 0x2046  width of the first notch filter | unit[0.001]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2046 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2047 */
+const   Uint8   aName0x2047[] = "depth of the first notch filter | unit[0.001]";
+/** \brief Object 0x2047  depth of the first notch filter | unit[0.001]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2047 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2048 */
+const   Uint8   aName0x2048[] = "fn of the second notch filter for torque filter | unit[0.1hz]";
+/** \brief Object 0x2048  fn of the second notch filter for torque filter | unit[0.1hz]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2048 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2049 */
+const   Uint8   aName0x2049[] = "width of the second notch filter | unit[0.001]";
+/** \brief Object 0x2049  width of the second notch filter | unit[0.001]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2049 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x204A */
+const   Uint8   aName0x204A[] = "depth of the second notch filter | unit[0.001]";
+/** \brief Object 0x204A  depth of the second notch filter | unit[0.001]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x204A = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-
-
 
 
 
@@ -1112,7 +1173,28 @@ const   Uint8   aName0x3046[] = "the prbs generate flag";
 /** \brief Object 0x3046 the prbs generate flag */
 const   TSDOINFOENTRYDESC sEntryDesc0x3046 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3047[] = "output of the first low pass filter for iq reference";
+/** \brief Object 0x3047 output of the first low pass filter for iq reference */
+const   TSDOINFOENTRYDESC sEntryDesc0x3047 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3048[] = "output of the second low pass filter for iq reference";
+/** \brief Object 0x3048 output of the second low pass filter for iq reference */
+const   TSDOINFOENTRYDESC sEntryDesc0x3048 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3049[] = "output of the first notch filter for iq reference";
+/** \brief Object 0x3049 output of the first notch filter for iq reference */
+const   TSDOINFOENTRYDESC sEntryDesc0x3049 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x304A[] = "output of the second notch filter for iq reference";
+/** \brief Object 0x304A output of the second notch filter for iq reference */
+const   TSDOINFOENTRYDESC sEntryDesc0x304A = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
 
 
 //#############################################################################################################################

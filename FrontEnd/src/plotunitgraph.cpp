@@ -518,7 +518,9 @@ void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
     QString     sec_line        = in.readLine(0);
     QStringList sec_lstLine     = sec_line.split(QRegExp("\\s+"));
 
-    int line_lth = fst_lstLine.count();
+    QString     str             =   sec_lstLine.at(0);
+    int line_lth                =   str.toInt();
+
     if (line_lth > 0)
     {
         QString     sdata           =  fst_lstLine.at(0);
@@ -531,7 +533,7 @@ void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
             tab_wave_cnt    =   0;
         }
 
-        for (int i = 1; i < (line_lth - 1); i++)
+        for (int i = 1; i < line_lth; i++)
         {
             if ((tab_wave_cnt < g_MAX_TAB_WAVE_NUM))
             {
@@ -570,7 +572,7 @@ void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
         QVector<qreal> *vtmp        =   new QVector<qreal>;
         vtmp->append(0);
 
-        for (int i = 1; i < (line_lth - 1); i++)
+        for (int i = 1; i < line_lth; i++)
         {
             value_list.append(*vtmp);
         }
@@ -583,7 +585,7 @@ void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
             in >> dtmp;
             key_vec.append(dtmp);
 
-            for (int i = 1; i < (line_lth - 1); i++)
+            for (int i = 1; i < line_lth; i++)
             {
                 in >> dtmp;;
                 value_list[(i-1)].append(dtmp);
@@ -592,9 +594,8 @@ void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
 
         key_vec.removeLast();
 
-        for (int i = 1; i < (line_lth - 1); i++)
+        for (int i = 1; i < line_lth; i++)
         {
-            in >> dtmp;;
             value_list[(i-1)].removeLast();
         }
 
@@ -637,13 +638,10 @@ void    PlotUnitGraph::onBtnOpenCurveClicked(bool checked)
         this->plot->xAxis->setRange(key, wave_size, Qt::AlignRight);
         this->plot->replot();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-        file.close();
-        return;
     }
-    else
-    {
-        return;
-    }
+
+    file.close();
+    return;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 

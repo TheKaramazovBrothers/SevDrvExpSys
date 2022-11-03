@@ -149,7 +149,24 @@ TOBJ_ENTRY  DefCiA402PrmObjDic[PRM_SERVO_OBJW_INX_MAX_NUM] =
    {0x2041, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2041, aName0x2041, NULL, NULL, NULL, PRBS_DIV_NUM_EXCI_SIG_PRM_ID16_ADR},
     /* Object 0x2042 */
    {0x2042, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2042, aName0x2042, NULL, NULL, NULL, PRBS_DURAT_TIM_EXCI_SIG_PRM_ID32_ADR},
+    /* Object 0x2043 */
+   {0x2043, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2043, aName0x2043, NULL, NULL, NULL, FN_LPF0_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x2044 */
+   {0x2044, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2044, aName0x2044, NULL, NULL, NULL, FN_LPF1_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x2045 */
+   {0x2045, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2045, aName0x2045, NULL, NULL, NULL, FN_NCH0_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x2046 */
+   {0x2046, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2046, aName0x2046, NULL, NULL, NULL, QX_NCH0_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x2047 */
+   {0x2047, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2047, aName0x2047, NULL, NULL, NULL, KX_NCH0_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x2048 */
+   {0x2048, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2048, aName0x2048, NULL, NULL, NULL, FN_NCH1_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x2049 */
+   {0x2049, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2049, aName0x2049, NULL, NULL, NULL, QX_NCH1_TQR_VCTL_PRM_ID16_ADR},
+    /* Object 0x204A */
+   {0x204A, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x204A, aName0x204A, NULL, NULL, NULL, KX_NCH1_TQR_VCTL_PRM_ID16_ADR},
 };
+
 
 
 /*ECATCHANGE_END(V5.11) COE1*/
@@ -297,7 +314,16 @@ TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM]  =
     {0x3045, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3045, aName0x3045, NULL, NULL, NULL, NULL},
     /* Object 0x3046 */
     {0x3046, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3046, aName0x3046, NULL, NULL, NULL, NULL},
+    /* Object 0x3047 */
+    {0x3047, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3047, aName0x3047, NULL, NULL, NULL, NULL},
+    /* Object 0x3048 */
+    {0x3048, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3048, aName0x3048, NULL, NULL, NULL, NULL},
+    /* Object 0x3049 */
+    {0x3049, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3049, aName0x3049, NULL, NULL, NULL, NULL},
+    /* Object 0x304A */
+    {0x304A, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x304A, aName0x304A, NULL, NULL, NULL, NULL},
 };
+
 
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -389,8 +415,21 @@ void    CpiInitCiA402PrmObjPtr(void)
     DefCiA402PrmObjDic[PRBS_DIV_NUM_EXCI_SIG_PRM_ID16_OBJW_2041H].pVarPtr   =   ((void *)(&gSevDrv.obj.excs.prm.prbs_div_num));
     DefCiA402PrmObjDic[PRBS_DURAT_TIM_EXCI_SIG_PRM_ID32_OBJW_2042H].pVarPtr =   ((void *)(&gSevDrv.obj.excs.prm.prbs_durat_tim));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[FN_LPF0_TQR_VCTL_PRM_ID16_OBJW_2043H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.fn_lpf0_tqr));
+    DefCiA402PrmObjDic[FN_LPF1_TQR_VCTL_PRM_ID16_OBJW_2044H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.fn_lpf1_tqr));
+
+    DefCiA402PrmObjDic[FN_NCH0_TQR_VCTL_PRM_ID16_OBJW_2045H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.fn_nch0_tqr));
+    DefCiA402PrmObjDic[QX_NCH0_TQR_VCTL_PRM_ID16_OBJW_2046H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.qx_nch0_tqr));
+    DefCiA402PrmObjDic[KX_NCH0_TQR_VCTL_PRM_ID16_OBJW_2047H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.kx_nch0_tqr));
+
+    DefCiA402PrmObjDic[FN_NCH1_TQR_VCTL_PRM_ID16_OBJW_2048H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.fn_nch1_tqr));
+    DefCiA402PrmObjDic[QX_NCH1_TQR_VCTL_PRM_ID16_OBJW_2049H].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.qx_nch1_tqr));
+    DefCiA402PrmObjDic[KX_NCH1_TQR_VCTL_PRM_ID16_OBJW_204AH].pVarPtr        =   ((void *)(&gSevDrv.obj.vel.prm.kx_nch1_tqr));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+
 
 
 void    CpiInitCiA402VarObjPtr(void)
@@ -486,7 +525,13 @@ void    CpiInitCiA402VarObjPtr(void)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     DefCiA402VarObjDic[PRBS_FLAG_EXCI_SIG_VAR_OBJW_3046H].pVarPtr           =   ((void *)(&gSevDrv.obj.excs.prbs_flag.all));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402VarObjDic[IQR_LPF0_VCTL_VAR_OBJW_3047H].pVarPtr                =   ((void *)(&gSevDrv.obj.vel.iqr_lpf0));
+    DefCiA402VarObjDic[IQR_LPF1_VCTL_VAR_OBJW_3048H].pVarPtr                =   ((void *)(&gSevDrv.obj.vel.iqr_lpf1));
+    DefCiA402VarObjDic[IQR_NCH0_VCTL_VAR_OBJW_3049H].pVarPtr                =   ((void *)(&gSevDrv.obj.vel.iqr_nch0));
+    DefCiA402VarObjDic[IQR_NCH1_VCTL_VAR_OBJW_304AH].pVarPtr                =   ((void *)(&gSevDrv.obj.vel.iqr_nch1));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
+
 
 
 
