@@ -327,6 +327,11 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
             m_ctl->prm.pov_mode                 =   POS_CTL_POSCLD;
 
             m_ctl->posr_out                     =   0;
+
+            if (m_ctl->prm.sev_mode != m_ctl->prm.sev_mode_tmp)
+            {
+                m_ctl->prm.sev_mode                 =   STOP_VCTL_SERVO;
+            }
             break;
         }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -399,6 +404,11 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
                     break;
                 }
             }
+
+            if (m_ctl->prm.sev_mode != m_ctl->prm.sev_mode_tmp)
+            {
+                m_ctl->prm.sev_mode                 =   STOP_VCTL_SERVO;
+            }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             break;
         }
@@ -407,6 +417,11 @@ int16	KpiSeqServoCtlIsr(SEQ_CTL * m_ctl, void * m_drv)
         {
             m_ctl->prm.pov_mode                 =   VEL_CTL_POSCLD;
             m_ctl->spdr_out                     =   0;
+
+            if (m_ctl->prm.sev_mode != m_ctl->prm.sev_mode_tmp)
+            {
+                m_ctl->prm.sev_mode                 =   STOP_VCTL_SERVO;
+            }
             break;
         }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

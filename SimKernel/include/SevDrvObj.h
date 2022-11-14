@@ -22,6 +22,7 @@
 #include "SeqCtlFunc.h"
 #include "PosTrajProd.h"
 #include "ExciSigProd.h"
+#include "ModelEst.h"
 
 
 typedef		struct	servo_obj
@@ -35,6 +36,7 @@ typedef		struct	servo_obj
     POS_CTL         pos;                                                        // position control module
     POS_TRAJ        ptrj;                                                       // position trajectory maker
     EXCI_SIG        excs;                                                       // excitation signal module
+    MOD_IDF         idf;                                                        // model identification module
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }SERVO_OBJ;
 

@@ -23,6 +23,7 @@ int16   TpiInitServoObjModule(SERVO_OBJ * m_obj)
     KpiInitPosLoopModule(&m_obj->pos);
     KpiInitPosTrajProdModule(&m_obj->ptrj);
     KpiInitExciSigProdModule(&m_obj->excs);
+    KpiInitModIdfModule(&m_obj->idf);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     return  TRUE;
 }

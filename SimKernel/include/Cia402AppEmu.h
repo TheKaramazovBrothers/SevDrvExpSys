@@ -259,9 +259,14 @@ typedef enum
     QX_NCH1_TQR_VCTL_PRM_ID16_OBJW_2049H        =   73,                                     // width of the second notch filter | unit[0.001]
     KX_NCH1_TQR_VCTL_PRM_ID16_OBJW_204AH        =   74,                                     // depth of the second notch filter | unit[0.001]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CFG_OPT_ALL_MOD_IDF_PRM_ID32_OBJW_204BH     =   75,                                     // config option of model identification module
+    TS_MOD_IDF_PRM_ID32_OBJW_204CH              =   76,                                     // model estimate sample times | unit[ns]
+    J0_RLS_MOD_IDF_PRM_ID32_OBJW_204DH          =   77,                                     // Initialize inertia for rls algorithm | unit[10^-6 kg.m^2]
+    P0_RLS_MOD_IDF_PRM_ID32_OBJW_204EH          =   78,                                     // initialize gain of p1 coefficient for rls algorithm
+    LAMT_RLS_MOD_IDF_PRM_ID32_OBJW_204FH        =   79,                                     // the lamt coefficient for rsl algorithm realization | unit[Q24]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
-
 
 
 //#############################################################################################################################
@@ -363,8 +368,19 @@ typedef enum
     IQR_NCH0_VCTL_VAR_OBJW_3049H                =   73,                                     // output of the first notch filter for iq reference
     IQR_NCH1_VCTL_VAR_OBJW_304AH                =   74,                                     // output of the second notch filter for iq reference
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    ERR_RLS_MOD_IDF_VAR_OBJW_304BH              =   75,                                     // the estimate error variable for rls algorithm design
+    CX0_RLS_MOD_IDF_VAR_OBJW_304CH              =   76,                                     // parameter coefficient0 array for rls algorithm
+    CX1_RLS_MOD_IDF_VAR_OBJW_304DH              =   77,                                     // parameter coefficient1 array for rls algorithm
+    DEST_RLS_MOD_IDF_VAR_OBJW_304EH             =   78,                                     // the estimate viscous friciton for rls algorithm| unit[Nm/rad]
+    JUNIT_RLS_MOD_IDF_VAR_OBJ_304FH             =   79,                                     // Moment of inertia for rls algorithm| unit[10^-6 kg.m^2]
+
+    GAMMA0_RLS_MOD_IDF_VAR_OBJ_3050H            =   80,                                     // gamma coefficient 0 for rls algorithm
+    GAMMA1_RLS_MOD_IDF_VAR_OBJ_3051H            =   81,                                     // gamma coefficient 1 for rls algorithm
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     VAR_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_VAR_INDEX;
+
+
 
 
 //#############################################################################################################################
@@ -812,6 +828,36 @@ const   TSDOINFOENTRYDESC sEntryDesc0x2049 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_R
 const   Uint8   aName0x204A[] = "depth of the second notch filter | unit[0.001]";
 /** \brief Object 0x204A  depth of the second notch filter | unit[0.001]*/
 const   TSDOINFOENTRYDESC sEntryDesc0x204A = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x204B */
+const   Uint8   aName0x204B[] = "config option of model identification module";
+/** \brief Object 0x204B  config option of model identification module*/
+const   TSDOINFOENTRYDESC sEntryDesc0x204B = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x204C */
+const   Uint8   aName0x204C[] = "model estimate sample times | unit[ns]";
+/** \brief Object 0x204C  model estimate sample times | unit[ns]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x204C = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x204D */
+const   Uint8   aName0x204D[] = "Initialize inertia for rls algorithm | unit[10^-6 kg.m^2]";
+/** \brief Object 0x204D  Initialize inertia for rls algorithm | unit[10^-6 kg.m^2]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x204D = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x204E */
+const   Uint8   aName0x204E[] = "initialize gain of p1 coefficient for rls algorithm";
+/** \brief Object 0x204E  initialize gain of p1 coefficient for rls algorithm*/
+const   TSDOINFOENTRYDESC sEntryDesc0x204E = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x204F */
+const   Uint8   aName0x204F[] = "the lamt coefficient for rsl algorithm realization | unit[Q24]";
+/** \brief Object 0x204F  the lamt coefficient for rsl algorithm realization | unit[Q24]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x204F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 
@@ -1193,6 +1239,41 @@ const   TSDOINFOENTRYDESC sEntryDesc0x3049 = {DEFTYPE_REAL64, 0x40, ACCESS_READW
 const   Uint8   aName0x304A[] = "output of the second notch filter for iq reference";
 /** \brief Object 0x304A output of the second notch filter for iq reference */
 const   TSDOINFOENTRYDESC sEntryDesc0x304A = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x304B[] = "the estimate error variable for rls algorithm design";
+/** \brief the estimate error variable for rls algorithm design */
+const   TSDOINFOENTRYDESC sEntryDesc0x304B = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x304C[] = "parameter coefficient0 array for rls algorithm";
+/** \brief parameter coefficient0 array for rls algorithm */
+const   TSDOINFOENTRYDESC sEntryDesc0x304C = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x304D[] = "parameter coefficient1 array for rls algorithm";
+/** \brief parameter coefficient1 array for rls algorithm */
+const   TSDOINFOENTRYDESC sEntryDesc0x304D = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x304E[] = "the estimate viscous friciton for rls algorithm| unit[Nm/rad]";
+/** \brief the estimate viscous friciton for rls algorithm| unit[Nm/rad] */
+const   TSDOINFOENTRYDESC sEntryDesc0x304E = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x304F[] = "Moment of inertia for rls algorithm| unit[10^-6 kg.m^2]";
+/** \brief Moment of inertia for rls algorithm| unit[10^-6 kg.m^2] */
+const   TSDOINFOENTRYDESC sEntryDesc0x304F = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3050[] = "gamma coefficient 0 for rls algorithm";
+/** \brief gamma coefficient 0 for rls algorithm */
+const   TSDOINFOENTRYDESC sEntryDesc0x3050 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+const   Uint8   aName0x3051[] = "gamma coefficient 1 for rls algorithm";
+/** \brief gamma coefficient 1 for rls algorithm */
+const   TSDOINFOENTRYDESC sEntryDesc0x3051 = {DEFTYPE_REAL64, 0x40, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 

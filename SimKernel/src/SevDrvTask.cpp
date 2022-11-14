@@ -525,7 +525,7 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
     double  spdr_tmp, spdf_tmp, tqrp_tmp;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     KpiSeqServoCtlIsr(&m_drv->obj.seq, m_drv);
-
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     switch (m_drv->obj.seq.prm.pov_mode)
     {
     case    POS_CTL_POSCLD:
@@ -565,7 +565,12 @@ void	TpiPosCloseLoopDrvIsr2(SERVO_DRV * m_drv)                                  
         }
     }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
+    if (m_drv->obj.idf.prm.cfg_opt.bit.RLS_EN == TRUE)
+    {
+        tqrp_tmp        =   m_drv->obj.seq.iqr_out * m_drv->obj.vel.kti;
+        KpiRLSMotJmDmEst(&m_drv->obj.idf, &m_drv->obj.sens.mot_spd, &tqrp_tmp);
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
 void	TpiInitPosCloseLoopDrv(SERVO_DRV * m_drv)
@@ -574,6 +579,7 @@ void	TpiInitPosCloseLoopDrv(SERVO_DRV * m_drv)
     KpiInitVelLoopVar(&m_drv->obj.vel);
     KpiInitPosLoopVar(&m_drv->obj.pos);
     KpiInitExciSigProdVar(&m_drv->obj.excs);
+    KpiInitModeIdfVar(&m_drv->obj.idf);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 }

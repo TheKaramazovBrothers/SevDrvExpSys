@@ -76,7 +76,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>7</number>
          </property>
          <widget class="QWidget" name="page_idle">
           <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -119,12 +119,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_ipa">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_ipa">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
+             <property name="minimum">
+              <double>-9999.989999999999782</double>
+             </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>9999.989999999999782</double>
              </property>
             </widget>
            </item>
@@ -163,19 +166,6 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QSpinBox" name="spinBox_mode_uaref">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="minimum">
-              <number>-1000</number>
-             </property>
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="2">
             <widget class="QLabel" name="label_8">
              <property name="text">
@@ -183,19 +173,6 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QSpinBox" name="spinBox_mode_ubref">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="minimum">
-              <number>-1000</number>
-             </property>
-             <property name="maximum">
-              <number>1000</number>
              </property>
             </widget>
            </item>
@@ -209,19 +186,6 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="5">
-            <widget class="QSpinBox" name="spinBox_mode_ucref">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="minimum">
-              <number>-1000</number>
-             </property>
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
@@ -229,19 +193,6 @@
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QSpinBox" name="spinBox_mode_udref">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-             <property name="minimum">
-              <number>-1000</number>
-             </property>
-             <property name="maximum">
-              <number>1000</number>
              </property>
             </widget>
            </item>
@@ -255,16 +206,68 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="3">
-            <widget class="QSpinBox" name="spinBox_mode_uqref">
+           <item row="0" column="1">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_uaref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-999.990000000000009</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>999.990000000000009</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_ubref">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <double>-999.990000000000009</double>
+             </property>
+             <property name="maximum">
+              <double>999.990000000000009</double>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="5">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_ucref">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <double>-999.990000000000009</double>
+             </property>
+             <property name="maximum">
+              <double>999.990000000000009</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_udref">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <double>-999.990000000000009</double>
+             </property>
+             <property name="maximum">
+              <double>999.990000000000009</double>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_uqref">
+             <property name="buttonSymbols">
+              <enum>QAbstractSpinBox::NoButtons</enum>
+             </property>
+             <property name="minimum">
+              <double>-999.990000000000009</double>
+             </property>
+             <property name="maximum">
+              <double>999.990000000000009</double>
              </property>
             </widget>
            </item>
@@ -283,15 +286,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_idref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_idref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-999.990000000000009</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>999.990000000000009</double>
              </property>
             </widget>
            </item>
@@ -306,15 +309,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_iqref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_iqref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-999.990000000000009</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>999.990000000000009</double>
              </property>
             </widget>
            </item>
@@ -340,15 +343,12 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_spd_ref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_spd_ref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
-             </property>
-             <property name="maximum">
-              <number>1000</number>
+              <double>-9999.989999999999782</double>
              </property>
             </widget>
            </item>
@@ -374,15 +374,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_prof_spd_ref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_prof_spd_ref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-9999.989999999999782</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>9999.989999999999782</double>
              </property>
             </widget>
            </item>
@@ -408,15 +408,18 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_prof_pos_ref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_prof_pos_ref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
              <property name="minimum">
-              <number>-1677721600</number>
+              <double>-100000000000.000000000000000</double>
              </property>
              <property name="maximum">
-              <number>1677721600</number>
+              <double>100000000000.000000000000000</double>
              </property>
             </widget>
            </item>
@@ -442,15 +445,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_prof_iq_ref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_prof_iq_ref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-999.990000000000009</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>999.990000000000009</double>
              </property>
             </widget>
            </item>
@@ -479,7 +482,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_mode_cs_spd_ref">
+            <widget class="QDoubleSpinBox" name="spinBox_mode_cs_spd_ref">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -510,10 +513,10 @@
               <bool>true</bool>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-9999.989999999999782</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>9999.989999999999782</double>
              </property>
             </widget>
            </item>
@@ -539,15 +542,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox">
+            <widget class="QDoubleSpinBox" name="spinBox_cs_pos_ref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1677721600</number>
+              <double>-99999999999.990005493164063</double>
              </property>
              <property name="maximum">
-              <number>1677721600</number>
+              <double>99999999999.990005493164063</double>
              </property>
             </widget>
            </item>
@@ -576,15 +579,15 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBox_2">
+            <widget class="QDoubleSpinBox" name="spinBox_cs_iq_ref">
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
              <property name="minimum">
-              <number>-1000</number>
+              <double>-999.990000000000009</double>
              </property>
              <property name="maximum">
-              <number>1000</number>
+              <double>999.990000000000009</double>
              </property>
             </widget>
            </item>

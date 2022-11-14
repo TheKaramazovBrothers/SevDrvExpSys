@@ -54,7 +54,7 @@ PmsmDrvMechModel::PmsmDrvMechModel()
     this->KS                =       1000.0;                                             //	modulus of elasticity (Nm/rad)
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     this->TL				=		0;													// load torque
-    this->DM				=		0.001;												// friction coefficient of velocity Nms/rad
+    this->DM				=		0.001;                                              // friction coefficient of velocity Nms/rad
     this->TS				=		0.00000625;											// periods of pmsm model calculate
 
     this->KA_D              =		(((2*this->LD) / this->TS) + this->RA);             // ka = (2*Ld)/Ts + Ra

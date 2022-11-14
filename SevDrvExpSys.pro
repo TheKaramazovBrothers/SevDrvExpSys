@@ -38,6 +38,7 @@ UI_DIR  = ./FrontEnd/ui
 
 
 SOURCES += main.cpp\
+    SimKernel/src/ModelEst.cpp \
         mainwindow.cpp \
         FrontEnd/src/qttreemanager.cpp \
     FrontEnd/src/gtplot.cpp \
@@ -81,6 +82,7 @@ HEADERS  += mainwindow.h \
     Lib/include/my_fft.h \
     Lib/include/my_prbs_idf_n4sid.h \
     SimKernel/include/MechModel.h \
+    SimKernel/include/ModelEst.h \
     SimKernel/include/SevCtlPrmTblDef.h \
     SimKernel/include/CurrCtlLoop.h \
     SimKernel/include/Cia402AppEmu.h \

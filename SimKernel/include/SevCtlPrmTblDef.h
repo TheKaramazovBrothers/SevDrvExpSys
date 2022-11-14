@@ -143,8 +143,15 @@ typedef enum
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRBS_DURAT_TIM_EXCI_SIG_PRM_ID32_ADR    =   40,                                                         // prbs durate time | unit[ts]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CFG_OPT_ALL_MOD_IDF_PRM_ID32_ADR        =   41,                                                         // config option of model identification module
+    TS_MOD_IDF_PRM_ID32_ADR                 =   42,                                                         // model estimate sample times | unit[ns]
+    J0_RLS_MOD_IDF_PRM_ID32_ADR             =   43,                                                         // Initialize inertia for rls algorithm | unit[10^-6 kg.m^2]
+    P0_RLS_MOD_IDF_PRM_ID32_ADR             =   44,                                                         // initialize gain of p1 coefficient for rls algorithm
+    LAMT_RLS_MOD_IDF_PRM_ID32_ADR           =   45,                                                         // the lamt coefficient for rsl algorithm realization | unit[Q24]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_DWORD_MAX_NUM
 }tPrmServoCtlId_DWORD;
+
 
 
 //#############################################################################################################################
