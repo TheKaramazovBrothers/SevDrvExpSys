@@ -38,6 +38,7 @@ UI_DIR  = ./FrontEnd/ui
 
 
 SOURCES += main.cpp\
+    FrontEnd/src/dftsettingDialog.cpp \
     SimKernel/src/ModelEst.cpp \
         mainwindow.cpp \
         FrontEnd/src/qttreemanager.cpp \
@@ -71,6 +72,7 @@ SOURCES += main.cpp\
     AnalysisKernel/src/OrthCorelAnalysis.cpp
 
 HEADERS  += mainwindow.h \
+    FrontEnd/include/dftsettingDialog.h \
         FrontEnd/include/qttreemanager.h \
     FrontEnd/include/gtplot.h \
     FrontEnd/include/qcpitemhandletag.h \

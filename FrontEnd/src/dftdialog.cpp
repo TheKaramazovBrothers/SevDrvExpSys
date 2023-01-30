@@ -17,6 +17,8 @@
 
 #include "my_fft.h"
 #include "my_prbs_idf_n4sid.h"
+
+#include "dftsettingdialog.h"
 #include "dftdialog.h"
 
 
@@ -204,7 +206,10 @@ void DFTDialog::onBtnPhaClicked(bool checked)
 
 void DFTDialog::onBtnSettingClicked()
 {
+    DFTSettingDialog * m_DftSetDialog         =   new DFTSettingDialog(this);
+    m_DftSetDialog->setFreResData(&m_freq, &m_amp, &m_phase);
 
+    m_DftSetDialog->exec();
 }
 
 void DFTDialog::onAxisRangeChanged(QVector<double> limitList)
