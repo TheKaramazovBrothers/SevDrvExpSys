@@ -48,6 +48,8 @@ PlotUnitGraph::PlotUnitGraph(QWidget *parent)
     wave_disp_cnt           =   0;
     tab_wave_cnt            =   0;
 
+    wave_group_sel          =   G10_WAVE_GROUP;
+
     m_showColor             =   QColor(Qt::white);
     m_hideColor             =   QColor(Qt::gray);
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -247,6 +249,8 @@ void    PlotUnitGraph::InitTableWidgetPloCurve()
             }
         }
     }
+
+    ifs.close();
  //----------------------------------------------------------------------------------------------------------------
     QList<QString> keylist = wave_tbl_def.keys();
     QString str,str2;
@@ -349,8 +353,112 @@ void PlotUnitGraph::createSignalSlotsConnect()
     connect(tableWidget_plot_curve, &QTableWidget::itemClicked, \
             this, &PlotUnitGraph::onCurveTableItemClicked);
 
+    connect(comboBox_plot_wave_group, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxWaveGroupChanged(int)));
 
     connect(this,SIGNAL(selectionRectFinish()),this,SLOT(onPlotSelectionRectFinish()));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+
+void    PlotUnitGraph::onComboBoxWaveGroupChanged(int index)
+{
+    wave_group_sel          =   (PlotWaveGroupSel)(index);
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    QString file_name;
+    if (wave_group_sel == G10_WAVE_GROUP)
+    {
+        file_name           =   "./res/xml/WaveTblG10.txt";
+    }
+    else if (wave_group_sel == G20_WAVE_GROUP)
+    {
+        file_name           =   "./res/xml/WaveTblG20.txt";
+    }
+    else if (wave_group_sel == GIDF_WAVE_GROUP)
+    {
+        file_name           =   "./res/xml/WaveTblIdf.txt";
+    }
+    else if (wave_group_sel == GPCTL_WAVE_GROUP)
+    {
+        file_name           =   "./res/xml/WaveTblPctl.txt";
+    }
+    else
+    {
+        file_name           =   "./res/xml/WaveTblG10.txt";
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    if (tab_wave_cnt > 0)
+    {
+        tableWidget_plot_curve->setRowCount(0);
+        tableWidget_plot_curve->clearContents();
+        tab_wave_cnt    =   0;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    for (int i = 0; i < g_MAX_TAB_WAVE_NUM; i++)
+    {
+        wave_vis_tab[i]             =   true;
+    }
+
+    all_show_flag               =   true;
+    wave_tbl_def.clear();
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    QString             data;
+    QStringList         usr_data;
+
+    QFile ifs(file_name);
+
+    if (!ifs.open(QFile::ReadWrite))
+    {
+        qDebug () << "Could not open the file by reading";
+        return;
+    }
+    else
+    {
+        if (ifs.size() != 0)
+        {
+            QTextStream in(&ifs);
+            while(!in.atEnd())
+            {
+                data                =   in.readLine();
+                usr_data            =   data.split(QRegExp("\\s+"));
+
+                if (usr_data.count() >= 2)
+                {
+                    QString    str      =   usr_data.at(1);
+                    wave_tbl_def.insert(usr_data.at(0), str.toInt());
+                }
+            }
+        }
+    }
+
+    ifs.close();
+//----------------------------------------------------------------------------------------------------------------
+    QList<QString> keylist = wave_tbl_def.keys();
+    QString str,str2;
+    for (int i = 0; i < keylist.size(); i++)
+    {
+        int inx         =       wave_tbl_def.value(keylist.at(i));
+
+        if ((inx >= 0) && (inx < VAR_SERVO_OBJW_INX_MAX_NUM) && (tab_wave_cnt < g_MAX_TAB_WAVE_NUM))
+        {
+            tableWidget_plot_curve->setRowCount(tab_wave_cnt+1);
+
+            tableWidget_plot_curve->setItem(tab_wave_cnt, 0, new QTableWidgetItem());
+            tableWidget_plot_curve->setItem(tab_wave_cnt, 1, new QTableWidgetItem());
+
+            tableWidget_plot_curve->item(tab_wave_cnt,0)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+            tableWidget_plot_curve->item(tab_wave_cnt,1)->setTextColor(tbl_col[tab_wave_cnt%g_MAX_TAB_WAVE_NUM]);
+
+            str      =       QString::number(DefCiA402VarObjDic[inx].Index, 16);
+            str2     =       keylist.at(i);
+
+            tableWidget_plot_curve->item(tab_wave_cnt, 0)->setText(str);
+            tableWidget_plot_curve->item(tab_wave_cnt, 1)->setText(str2);
+
+            tableWidget_plot_curve->item(tab_wave_cnt, 0)->setFlags(Qt::ItemIsEnabled);
+            tableWidget_plot_curve->item(tab_wave_cnt, 1)->setFlags(Qt::ItemIsEnabled);
+
+            tab_wave_cnt++;
+        }
+    }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 

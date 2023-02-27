@@ -25,6 +25,14 @@
 
 const   int  g_MAX_TAB_WAVE_NUM     =   20;
 
+typedef enum
+{
+    G10_WAVE_GROUP                  =   0,
+    G20_WAVE_GROUP                  =   1,
+    GIDF_WAVE_GROUP                 =   2,
+    GPCTL_WAVE_GROUP                =   3,
+}PlotWaveGroupSel;
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 class PlotUnitGraph : public QWidget, public Ui::PlotUnitGraph
@@ -56,6 +64,7 @@ private slots:
     void    onBtnCurveShowAllClicked();
 
     void    onCurveTableItemClicked(QTableWidgetItem *item);
+    void    onComboBoxWaveGroupChanged(int index);
 //*******************************************************************************************************
 public slots:
     void    OnWaveTableItemDoubleClicked(int row, int column);
@@ -97,6 +106,8 @@ private:
     bool                    all_show_flag;                                                  // the flag of the show of all graph | true/show,false/hild
 //*******************************************************************************************************
     QMap<QString, int>      wave_tbl_def;                                                   // the default wave table parameter
+
+    PlotWaveGroupSel        wave_group_sel;                                                 // wave group select
 //*******************************************************************************************************
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

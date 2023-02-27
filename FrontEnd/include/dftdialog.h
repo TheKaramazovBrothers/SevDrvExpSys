@@ -73,6 +73,8 @@ private:
     QVector<double>             m_freq;
     QVector<double>             m_amp;
     QVector<double>             m_phase;
+
+    double                      phh_real;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     bool                        wave_vis_tbl[MAX_TABLE_WAVE_NUM];
     bool                        all_show_flag;

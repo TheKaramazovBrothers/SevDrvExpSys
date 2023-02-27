@@ -36,6 +36,25 @@ typedef enum
 
 typedef enum
 {
+    P_CTL_STR               =   0,
+    PI_CTL_STR              =   1,
+    PI_LPF_CTL_STR          =   2,
+    PI_LPF_NCH_CTL_STR      =   3,
+    PI_NCH_CTL_STR          =   4,
+}CtlStruSel;
+
+
+typedef enum
+{
+    L_BODE_PLOT             =   0,
+    C_BODE_PLOT             =   1,
+    C_PLUS_L_BODE_PLOT      =   2,
+}BodePlotSel;
+
+
+
+typedef enum
+{
     F10_HZ_FRE               =   0,
     F20_HZ_FRE               =   1,
     F30_HZ_FRE               =   2,
@@ -62,13 +81,14 @@ private:
     void initDialogUi();
     void setSignalSlotConnections();
 private slots:
-    void onLineEditTqrFactorValueEdited(const QString & value);
-    void onLineEditTqrFactorreturnPressed(void);
-
     void onPushButtonCalculateClicked(bool);
+    void onPushButtonUpdateClicked(bool);
+    void onPushButtonAutoClicked(bool);
 
     void onPlotAmplitudeMouseMoved(QMouseEvent *event);
     void onPlotPhaseMouseMoved(QMouseEvent *event);
+    void onComboBoxControlerChanged(int index);
+    void onBtnSaveClicked();
 private:
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     QVector<double>             * m_freq;
@@ -76,7 +96,40 @@ private:
     QVector<double>             * m_phase;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     QVector<double>             mod_amp_norm;
+
+    QVector<double>             cl_amp;
+    QVector<double>             cl_phase;
+
+    QVector<double>             ctl_amp;
+    QVector<double>             ctl_phase;
+
+    QVector<double>             cl_amp_tmp;
+    QVector<double>             cl_phase_tmp;
+
+    QVector<double>             ctl_amp_tmp;
+    QVector<double>             ctl_phase_tmp;
+
+    double                      cross_freq;
+
+    double                      peak_freq;
+    double                      peak_db;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    double                      fn_c;
+    double                      ti_c;
+    double                      kn_c;
+
+    double                      fn_lpf1;
+
+    double                      fn_nch;                                                                 // center frequency of notch filter | unit[HZ]
+    double                      qn_nch;                                                                 // damping of notch filter | unit[1.0]
+    double                      kn_nch;                                                                 // depth of notch filter | unit[1.0]
+
+    CtlStruSel                  ctl_sel;
+    BodePlotSel                 plot_sel;
+
+    double                      phase_margin;
+    double                      gain_margin;
+ //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     double                      tqr_factor;
     CurrUnitSel                 curr_unit;
     VelUnitSel                  vel_unit;
@@ -84,8 +137,10 @@ private:
     FreSelOfBode                start_fn;
     FreSelOfBode                end_fn;
 
-    double                      Jall;
+    double                      Jall;                                                                   // 10^-6 kg.m^2
     double                      kg_adj;
+
+    double                      curr_unit_coef;                                                         // coefficient for current unit adjust
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 };
 

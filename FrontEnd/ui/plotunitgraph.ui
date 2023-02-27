@@ -457,27 +457,12 @@
        <string notr="true"/>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_3">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QLabel" name="label_11">
            <property name="text">
-            <string>  Sampling(TS X):</string>
+            <string>  Samp(TS X):</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -576,6 +561,37 @@
            <item>
             <property name="text">
              <string>32768</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>wave</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_plot_wave_group">
+           <item>
+            <property name="text">
+             <string>G10</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>G20</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>GIDF</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>GPCTL</string>
             </property>
            </item>
           </widget>

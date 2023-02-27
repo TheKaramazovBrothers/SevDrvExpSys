@@ -48,6 +48,7 @@ DFTDialog::DFTDialog(QWidget *parent):QDialog(parent)
     CpiReadRamPrmByDicInx(STEADY_TIM_EXCI_SIG_PRM_ID32_OBJW_2038H, &dtmp);
     m_sin_steady_tim                =   dtmp * (dtmp2/1000000000.0);                                    // by TS
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    phh_real                        =   0.0;
 }
 
 void DFTDialog::initDialogUi()
@@ -578,14 +579,17 @@ void DFTDialog::onBtnAddClicked()
                     {
                         phh_tmp =   m_phh[i] - 360.0;
                     }
-                    else if (m_phh[i] < -180.0)
-                    {
-                        phh_tmp =   m_phh[i] + 360.0;
-                    }
                     else
                     {
                         phh_tmp =   m_phh[i];
                     }
+
+                    if ((i > (N4SID_FRE_NUM_START + 2)) && ((phh_tmp - phh_real) >= 180.0))
+                    {
+                        phh_tmp     =   phh_tmp - 360.0;
+                    }
+
+                    phh_real        =   phh_tmp;
                     m_phase.append(phh_tmp);
                 }
 

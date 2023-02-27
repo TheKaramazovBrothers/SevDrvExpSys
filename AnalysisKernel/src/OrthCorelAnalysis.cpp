@@ -103,15 +103,12 @@ void OrthgCorelAnalysis::RespAnalysisInSinSteadyState(QVector<qreal> * in, QVect
         amp_rep         =   20 * log10(amp_rep);
 
         angel_rep       =   IFatanCal(im_sig, real_sig);
+
         while ((angel_rep < -M_PI) || (angel_rep > M_PI))
         {
             if (angel_rep > M_PI)
             {
                 angel_rep = angel_rep - 2 * M_PI;
-            }
-            else
-            {
-                angel_rep = angel_rep + 2 * M_PI;
             }
         }
         deg_rep           = (angel_rep / M_PI)*180.0;
