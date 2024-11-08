@@ -526,7 +526,7 @@ void DFTDialog::onBtnAddClicked()
         else
         {                             
 
-            if (comboBox_fft_method->currentIndex() == 0)
+            if (comboBox_fft_method->currentIndex() == 1)
             {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 OrthgCorelAnalysis  m_orthAnys;
@@ -549,7 +549,7 @@ void DFTDialog::onBtnAddClicked()
                 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
-            else
+            else if (comboBox_fft_method->currentIndex() == 2)
             {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 my_prbs_idf_n4sidInitialize();
@@ -602,6 +602,24 @@ void DFTDialog::onBtnAddClicked()
                 delete []m_phh;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             }
+            else
+            {
+                OrthgCorelAnalysis  m_orthAnys;
+                QVector<qreal> v_in, v_out;
+
+                for (int i = 0; i < length; i++)
+                {
+                    v_in.append(in[i]);
+                    v_out.append(m_value_list->at(outx).at(i+startIndex));
+                }
+                m_orthAnys.TfEstimateByPeriodogramMethod(&v_in, &v_out, m_amp, m_phase);
+
+                int nfft = m_amp.count();
+                for (int i = 0; i < nfft; i++)
+                {
+                    m_freq.append(((double)(i) / (double)(nfft)) / (2.0*m_samp_tim));
+                }
+            }
         }
 
         delete []in;
@@ -650,6 +668,8 @@ void DFTDialog::onBtnAddClicked()
 
         plot_amp->xAxis->setScaleType(QCPAxis::stLogarithmic);
         plot_phase->xAxis->setScaleType(QCPAxis::stLogarithmic);
+        plot_amp->xAxis->setRange(20,2000);
+        plot_phase->xAxis->setRange(20,2000);
 
         plot_amp->replot();
         plot_phase->replot();

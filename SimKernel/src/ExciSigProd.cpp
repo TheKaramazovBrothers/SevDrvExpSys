@@ -43,6 +43,11 @@ int16	KpiInitExciSigProdModule(EXCI_SIG * m_ctl)
 
         m_ctl->prm.prbs_div_num                 =   8;
         m_ctl->prm.prbs_durat_tim               =   160000;
+
+        m_ctl->prm.chirp_hz_start               =   5;
+        m_ctl->prm.chirp_hz_end                 =   2000;
+        m_ctl->prm.chirp_durat_tim              =   10000;
+
     }
 //**************************************************************************************************************************
     m_ctl->delt_ts                              =   m_ctl->prm.ts/1000000000.0;
@@ -182,6 +187,30 @@ int16	KpiExciSigProd(EXCI_SIG * m_ctl, double * exci_out)
                     {
                         m_ctl->state            =   END_STAGE_ESPS;
                         m_ctl->harm_cnt         =   0;
+                        m_ctl->period_cnt       =   0;
+                    }
+//**************************************************************************************************************************
+                    break;
+                }
+                case 2:
+                {
+//**************************************************************************************************************************
+                    m_ctl->period_cnt++;
+
+                    if (m_ctl->prm.chirp_durat_tim == 0)
+                    {
+                        m_ctl->prm.chirp_durat_tim  =   1000;
+                    }
+                    dtmp                            =   ((m_ctl->prm.chirp_hz_end - m_ctl->prm.chirp_hz_start)*m_ctl->period_cnt) / (double)(m_ctl->prm.chirp_durat_tim);
+                    m_ctl->real_f                   =   m_ctl->prm.chirp_hz_start + dtmp/2.0;
+
+                    m_ctl->real_w                   =   PI2_CIRCULAR_CONSTANT*m_ctl->real_f;
+                    m_ctl->real_t                   =   m_ctl->real_t + m_ctl->delt_ts;
+                    m_ctl->exci_sig_out             =   ((double)(m_ctl->prm.exci_amp)/1024.0) * sin(m_ctl->real_w * m_ctl->real_t);
+
+                    if (m_ctl->period_cnt > (m_ctl->prm.chirp_durat_tim+2))
+                    {
+                        m_ctl->state            =   END_STAGE_ESPS;
                         m_ctl->period_cnt       =   0;
                     }
 //**************************************************************************************************************************

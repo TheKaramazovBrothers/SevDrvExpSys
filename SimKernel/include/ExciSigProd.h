@@ -32,7 +32,7 @@ typedef	enum
 //#############################################################################################################################
 typedef struct	exci_sig_cfg_opt_bits
 {
-    Uint32		TYPE            : 4;                                                        // excitation signal type select bit | 0/sinusoidal signal, 1/prbs signal
+    Uint32		TYPE            : 4;                                                        // excitation signal type select bit | 0/sinusoidal signal, 1/prbs signal, 2/chirp signal
     Uint32		rsvd            : 28;                                                       // reserved
 }EXCI_SIG_CFG_OPT_BITS;
 
@@ -97,6 +97,10 @@ typedef		struct	exci_sig_prm
 // parameter define for prbs signal excitation
     Uint16              prbs_div_num;                                                       // prbs division times | unit[ts]
     Uint32              prbs_durat_tim;                                                     // prbs durate time | unit[ts]
+// parameter define for chirp signal excitation
+    Uint16              chirp_hz_start;                                                     // start frequency of chirp signal | unit[HZ]
+    Uint16              chirp_hz_end;                                                       // end frequency of chirp signal | unit[HZ]
+    Uint32              chirp_durat_tim;                                                    // duration times of chirp signal | unit[ts]
 //#############################################################################################################################
 }EXCI_SIG_PRM;
 

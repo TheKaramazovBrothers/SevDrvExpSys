@@ -29,6 +29,7 @@ public:
 
     void setAnalySignalComp(double start_hz, double step_hz, double ts, int32 harm_num, int32 delay_tim, int32 data_lth);
     void RespAnalysisInSinSteadyState(QVector<qreal> * in, QVector<qreal> * rout, QVector<qreal> &dbb, QVector<qreal> &phh);
+    void TfEstimateByPeriodogramMethod(QVector<qreal> * in, QVector<qreal> * rout, QVector<qreal> &dbb, QVector<qreal> &phh);
 private:
     QList<QVector<qreal>>   m_data_fb_grp;                                                              // data feedback group in signal sinusoidal frequency
 
@@ -46,6 +47,8 @@ private:
 
     int32                   m_sin_delay_times;                                                          // by TS
     int32                   m_sin_data_lth;                                                             // effective data length
+    int32                   m_win_num;                                                                  // window numbers for periodogram method
+    int32                   m_fft_num;                                                                  // fft number for periodogram method
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 };
 

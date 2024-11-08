@@ -27,6 +27,8 @@ OrthgCorelAnalysis::OrthgCorelAnalysis()
 
     m_sin_delay_times           =   800;                                                                // by TS
     m_sin_data_lth              =   8000;                                                               // effective data length
+    m_win_num                   =   128;                                                                // the default window numbers
+    m_fft_num                   =   16000;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 
@@ -119,6 +121,208 @@ void OrthgCorelAnalysis::RespAnalysisInSinSteadyState(QVector<qreal> * in, QVect
         dbb             =   m_dbb;
         phh             =   m_phh;
     }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+}
+
+
+
+void OrthgCorelAnalysis::TfEstimateByPeriodogramMethod(QVector<qreal> * in, QVector<qreal> * rout, QVector<qreal> &dbb, QVector<qreal> &phh)
+{
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    int32 lth, n, win_ofst, col, row, inx;
+    COMPLEX ctmp;
+
+    double ** pAu;
+    double ** pAy;
+    double * pWinw;
+
+    COMPLEX ** pAuc;
+    COMPLEX ** pAyc;
+
+    COMPLEX *  pAuco;
+    COMPLEX *  pAyco;
+
+    double    gin, gout, angin, angout, dtmp, ptmp, temp;
+
+    lth = in->count();
+    n = (lth/m_win_num);
+    n = (n >> 1) << 1;
+    win_ofst = n/2;
+
+    col = m_fft_num;
+    row = (m_win_num * 2)-1;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    pAu = new double*[row];
+    pAy = new double*[row];
+
+    for (int i = 0; i < row; i++)
+    {
+        pAu[i] = new double[col];
+        pAy[i] = new double[col];
+    }
+
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            pAu[i][j]       =   0;
+            pAy[i][j]       =   0;
+        }
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    pAuc = new COMPLEX*[row];
+    pAyc = new COMPLEX*[row];
+
+    pAuco   =   new COMPLEX[col];
+    pAyco   =   new COMPLEX[col];
+
+    for (int i = 0; i < row; i++)
+    {
+        pAuc[i] = new COMPLEX[col];
+        pAyc[i] = new COMPLEX[col];
+    }
+
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            pAuc[i][j].real       =   0;
+            pAuc[i][j].imag       =   0;
+
+            pAyc[i][j].real       =   0;
+            pAyc[i][j].imag       =   0;
+        }
+    }
+
+    for (int i = 0; i < col; i++)
+    {
+        pAuco[i].real         =   0;
+        pAuco[i].imag         =   0;
+        pAyco[i].real         =   0;
+        pAyco[i].imag         =   0;
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            inx = win_ofst*i + j;
+            if (inx < lth)
+            {
+                pAu[i][j]   =   in->at(inx);
+                pAy[i][j]   =   rout->at(inx);
+            }
+        }
+    }
+
+    pWinw = new double[n];
+    for (int i = 0; i < n; i++)
+    {
+        double theta    =   PI2_CIRCULAR_CONSTANT * (double)(i) / (double)(n);
+        pWinw[i]        =   0.54 - 0.46*cos(theta);
+    }
+
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            pAu[i][j]               =   pAu[i][j] * pWinw[j];
+            pAy[i][j]               =   pAy[i][j] * pWinw[j];
+        }
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            pAuc[i][j].real         =   pAu[i][j];
+            pAyc[i][j].real         =   pAy[i][j];
+        }
+
+        transform_x(pAuc[i], col);
+        transform_x(pAyc[i], col);
+
+
+        for (int j = 0; j < col; j++)
+        {
+            ctmp.real               =   pAuc[i][j].real * pAyc[i][j].real   +  pAuc[i][j].imag * pAyc[i][j].imag;
+            ctmp.imag               =   pAuc[i][j].imag * pAyc[i][j].real   -  pAuc[i][j].real * pAyc[i][j].imag;
+
+            pAuc[i][j].real         =   pAuc[i][j].real * pAuc[i][j].real   + pAuc[i][j].imag * pAuc[i][j].imag;
+            pAuc[i][j].imag         =   0;
+
+            pAyc[i][j].real         =   ctmp.real;
+            pAyc[i][j].imag         =   ctmp.imag;
+        }
+    }
+
+
+    for (int j = 0; j < col; j++)
+    {
+        for (int i = 0; i < row; i++)
+        {
+            pAuco[j].real           =   pAuco[j].real + pAuc[i][j].real;
+            pAuco[j].imag           =   pAuco[j].imag + pAuc[i][j].imag;
+
+            pAyco[j].real           =   pAyco[j].real + pAyc[i][j].real;
+            pAyco[j].imag           =   pAyco[j].imag + pAyc[i][j].imag;
+        }
+    }
+
+    for (int i = 0; i < col/2; i++)
+    {
+        gin     =   sqrt(pAuco[i].real * pAuco[i].real + pAuco[i].imag * pAuco[i].imag);
+        gout    =   sqrt(pAyco[i].real * pAyco[i].real + pAyco[i].imag * pAyco[i].imag);
+
+        dtmp    =   20 * log10(gout/gin);
+
+        angin   =   IFatanCal(pAuco[i].imag, pAuco[i].real);
+        angout  =   IFatanCal(pAyco[i].imag, pAyco[i].real);
+
+        temp    =   angin - angout;
+
+        while ((temp < -M_PI) || (temp > M_PI))
+        {
+            if (temp > M_PI)
+            {
+                temp = temp - 2 * M_PI;
+            }
+            else
+            {
+                temp = temp + 2 * M_PI;
+            }
+        }
+
+        ptmp    =   (temp/M_PI)*180.0;                                                          // unit deg
+
+        dbb.append(dtmp);
+        phh.append(ptmp);
+    }
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    for (int i = 0; i < row; i++)
+    {
+        delete [] pAu[i];
+        delete [] pAy[i];
+    }
+
+    delete [] pAu;
+    delete [] pAy;
+
+    delete [] pWinw;
+
+    for (int i = 0; i < row; i++)
+    {
+        delete [] pAuc[i];
+        delete [] pAyc[i];
+    }
+
+    delete [] pAuc;
+    delete [] pAyc;
+
+    delete [] pAuco;
+    delete [] pAyco;
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    return;
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 

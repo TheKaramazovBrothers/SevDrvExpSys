@@ -175,6 +175,12 @@ TOBJ_ENTRY  DefCiA402PrmObjDic[PRM_SERVO_OBJW_INX_MAX_NUM] =
    {0x204E, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x204E, aName0x204E, NULL, NULL, NULL, P0_RLS_MOD_IDF_PRM_ID32_ADR},
     /* Object 0x204F */
    {0x204F, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x204F, aName0x204F, NULL, NULL, NULL, LAMT_RLS_MOD_IDF_PRM_ID32_ADR},
+    /* Object 0x2050 */
+   {0x2050, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2050, aName0x2050, NULL, NULL, NULL, CHIRP_HZ_START_EXCI_SIG_PRM_ID16_ADR},
+    /* Object 0x2051 */
+   {0x2051, {DEFTYPE_UNSIGNED16 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2051, aName0x2051, NULL, NULL, NULL, CHIRP_HZ_END_EXCI_SIG_PRM_ID16_ADR},
+    /* Object 0x2052 */
+   {0x2052, {DEFTYPE_UNSIGNED32 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x2052, aName0x2052, NULL, NULL, NULL, CHIRP_DURAT_TIM_EXCI_SIG_PRM_ID32_ADR},
 };
 
 
@@ -345,7 +351,7 @@ TOBJ_ENTRY  DefCiA402VarObjDic[VAR_SERVO_OBJW_INX_MAX_NUM]  =
     /* Object 0x3050 */
     {0x3050, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3050, aName0x3050, NULL, NULL, NULL, NULL},
     /* Object 0x3051 */
-    {0x3051, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3051, aName0x3051, NULL, NULL, NULL, NULL},
+    {0x3051, {DEFTYPE_REAL64 , 0 | (OBJCODE_VAR << 8)}, &sEntryDesc0x3051, aName0x3051, NULL, NULL, NULL, NULL}, 
 };
 
 
@@ -454,6 +460,10 @@ void    CpiInitCiA402PrmObjPtr(void)
     DefCiA402PrmObjDic[J0_RLS_MOD_IDF_PRM_ID32_OBJW_204DH].pVarPtr          =   ((void *)(&gSevDrv.obj.idf.prm.j0));
     DefCiA402PrmObjDic[P0_RLS_MOD_IDF_PRM_ID32_OBJW_204EH].pVarPtr          =   ((void *)(&gSevDrv.obj.idf.prm.p0));
     DefCiA402PrmObjDic[LAMT_RLS_MOD_IDF_PRM_ID32_OBJW_204FH].pVarPtr        =   ((void *)(&gSevDrv.obj.idf.prm.lamt));
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    DefCiA402PrmObjDic[CHIRP_HZ_START_EXCI_SIG_PRM_ID16_OBJW_2050H].pVarPtr =   ((void *)(&gSevDrv.obj.excs.prm.chirp_hz_start));
+    DefCiA402PrmObjDic[CHIRP_HZ_END_EXCI_SIG_PRM_ID16_OBJW_2051H].pVarPtr   =   ((void *)(&gSevDrv.obj.excs.prm.chirp_hz_end));
+    DefCiA402PrmObjDic[CHIRP_DURAT_TIM_EXCI_SIG_PRM_ID32_OBJW_2052H].pVarPtr=   ((void *)(&gSevDrv.obj.excs.prm.chirp_durat_tim));
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

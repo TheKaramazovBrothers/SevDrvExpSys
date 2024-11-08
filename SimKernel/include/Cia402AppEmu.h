@@ -265,6 +265,10 @@ typedef enum
     P0_RLS_MOD_IDF_PRM_ID32_OBJW_204EH          =   78,                                     // initialize gain of p1 coefficient for rls algorithm
     LAMT_RLS_MOD_IDF_PRM_ID32_OBJW_204FH        =   79,                                     // the lamt coefficient for rsl algorithm realization | unit[Q24]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CHIRP_HZ_START_EXCI_SIG_PRM_ID16_OBJW_2050H =   80,                                     // start frequency of chirp excitation signal | unit[HZ]
+    CHIRP_HZ_END_EXCI_SIG_PRM_ID16_OBJW_2051H   =   81,                                     // end frequency of chirp excitation signal | unit[HZ]
+    CHIRP_DURAT_TIM_EXCI_SIG_PRM_ID32_OBJW_2052H=   82,                                     // duration time of chirp excitation signal | unit[ts]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_OBJW_INX_MAX_NUM
 }TOBJ_WORD_PRM_INDEX;
 
@@ -858,6 +862,25 @@ const   TSDOINFOENTRYDESC sEntryDesc0x204E = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_R
 const   Uint8   aName0x204F[] = "the lamt coefficient for rsl algorithm realization | unit[Q24]";
 /** \brief Object 0x204F  the lamt coefficient for rsl algorithm realization | unit[Q24]*/
 const   TSDOINFOENTRYDESC sEntryDesc0x204F = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2050 */
+const   Uint8   aName0x2050[] = "start frequency of chirp excitation | unit[HZ]";
+/** \brief Object 0x2050  start frequency of chirp excitation | unit[HZ]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2050 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2051 */
+const   Uint8   aName0x2051[] = "end frequency of chirp excitation | unit[HZ]";
+/** \brief Object 0x2051  end frequency of chirp excitation | unit[HZ]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2051 = {DEFTYPE_UNSIGNED16, 0x10, ACCESS_READWRITE};
+
+//----------------------------------------------------------------------------------------------------------------------------
+/** \brief Object 0x2052 */
+const   Uint8   aName0x2052[] = "duration times of chirp signal | unit[ts]";
+/** \brief Object 0x2052  the duration times of chirp signal | unit[ts]*/
+const   TSDOINFOENTRYDESC sEntryDesc0x2052 = {DEFTYPE_UNSIGNED32, 0x20, ACCESS_READWRITE};
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 

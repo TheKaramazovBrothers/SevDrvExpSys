@@ -80,6 +80,9 @@ typedef enum
     QX_NCH1_TQR_VCTL_PRM_ID16_ADR           =   32,                                                         // width of the second notch filter | unit[0.001]
     KX_NCH1_TQR_VCTL_PRM_ID16_ADR           =   33,                                                         // depth of the second notch filter | unit[0.001]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CHIRP_HZ_START_EXCI_SIG_PRM_ID16_ADR    =   34,                                                         // start frequency of CHIRP excitation | unit[HZ]
+    CHIRP_HZ_END_EXCI_SIG_PRM_ID16_ADR      =   35,                                                          // end frequency of CHIRP excitation | unit[HZ]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_WORD_MAX_NUM
 }tPrmCurrCtlId_WORD;
 
@@ -149,9 +152,10 @@ typedef enum
     P0_RLS_MOD_IDF_PRM_ID32_ADR             =   44,                                                         // initialize gain of p1 coefficient for rls algorithm
     LAMT_RLS_MOD_IDF_PRM_ID32_ADR           =   45,                                                         // the lamt coefficient for rsl algorithm realization | unit[Q24]
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    CHIRP_DURAT_TIM_EXCI_SIG_PRM_ID32_ADR   =   46,                                                         // the duration time of excitation signal | unit[ts]
+//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     PRM_SERVO_CTL_ID_DWORD_MAX_NUM
 }tPrmServoCtlId_DWORD;
-
 
 
 //#############################################################################################################################
